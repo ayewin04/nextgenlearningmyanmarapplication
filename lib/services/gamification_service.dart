@@ -24,7 +24,6 @@ class GamificationService {
 
     final user = UserModel.fromFirestore(userDoc);
     
-    // Check if this word was already learned
     final learnedWordsKey = 'learnedWords';
     final learnedWords = Map<String, bool>.from(
       user.dailyTasks[learnedWordsKey] as Map? ?? {}
@@ -35,29 +34,19 @@ class GamificationService {
       return user;
     }
 
-    // Mark word as learned
     learnedWords[wordId] = true;
     
-    // Calculate new XP
     final newXP = user.totalXP + XP_PER_WORD;
-    
-    // Calculate new level (every 200 XP)
     final newLevel = _calculateLevel(newXP);
-    
-    // Update streak
     final streakData = await _updateStreak(user);
-    
-    // Update weekly XP
     final newWeeklyXP = user.weeklyXP + XP_PER_WORD;
     
-    // Update daily tasks
     final today = DateTime.now();
     final todayKey = '${today.year}-${today.month}-${today.day}';
     final updatedDailyTasks = Map<String, dynamic>.from(user.dailyTasks);
     updatedDailyTasks[todayKey] = true;
     updatedDailyTasks[learnedWordsKey] = learnedWords;
 
-    // Update user document
     await userRef.update({
       'totalXP': newXP,
       'level': newLevel,
@@ -70,7 +59,6 @@ class GamificationService {
       'wordsPerCategory.${category.toLowerCase()}': FieldValue.increment(1),
     });
 
-    // Check for achievements
     final updatedUser = user.copyWith(
       totalXP: newXP,
       level: newLevel,
@@ -184,6 +172,39 @@ class GamificationService {
     }
   }
 
+  // ✅ Get top 10 learners
+  Future<List<Map<String, dynamic>>> getTop10Learners() async {
+    try {
+      final snapshot = await _firestore
+          .collection('users')
+          .orderBy('totalXP', descending: true)
+          .limit(10)
+          .get();
+
+      final List<Map<String, dynamic>> topLearners = [];
+      int rank = 1;
+
+      for (final doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        topLearners.add({
+          'userId': doc.id,
+          'name': data['name'] ?? 'User',
+          'totalXP': data['totalXP'] ?? 0,
+          'weeklyXP': data['weeklyXP'] ?? 0,
+          'level': data['level'] ?? 1,
+          'streak': data['streak'] ?? 0,
+          'wordsLearned': data['wordsLearned'] ?? 0,
+          'rank': rank,
+        });
+        rank++;
+      }
+
+      return topLearners;
+    } catch (e) {
+      throw Exception('Failed to get top 10 learners: $e');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getTop3Users() async {
     try {
       final snapshot = await _firestore
@@ -214,7 +235,6 @@ class GamificationService {
     }
   }
 
-  // ✅ FIXED: getUserRank with null safety
   Future<int> getUserRank(String userId) async {
     try {
       final userDoc = await _firestore.collection('users').doc(userId).get();
@@ -228,7 +248,6 @@ class GamificationService {
           .count()
           .get();
 
-      // ✅ Fix: Handle null count safely
       final count = snapshot.count ?? 0;
       return count + 1;
     } catch (e) {

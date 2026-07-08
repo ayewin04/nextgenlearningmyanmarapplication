@@ -24,8 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<Widget> _screens = [
-    const DashboardWidget(),           // Home tab - Dashboard with Start Learning
-    const LanguageLearningScreen(),    // Learning tab - Shows learning content
+    const DashboardWidget(),           // Home tab
+    const LanguageLearningScreen(),    // Learning tab - NOW HAS NAVIGATION
     const FavouritesScreen(),
     const SettingsScreen(),
   ];

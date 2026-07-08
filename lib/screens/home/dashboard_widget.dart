@@ -6,7 +6,7 @@ import '../../services/gamification_service.dart';
 import '../../widgets/streak_widget.dart';
 import '../../widgets/xp_progress_widget.dart';
 import '../../widgets/leaderboard_widget.dart';
-import 'language_selection_screen.dart';  // ✅ ADD THIS IMPORT
+import 'language_selection_screen.dart';
 
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({super.key});
@@ -182,10 +182,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 const SizedBox(height: 20),
 
                 // ===== START LEARNING BUTTON =====
-                // ✅ FIXED: Navigate to Language Selection Screen
                 GestureDetector(
                   onTap: () {
-                    // Navigate to Language Selection screen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -285,7 +283,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      '🏆 Global Leaderboard',
+                      '🏆 Top 10 Learners',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -305,7 +303,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Top learners from around the world',
+                  'Top 10 language learners worldwide',
                   style: TextStyle(
                     color: Colors.grey.shade400,
                     fontSize: 13,

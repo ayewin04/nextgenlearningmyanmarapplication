@@ -1,7 +1,7 @@
 // lib/screens/languages/language_learning_screen.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';  // ✅ ADD THIS
-import '../../services/auth_service.dart';  // ✅ ADD THIS
+import 'package:provider/provider.dart';
+import '../../services/auth_service.dart';
 import 'language_exam_screen.dart';
 import 'vocabulary_screen.dart';
 import 'grammar_screen.dart';
@@ -18,7 +18,6 @@ class LanguageLearningScreen extends StatefulWidget {
 class _LanguageLearningScreenState extends State<LanguageLearningScreen> {
   String? _selectedLanguage;
 
-  // Exam types for each language
   static const Map<String, Map<String, String>> examInfo = {
     'english': {
       'exam': 'IELTS',
@@ -42,7 +41,6 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen> {
     },
   };
 
-  // Language modules
   static const Map<String, List<Map<String, dynamic>>> modules = {
     'english': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
@@ -72,11 +70,29 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    _loadSelectedLanguage();
+  }
+
+  void _loadSelectedLanguage() {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = authService.userModel;
+    if (user != null && user.targetLanguages.isNotEmpty) {
+      setState(() {
+        _selectedLanguage = user.targetLanguages.first;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // ✅ FIXED: Use Provider correctly
-    final userLanguages = Provider.of<AuthService>(context, listen: true)
-        .userModel
-        ?.targetLanguages ?? [];
+    final authService = Provider.of<AuthService>(context);
+    final user = authService.userModel;
+
+    if (_selectedLanguage == null && user != null && user.targetLanguages.isNotEmpty) {
+      _selectedLanguage = user.targetLanguages.first;
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -91,135 +107,144 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen> {
         ),
       ),
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '📚 Your Learning Center',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Column(
+          children: [
+            // ✅ BACK BUTTON ROW
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      // Try to go back, or navigate to Home
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      } else {
+                        // If can't pop, navigate to Home screen
+                        Navigator.pushReplacementNamed(context, '/home');
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Learning Center',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    _selectedLanguage != null
+                        ? _selectedLanguage!.toUpperCase()
+                        : '',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Select a language to start learning',
-                style: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 14,
-                ),
-              ),
-              const SizedBox(height: 20),
+            ),
+            // ✅ Content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '📚 Your Learning Center',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _selectedLanguage != null
+                          ? 'Learning ${_selectedLanguage!.toUpperCase()}'
+                          : 'No language selected',
+                      style: TextStyle(
+                        color: _selectedLanguage != null
+                            ? Colors.grey.shade400
+                            : Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
 
-              // Language Selection Tabs
-              if (userLanguages.isNotEmpty)
-                SizedBox(
-                  height: 50,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: userLanguages.length,
-                    itemBuilder: (context, index) {
-                      final lang = userLanguages[index];
-                      final info = examInfo[lang] ?? {};
-                      final isSelected = _selectedLanguage == lang;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedLanguage = lang;
-                          });
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 12),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? const Color(0xFF42A5F5).withOpacity(0.2)
-                                : Colors.grey.shade800.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: isSelected
-                                  ? const Color(0xFF42A5F5)
-                                  : Colors.transparent,
-                              width: 2,
-                            ),
-                          ),
-                          child: Row(
+                    // If no language selected, show a message
+                    if (_selectedLanguage == null)
+                      Expanded(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                info['flag'] ?? '🌍',
-                                style: const TextStyle(fontSize: 20),
+                              const Icon(
+                                Icons.school,
+                                size: 64,
+                                color: Colors.grey,
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                lang.toUpperCase(),
+                              const SizedBox(height: 16),
+                              const Text(
+                                'No language selected',
                                 style: TextStyle(
-                                  color: isSelected ? Colors.white : Colors.grey.shade400,
-                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Go to Home tab and tap "Start Learning"',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: 14,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-
-              const SizedBox(height: 20),
-
-              // Modules Grid
-              Expanded(
-                child: _selectedLanguage == null
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.school,
-                              size: 64,
-                              color: Colors.grey.shade600,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              'Select a language to begin',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.85,
-                        ),
-                        itemCount: modules[_selectedLanguage]?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final module = modules[_selectedLanguage]![index];
-                          return _buildModuleCard(
-                            context,
-                            icon: module['icon'],
-                            name: module['name'],
-                            onTap: () {
-                              _navigateToModule(
-                                context,
-                                _selectedLanguage!,
-                                module['route'],
-                              );
-                            },
-                          );
-                        },
                       ),
+
+                    // If language is selected, show learning modules
+                    if (_selectedLanguage != null)
+                      Expanded(
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 0.85,
+                          ),
+                          itemCount: modules[_selectedLanguage]?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final module = modules[_selectedLanguage]![index];
+                            return _buildModuleCard(
+                              context,
+                              icon: module['icon'],
+                              name: module['name'],
+                              onTap: () {
+                                _navigateToModule(
+                                  context,
+                                  _selectedLanguage!,
+                                  module['route'],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

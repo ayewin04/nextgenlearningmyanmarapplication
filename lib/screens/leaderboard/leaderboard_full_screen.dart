@@ -8,10 +8,10 @@ class LeaderboardFullScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0E27),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text(
-          '🏆 Global Leaderboard',
+          '🏆 Top 10 Learners',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -41,24 +41,53 @@ class LeaderboardFullScreen extends StatelessWidget {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
+              SizedBox(height: 8),
               Text(
-                '🏆 Top Language Learners',
+                '🌟 Top Language Learners',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 4),
               Text(
-                'See who is leading the language learning journey',
+                'The most dedicated learners on Wedawon',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 14,
+                  fontSize: 13,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 16),
               LeaderboardWidget(),
+              SizedBox(height: 20),
+              
+              // Stats info
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.star, color: Color(0xFFFFD700), size: 14),
+                  SizedBox(width: 4),
+                  Text(
+                    'XP = Experience Points',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Icon(Icons.local_fire_department, color: Colors.orange, size: 14),
+                  SizedBox(width: 4),
+                  Text(
+                    'Streak = Days in a row',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
             ],
           ),
         ),

@@ -13,7 +13,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   final GamificationService _gamificationService = GamificationService();
   List<Map<String, dynamic>> _leaderboard = [];
   bool _isLoading = true;
-  String _selectedPeriod = 'all';
+  String? _error;
 
   @override
   void initState() {
@@ -22,18 +22,22 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   }
 
   Future<void> _loadLeaderboard() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
     try {
-      final data = await _gamificationService.getLeaderboard(
-        limit: 20,
-        period: _selectedPeriod,
-      );
+      final data = await _gamificationService.getTop10Learners();
       setState(() {
         _leaderboard = data;
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      setState(() {
+        _error = 'Failed to load leaderboard: $e';
+        _isLoading = false;
+      });
     }
   }
 
@@ -50,123 +54,156 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  '🏆 Leaderboard',
+                  '🏆 Top 10 Learners',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Row(
-                  children: [
-                    _buildPeriodButton('All', 'all'),
-                    const SizedBox(width: 8),
-                    _buildPeriodButton('Weekly', 'weekly'),
-                  ],
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF42A5F5).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    'Global',
+                    style: TextStyle(
+                      color: Color(0xFF42A5F5),
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
+            const SizedBox(height: 8),
+            Text(
+              'Top 10 language learners worldwide',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+                fontSize: 12,
+              ),
+            ),
             const SizedBox(height: 16),
+
+            // Content
             if (_isLoading)
-              const Center(child: CircularProgressIndicator())
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32),
+                  child: CircularProgressIndicator(
+                    color: Color(0xFF42A5F5),
+                  ),
+                ),
+              )
+            else if (_error != null)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Icon(Icons.error_outline, color: Colors.red, size: 32),
+                      const SizedBox(height: 8),
+                      Text(
+                        _error!,
+                        style: const TextStyle(color: Colors.white70),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: _loadLeaderboard,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF42A5F5),
+                        ),
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             else if (_leaderboard.isEmpty)
               const Center(
-                child: Text(
-                  'No users on leaderboard yet',
-                  style: TextStyle(color: Colors.grey),
+                child: Padding(
+                  padding: EdgeInsets.all(32),
+                  child: Text(
+                    'No learners on the leaderboard yet',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               )
             else
-              ..._leaderboard.map((user) => _buildLeaderboardItem(user)),
+              Column(
+                children: [
+                  // Top 3 with special styling
+                  ..._leaderboard.take(3).map((user) => _buildTop3Item(user)),
+                  const Divider(color: Colors.grey, thickness: 0.5),
+                  const SizedBox(height: 8),
+                  // Remaining 4-10
+                  ..._leaderboard.skip(3).map((user) => _buildNormalItem(user)),
+                ],
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPeriodButton(String label, String period) {
-    final isSelected = _selectedPeriod == period;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedPeriod = period;
-          _loadLeaderboard();
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xFF42A5F5)
-              : Colors.grey.shade800,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey.shade400,
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLeaderboardItem(Map<String, dynamic> user) {
-    final isTop3 = user['rank'] <= 3;
-    
-    // ✅ FIXED: Use Colors.amber for gold, Colors.grey.shade400 for silver
-    final rankColor = user['rank'] == 1 
-        ? Colors.amber  // Gold
-        : user['rank'] == 2 
-            ? Colors.grey.shade400  // Silver
-            : user['rank'] == 3 
-                ? Colors.brown  // Bronze
-                : Colors.grey;
+  // ✅ Top 3 with special styling
+  Widget _buildTop3Item(Map<String, dynamic> user) {
+    final rank = user['rank'];
+    final rankColor = rank == 1 
+        ? Colors.amber 
+        : rank == 2 
+            ? Colors.grey.shade400 
+            : Colors.brown;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: isTop3 
-            ? Colors.grey.shade800.withOpacity(0.3) 
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        border: isTop3 
-            ? Border.all(color: rankColor.withOpacity(0.3))
-            : null,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            rankColor.withOpacity(0.2),
+            rankColor.withOpacity(0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: rankColor.withOpacity(0.3),
+          width: 1.5,
+        ),
       ),
       child: Row(
         children: [
-          // Rank
+          // Rank Badge
           Container(
-            width: 30,
-            height: 30,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: rankColor.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Text(
-                '${user['rank']}',
-                style: TextStyle(
-                  color: rankColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
+                rank == 1 ? '👑' : rank == 2 ? '🥈' : '🥉',
+                style: const TextStyle(fontSize: 20),
               ),
             ),
           ),
           const SizedBox(width: 12),
           // Avatar
           Container(
-            width: 35,
-            height: 35,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: const Color(0xFF42A5F5).withOpacity(0.2),
               shape: BoxShape.circle,
@@ -177,12 +214,13 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
           ),
           const SizedBox(width: 12),
-          // Name and XP
+          // Name and Stats
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,32 +230,28 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
                 Row(
                   children: [
+                    const Icon(Icons.star, color: Color(0xFFFFD700), size: 12),
+                    const SizedBox(width: 2),
                     Text(
-                      '⭐ ${user['totalXP']} XP',
+                      '${user['totalXP']} XP',
                       style: TextStyle(
                         color: Colors.grey.shade400,
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 12),
+                    const Icon(Icons.local_fire_department, color: Colors.orange, size: 12),
+                    const SizedBox(width: 2),
                     Text(
-                      '📚 Level ${user['level']}',
+                      '${user['streak']} days',
                       style: TextStyle(
                         color: Colors.grey.shade400,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '🔥 ${user['streak']} days',
-                      style: TextStyle(
-                        color: Colors.orange.shade300,
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                     ),
                   ],
@@ -225,12 +259,116 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
               ],
             ),
           ),
-          // Top 3 Badge
-          if (isTop3)
-            Text(
-              user['rank'] == 1 ? '👑' : user['rank'] == 2 ? '🥈' : '🥉',
-              style: const TextStyle(fontSize: 24),
+          // Level Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFF42A5F5).withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: Text(
+              'Lv ${user['level']}',
+              style: const TextStyle(
+                color: Color(0xFF42A5F5),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ✅ Normal items (4-10)
+  Widget _buildNormalItem(Map<String, dynamic> user) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: user['rank'] % 2 == 0 
+            ? Colors.grey.shade800.withOpacity(0.1) 
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          // Rank Number
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade800.withOpacity(0.3),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                '${user['rank']}',
+                style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Avatar
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: const Color(0xFF42A5F5).withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                user['name'][0].toUpperCase(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Name
+          Expanded(
+            child: Text(
+              user['name'],
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          // XP
+          Text(
+            '${user['totalXP']} XP',
+            style: TextStyle(
+              color: Color(0xFFFFD700),
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 8),
+          // Level
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: const Color(0xFF42A5F5).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              'Lv ${user['level']}',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+                fontSize: 10,
+              ),
+            ),
+          ),
         ],
       ),
     );

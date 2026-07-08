@@ -43,13 +43,26 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Choose the language you want to learn',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                // ✅ BACK BUTTON
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () {
+                        // Go back to Dashboard
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Choose Language',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 8),
                 Text(
