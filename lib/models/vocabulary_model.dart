@@ -84,23 +84,28 @@ class VocabularyModel {
   bool hasAudio() => audioUrl != null && audioUrl!.isNotEmpty;
 }
 
-// ✅ Exam Vocabulary Model - SEPARATE from learning vocabulary
 class ExamVocabularyModel {
   final String id;
   final String exam;
   final String level;
   final String category;
+  
+  // Burmese fields
   final String burmeseWord;
-  final String romanization;
+  final String romanization; // Burmese romanization
+  
+  // Word fields
   final String word;
   final String? pronunciation;
   final String? pinyin;
   final String? hiragana;
-  final String? romaji;
-  final String? hangul;
+  final String? romaji; // Japanese romanization
+  final String? hangul; // Korean characters
+  final String? koreanRoman; // Korean romanization
   final String? thaiRoman;
   final String meaning;
   final String? exampleSentence;
+  final String? exampleRomanization; // Romanization of the example sentence
   final String? exampleTranslation;
   final String? audioUrl;
   final String? partOfSpeech;
@@ -121,9 +126,11 @@ class ExamVocabularyModel {
     this.hiragana,
     this.romaji,
     this.hangul,
+    this.koreanRoman,
     this.thaiRoman,
     required this.meaning,
     this.exampleSentence,
+    this.exampleRomanization,
     this.exampleTranslation,
     this.audioUrl,
     this.partOfSpeech,
@@ -146,9 +153,11 @@ class ExamVocabularyModel {
       hiragana: data['hiragana'],
       romaji: data['romaji'],
       hangul: data['hangul'],
+      koreanRoman: data['koreanRoman'],
       thaiRoman: data['thaiRoman'],
       meaning: data['meaning'] ?? '',
       exampleSentence: data['exampleSentence'],
+      exampleRomanization: data['exampleRomanization'],
       exampleTranslation: data['exampleTranslation'],
       audioUrl: data['audioUrl'],
       partOfSpeech: data['partOfSpeech'],
@@ -171,9 +180,11 @@ class ExamVocabularyModel {
       'hiragana': hiragana,
       'romaji': romaji,
       'hangul': hangul,
+      'koreanRoman': koreanRoman,
       'thaiRoman': thaiRoman,
       'meaning': meaning,
       'exampleSentence': exampleSentence,
+      'exampleRomanization': exampleRomanization,
       'exampleTranslation': exampleTranslation,
       'audioUrl': audioUrl,
       'partOfSpeech': partOfSpeech,
@@ -197,6 +208,8 @@ class ExamVocabularyModel {
     if (hangul != null) return 'Hangul: $hangul';
     if (thaiRoman != null) return 'Thai: $thaiRoman';
     if (pronunciation != null) return 'Pronunciation: $pronunciation';
+    if (romaji != null) return 'Romaji: $romaji';
+    if (koreanRoman != null) return 'Romaji: $koreanRoman';
     return '';
   }
 

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "hsk_q_001",
+    "exam": "hsk",
+    "level": "HSK 1",
+    "category": "Listening",
+    "type": "multiple_choice",
+    "questionText": "What does '你好' mean?",
+    "burmeseQuestion": "'你好' ဆိုတာ ဘာကိုဆိုလိုသလဲ။",
+    "burmeseQuestionRomanization": "'ni hao' so da ba ko so lo tha le?",
+    "options": [
+      "Goodbye",
+      "Hello",
+      "Thank you",
+      "Sorry"
+    ],
+    "correctAnswer": "Hello",
+    "correctAnswerIndex": 1,
+    "explanation": "'你好' means 'Hello' in Chinese.",
+    "burmeseExplanation": "'你好' ဆိုသည်မှာ တရုတ်လိုမင်္ဂလာပါဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "hsk_q_002",
+    "exam": "hsk",
+    "level": "HSK 1",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the correct pinyin for '谢谢'?",
+    "burmeseQuestion": "'谢谢' အတွက် မှန်ကန်သော pinyin မှာ အဘယ်နည်း။",
+    "burmeseQuestionRomanization": "'xie xie' a twet hman kan thaw pinyin hma a bel ne?",
+    "options": [
+      "xiè xiè",
+      "xiē xiē",
+      "xiě xiě",
+      "xié xié"
+    ],
+    "correctAnswer": "xiè xiè",
+    "correctAnswerIndex": 0,
+    "explanation": "'谢谢' is pronounced as 'xiè xiè' with falling tones.",
+    "burmeseExplanation": "'谢谢' ကို အသံနိမ့်မြင့်နှင့် 'xiè xiè' ဟု အသံထွက်သည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "hsk_q_003",
+    "exam": "hsk",
+    "level": "HSK 2",
+    "category": "Grammar",
+    "type": "multiple_choice",
+    "questionText": "Which sentence is correct?",
+    "burmeseQuestion": "မည်သည့်ဝါကျသည် မှန်ကန်သနည်း။",
+    "burmeseQuestionRomanization": "myae nyi wut kya thi hman kan tha ne?",
+    "options": [
+      "我吃饭了。",
+      "我吃了饭。",
+      "我饭吃了吗。",
+      "饭我吃了。"
+    ],
+    "correctAnswer": "我吃饭了。",
+    "correctAnswerIndex": 0,
+    "explanation": "In Chinese, the correct word order is Subject + Verb + Object + 了.",
+    "burmeseExplanation": "တရုတ်လိုမှန်ကန်သော စကားလုံးအစီအစဉ်မှာ အကြောင်းအရာ + ကြိယာ + ကိန်းရှင် + 了 ဖြစ်သည်။",
+    "points": 15,
+    "difficulty": 2
+  },
+  {
+    "id": "hsk_q_004",
+    "exam": "hsk",
+    "level": "HSK 3",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of '环境'?",
+    "burmeseQuestion": "'环境' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'huan jing' ye a dit par ye ka ba le?",
+    "options": [
+      "Weather",
+      "Environment",
+      "City",
+      "Country"
+    ],
+    "correctAnswer": "Environment",
+    "correctAnswerIndex": 1,
+    "explanation": "'环境' means 'environment' in Chinese.",
+    "burmeseExplanation": "'环境' ဆိုသည်မှာ တရုတ်လို 'ပတ်ဝန်းကျင်' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 2
+  },
+  {
+    "id": "hsk_q_005",
+    "exam": "hsk",
+    "level": "HSK 4",
+    "category": "Writing",
+    "type": "multiple_choice",
+    "questionText": "Which character means 'important'?",
+    "burmeseQuestion": "မည်သည့်စာလုံးသည် 'အရေးကြီး' ဟု အဓိပ္ပါယ်ရသနည်း။",
+    "burmeseQuestionRomanization": "myae nyi sa lone thi 'a yay gyi' hu a dit par ya tha ne?",
+    "options": [
+      "大",
+      "小",
+      "重要",
+      "好"
+    ],
+    "correctAnswer": "重要",
+    "correctAnswerIndex": 2,
+    "explanation": "'重要' means 'important' in Chinese.",
+    "burmeseExplanation": "'重要' ဆိုသည်မှာ တရုတ်လို 'အရေးကြီး' ဟု အဓိပ္ပါယ်ရသည်။",
+    "points": 15,
+    "difficulty": 3
+  }
+]

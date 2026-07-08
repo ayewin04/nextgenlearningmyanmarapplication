@@ -1,0 +1,92 @@
+[
+  {
+    "id": "eng_vocab_001",
+    "word": "analyze",
+    "meaning": "to examine something in detail",
+    "partOfSpeech": "verb",
+    "example": "We need to analyze the data carefully.",
+    "difficulty": 2,
+    "tags": ["academic", "writing"]
+  },
+  {
+    "id": "eng_vocab_002",
+    "word": "significant",
+    "meaning": "important or noticeable",
+    "partOfSpeech": "adjective",
+    "example": "There was a significant improvement.",
+    "difficulty": 2,
+    "tags": ["academic", "common"]
+  },
+  {
+    "id": "eng_vocab_003",
+    "word": "benefit",
+    "meaning": "an advantage or profit gained from something",
+    "partOfSpeech": "noun",
+    "example": "Regular exercise has many health benefits.",
+    "difficulty": 2,
+    "tags": ["common", "health"]
+  },
+  {
+    "id": "eng_vocab_004",
+    "word": "develop",
+    "meaning": "to grow or cause to grow and become more advanced",
+    "partOfSpeech": "verb",
+    "example": "The company plans to develop new products.",
+    "difficulty": 2,
+    "tags": ["business", "common"]
+  },
+  {
+    "id": "eng_vocab_005",
+    "word": "environment",
+    "meaning": "the surroundings or conditions in which a person lives",
+    "partOfSpeech": "noun",
+    "example": "We need to protect the environment.",
+    "difficulty": 2,
+    "tags": ["nature", "common"]
+  },
+  {
+    "id": "eng_vocab_006",
+    "word": "important",
+    "meaning": "of great significance or value",
+    "partOfSpeech": "adjective",
+    "example": "It is important to study regularly.",
+    "difficulty": 1,
+    "tags": ["common", "basic"]
+  },
+  {
+    "id": "eng_vocab_007",
+    "word": "experience",
+    "meaning": "knowledge or skill gained through involvement in an activity",
+    "partOfSpeech": "noun",
+    "example": "She has a lot of experience in teaching.",
+    "difficulty": 2,
+    "tags": ["common", "work"]
+  },
+  {
+    "id": "eng_vocab_008",
+    "word": "improve",
+    "meaning": "to make or become better",
+    "partOfSpeech": "verb",
+    "example": "I want to improve my English skills.",
+    "difficulty": 2,
+    "tags": ["common", "learning"]
+  },
+  {
+    "id": "eng_vocab_009",
+    "word": "knowledge",
+    "meaning": "facts, information, and skills acquired through experience",
+    "partOfSpeech": "noun",
+    "example": "Knowledge is power.",
+    "difficulty": 2,
+    "tags": ["common", "learning"]
+  },
+  {
+    "id": "eng_vocab_010",
+    "word": "opportunity",
+    "meaning": "a set of circumstances that makes it possible to do something",
+    "partOfSpeech": "noun",
+    "example": "This is a great opportunity to learn.",
+    "difficulty": 3,
+    "tags": ["common", "work"]
+  }
+]

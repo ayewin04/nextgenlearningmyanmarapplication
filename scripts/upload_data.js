@@ -32,6 +32,13 @@ const COLLECTIONS = {
   EXAMS: 'exams',
   QUESTIONS: 'questions',
   VOCABULARY: 'vocabulary',
+  EXAM_VOCABULARY: 'exam_vocabulary',
+  KANJI: 'kanji',
+  GRAMMAR: 'grammar',
+  IELTS_QUESTIONS: 'ielts_questions',
+  HSK_QUESTIONS: 'hsk_questions',
+  JLPT_QUESTIONS: 'jlpt_questions',
+  TOPIK_QUESTIONS: 'topik_questions',
   DAILY_CHALLENGES: 'daily_challenges'
 };
 
@@ -43,7 +50,33 @@ const DATA_FILES = {
   exams: path.join(DATA_DIR, 'exams.json'),
   questions: path.join(DATA_DIR, 'questions.json'),
   vocabulary: path.join(DATA_DIR, 'vocabulary.json'),
+  exam_vocabulary: path.join(DATA_DIR, 'exam_vocabulary.json'),
+  kanji: path.join(DATA_DIR, 'kanji.json'),
+  grammar: path.join(DATA_DIR, 'grammar.json'),
+  ielts_questions: path.join(DATA_DIR, 'ielts_questions.json'),
+  hsk_questions: path.join(DATA_DIR, 'hsk_questions.json'),
+  jlpt_questions: path.join(DATA_DIR, 'jlpt_questions.json'),
+  topik_questions: path.join(DATA_DIR, 'topik_questions.json'),
 };
+
+// ✅ Retry function with exponential backoff
+async function retryOperation(operation, maxRetries = 5) {
+  let lastError;
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      console.log(`⚠️ Attempt ${i + 1}/${maxRetries} failed: ${error.message}`);
+      if (i < maxRetries - 1) {
+        const delay = Math.pow(2, i) * 1000;
+        console.log(`⏳ Waiting ${delay/1000}s before retry...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  throw lastError;
+}
 
 // ✅ Check for duplicates in data using ID
 function checkForDuplicates(data, collectionName) {
@@ -55,12 +88,10 @@ function checkForDuplicates(data, collectionName) {
   let duplicateCount = 0;
   
   for (const item of data) {
-    // Use ID as unique key if available
     let key;
     if (item.id) {
       key = item.id;
     } else {
-      // Fallback: use burmeseWord + english translation
       const burmeseWord = item.burmeseWord || '';
       const englishTranslation = item.translations?.english || '';
       key = `${burmeseWord}_${englishTranslation}`;
@@ -81,8 +112,6 @@ function checkForDuplicates(data, collectionName) {
   
   if (duplicateCount > 0) {
     console.log(`\n📊 Found ${duplicateCount} duplicate entries`);
-    
-    // Save duplicates for review
     const duplicateReport = {
       totalDuplicates: duplicateCount,
       collection: collectionName,
@@ -91,33 +120,8 @@ function checkForDuplicates(data, collectionName) {
         existing: d.existingItem.id || d.existingItem.burmeseWord || 'Unknown'
       }))
     };
-
-    // scripts/upload_data.js - Add exam_vocabulary
-
-const DATA_FILES = {
-  exams: path.join(DATA_DIR, 'exams.json'),
-  exam_questions: path.join(DATA_DIR, 'exam_questions.json'),
-  exam_vocabulary: path.join(DATA_DIR, 'exam_vocabulary.json'),  // ✅ NEW
-  grammar: path.join(DATA_DIR, 'grammar.json'),
-  vocabulary: path.join(DATA_DIR, 'vocabulary.json'),  // Learning vocabulary
-};
-
-// In uploadAllData():
-if (fs.existsSync(DATA_FILES.exam_vocabulary)) {
-  console.log('📄 Reading exam_vocabulary.json...');
-  const vocabData = JSON.parse(fs.readFileSync(DATA_FILES.exam_vocabulary, 'utf8'));
-  console.log(`   Found ${vocabData.length} exam vocabulary entries`);
-  const validVocab = validateData(vocabData, 'exam_vocabulary');
-  await uploadCollection('exam_vocabulary', validVocab);
-} else {
-  console.log('⚠️ Skipping exam_vocabulary.json - file not found');
-}
-    
     const reportPath = path.join(DATA_DIR, `duplicates_report_${collectionName}.json`);
-    fs.writeFileSync(
-      reportPath,
-      JSON.stringify(duplicateReport, null, 2)
-    );
+    fs.writeFileSync(reportPath, JSON.stringify(duplicateReport, null, 2));
     console.log(`📄 Duplicates report saved to ${reportPath}`);
   } else {
     console.log('✅ No duplicates found!');
@@ -136,22 +140,26 @@ async function checkExistingDocuments(collectionName, data) {
   const newDocs = [];
   
   for (const item of data) {
-    // Check if item has an ID
     if (item.id) {
-      const docRef = db.collection(collectionName).doc(item.id);
-      const doc = await docRef.get();
-      
-      if (doc.exists) {
-        existingCount++;
-        existingDocs.push(item);
-        console.log(`📄 Document exists: ${item.id} - ${item.burmeseWord || 'Unknown'}`);
-      } else {
+      try {
+        const docRef = db.collection(collectionName).doc(item.id);
+        const doc = await retryOperation(() => docRef.get(), 3);
+        
+        if (doc.exists) {
+          existingCount++;
+          existingDocs.push(item);
+          console.log(`📄 Document exists: ${item.id}`);
+        } else {
+          newCount++;
+          newDocs.push(item);
+          console.log(`✨ New document: ${item.id}`);
+        }
+      } catch (error) {
+        console.log(`⚠️ Error checking ${item.id}: ${error.message}`);
         newCount++;
         newDocs.push(item);
-        console.log(`✨ New document: ${item.id} - ${item.burmeseWord || 'Unknown'}`);
       }
     } else {
-      // Item without ID - treat as new
       newCount++;
       newDocs.push(item);
       console.log(`✨ New document (no ID): ${item.burmeseWord || 'Unknown'}`);
@@ -175,7 +183,6 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
     return { totalAdded: 0, totalUpdated: 0, totalSkipped: 0 };
   }
   
-  // First check for existing documents
   const { existingDocs, newDocs } = await checkExistingDocuments(collectionName, data);
   
   let batch = db.batch();
@@ -200,7 +207,7 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
     totalAdded++;
 
     if (count === batchSize) {
-      await batch.commit();
+      await retryOperation(() => batch.commit(), 3);
       console.log(`✅ Committed ${count} new documents`);
       batch = db.batch();
       count = 0;
@@ -208,7 +215,7 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
   }
 
   if (count > 0) {
-    await batch.commit();
+    await retryOperation(() => batch.commit(), 3);
     console.log(`✅ Committed final ${count} new documents`);
   }
 
@@ -227,7 +234,7 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
         totalUpdated++;
         
         if (updateCount === batchSize) {
-          await updateBatch.commit();
+          await retryOperation(() => updateBatch.commit(), 3);
           console.log(`✅ Updated ${updateCount} documents`);
           updateBatch = db.batch();
           updateCount = 0;
@@ -236,7 +243,7 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
     }
     
     if (updateCount > 0) {
-      await updateBatch.commit();
+      await retryOperation(() => updateBatch.commit(), 3);
       console.log(`✅ Updated final ${updateCount} documents`);
     }
   }
@@ -252,6 +259,11 @@ async function uploadCollection(collectionName, data, batchSize = 500) {
 
 // ✅ Auto-generate IDs if not present
 function addIdsToData(data, prefix) {
+  if (!data || !Array.isArray(data)) {
+    console.log(`⚠️ Cannot add IDs: data is not an array (${typeof data})`);
+    return [];
+  }
+  
   console.log(`\n🆔 Adding IDs to ${data.length} items with prefix '${prefix}'...`);
   
   let idCounter = 0;
@@ -281,21 +293,18 @@ function validateData(data, collectionName) {
   return data;
 }
 
-// Load and upload data
+// ✅ MAIN FUNCTION
 async function uploadAllData() {
   console.log('\n🚀 Starting Firestore Data Upload...');
   console.log('=' .repeat(60));
   console.log(`📂 Data directory: ${DATA_DIR}`);
   
   try {
-    // Check if data directory exists
     if (!fs.existsSync(DATA_DIR)) {
       console.error(`❌ Data directory not found: ${DATA_DIR}`);
-      console.error('📌 Please create a "data" folder and add your JSON files.');
       process.exit(1);
     }
     
-    // List all files in data directory
     console.log('\n📁 Files in data directory:');
     const files = fs.readdirSync(DATA_DIR);
     files.forEach(file => console.log(`   - ${file}`));
@@ -304,17 +313,20 @@ async function uploadAllData() {
     let totalExams = 0;
     let totalQuestions = 0;
     let totalVocabulary = 0;
+    let totalExamVocabulary = 0;
+    let totalGrammar = 0;
+    let totalKanji = 0;
+    let totalIeltsQuestions = 0;
+    let totalHskQuestions = 0;
+    let totalJlptQuestions = 0;
+    let totalTopikQuestions = 0;
 
     // ===== Upload Exams =====
     if (fs.existsSync(DATA_FILES.exams)) {
       console.log('\n📄 Reading exams.json...');
       let examsData = JSON.parse(fs.readFileSync(DATA_FILES.exams, 'utf8'));
       console.log(`   Found ${examsData.length} exam entries`);
-      
-      // Add IDs if missing
       examsData = addIdsToData(examsData, 'exam');
-      
-      // Check for duplicates
       const uniqueExams = checkForDuplicates(examsData, 'exams');
       const validExams = validateData(uniqueExams, 'exams');
       const result = await uploadCollection(COLLECTIONS.EXAMS, validExams);
@@ -328,10 +340,7 @@ async function uploadAllData() {
       console.log('\n📄 Reading questions.json...');
       let questionsData = JSON.parse(fs.readFileSync(DATA_FILES.questions, 'utf8'));
       console.log(`   Found ${questionsData.length} question entries`);
-      
-      // Add IDs if missing
       questionsData = addIdsToData(questionsData, 'q');
-      
       const uniqueQuestions = checkForDuplicates(questionsData, 'questions');
       const validQuestions = validateData(uniqueQuestions, 'questions');
       const result = await uploadCollection(COLLECTIONS.QUESTIONS, validQuestions);
@@ -345,11 +354,7 @@ async function uploadAllData() {
       console.log('\n📄 Reading vocabulary.json...');
       let vocabularyData = JSON.parse(fs.readFileSync(DATA_FILES.vocabulary, 'utf8'));
       console.log(`   Found ${vocabularyData.length} vocabulary entries`);
-      
-      // ✅ Add IDs if missing
       vocabularyData = addIdsToData(vocabularyData, 'vocab');
-      
-      // ✅ Check for duplicates
       const uniqueVocabulary = checkForDuplicates(vocabularyData, 'vocabulary');
       const validVocabulary = validateData(uniqueVocabulary, 'vocabulary');
       const result = await uploadCollection(COLLECTIONS.VOCABULARY, validVocabulary);
@@ -358,12 +363,116 @@ async function uploadAllData() {
       console.log('⚠️ Skipping vocabulary.json - file not found');
     }
 
+    // ===== Upload Exam Vocabulary =====
+    if (fs.existsSync(DATA_FILES.exam_vocabulary)) {
+      console.log('\n📄 Reading exam_vocabulary.json...');
+      let examVocabData = JSON.parse(fs.readFileSync(DATA_FILES.exam_vocabulary, 'utf8'));
+      console.log(`   Found ${examVocabData.length} exam vocabulary entries`);
+      examVocabData = addIdsToData(examVocabData, 'ev');
+      const uniqueExamVocab = checkForDuplicates(examVocabData, 'exam_vocabulary');
+      const validExamVocab = validateData(uniqueExamVocab, 'exam_vocabulary');
+      const result = await uploadCollection(COLLECTIONS.EXAM_VOCABULARY, validExamVocab);
+      totalExamVocabulary = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping exam_vocabulary.json - file not found');
+    }
+
+    // ===== Upload Grammar =====
+    if (fs.existsSync(DATA_FILES.grammar)) {
+      console.log('\n📄 Reading grammar.json...');
+      let grammarData = JSON.parse(fs.readFileSync(DATA_FILES.grammar, 'utf8'));
+      console.log(`   Found ${grammarData.length} grammar entries`);
+      grammarData = addIdsToData(grammarData, 'gram');
+      const uniqueGrammar = checkForDuplicates(grammarData, 'grammar');
+      const validGrammar = validateData(uniqueGrammar, 'grammar');
+      const result = await uploadCollection(COLLECTIONS.GRAMMAR, validGrammar);
+      totalGrammar = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping grammar.json - file not found');
+    }
+
+    // ===== Upload Kanji =====
+    if (fs.existsSync(DATA_FILES.kanji)) {
+      console.log('\n📄 Reading kanji.json...');
+      let kanjiData = JSON.parse(fs.readFileSync(DATA_FILES.kanji, 'utf8'));
+      console.log(`   Found ${kanjiData.length} kanji entries`);
+      kanjiData = addIdsToData(kanjiData, 'kanji');
+      const uniqueKanji = checkForDuplicates(kanjiData, 'kanji');
+      const validKanji = validateData(uniqueKanji, 'kanji');
+      const result = await uploadCollection(COLLECTIONS.KANJI, validKanji);
+      totalKanji = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping kanji.json - file not found');
+    }
+
+    // ===== Upload IELTS Questions =====
+    if (fs.existsSync(DATA_FILES.ielts_questions)) {
+      console.log('\n📄 Reading ielts_questions.json...');
+      let ieltsData = JSON.parse(fs.readFileSync(DATA_FILES.ielts_questions, 'utf8'));
+      console.log(`   Found ${ieltsData.length} IELTS questions`);
+      ieltsData = addIdsToData(ieltsData, 'ielts');
+      const uniqueIelts = checkForDuplicates(ieltsData, 'ielts_questions');
+      const validIelts = validateData(uniqueIelts, 'ielts_questions');
+      const result = await uploadCollection(COLLECTIONS.IELTS_QUESTIONS, validIelts);
+      totalIeltsQuestions = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping ielts_questions.json - file not found');
+    }
+
+    // ===== Upload HSK Questions =====
+    if (fs.existsSync(DATA_FILES.hsk_questions)) {
+      console.log('\n📄 Reading hsk_questions.json...');
+      let hskData = JSON.parse(fs.readFileSync(DATA_FILES.hsk_questions, 'utf8'));
+      console.log(`   Found ${hskData.length} HSK questions`);
+      hskData = addIdsToData(hskData, 'hsk');
+      const uniqueHsk = checkForDuplicates(hskData, 'hsk_questions');
+      const validHsk = validateData(uniqueHsk, 'hsk_questions');
+      const result = await uploadCollection(COLLECTIONS.HSK_QUESTIONS, validHsk);
+      totalHskQuestions = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping hsk_questions.json - file not found');
+    }
+
+    // ===== Upload JLPT Questions =====
+    if (fs.existsSync(DATA_FILES.jlpt_questions)) {
+      console.log('\n📄 Reading jlpt_questions.json...');
+      let jlptData = JSON.parse(fs.readFileSync(DATA_FILES.jlpt_questions, 'utf8'));
+      console.log(`   Found ${jlptData.length} JLPT questions`);
+      jlptData = addIdsToData(jlptData, 'jlpt');
+      const uniqueJlpt = checkForDuplicates(jlptData, 'jlpt_questions');
+      const validJlpt = validateData(uniqueJlpt, 'jlpt_questions');
+      const result = await uploadCollection(COLLECTIONS.JLPT_QUESTIONS, validJlpt);
+      totalJlptQuestions = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping jlpt_questions.json - file not found');
+    }
+
+    // ===== Upload TOPIK Questions =====
+    if (fs.existsSync(DATA_FILES.topik_questions)) {
+      console.log('\n📄 Reading topik_questions.json...');
+      let topikData = JSON.parse(fs.readFileSync(DATA_FILES.topik_questions, 'utf8'));
+      console.log(`   Found ${topikData.length} TOPIK questions`);
+      topikData = addIdsToData(topikData, 'topik');
+      const uniqueTopik = checkForDuplicates(topikData, 'topik_questions');
+      const validTopik = validateData(uniqueTopik, 'topik_questions');
+      const result = await uploadCollection(COLLECTIONS.TOPIK_QUESTIONS, validTopik);
+      totalTopikQuestions = result.totalAdded + result.totalUpdated;
+    } else {
+      console.log('⚠️ Skipping topik_questions.json - file not found');
+    }
+
     console.log('\n' + '=' .repeat(60));
     console.log('🎉 All data uploaded successfully!');
     console.log(`📊 Summary:
     - Exams: ${totalExams}
     - Questions: ${totalQuestions}
     - Vocabulary: ${totalVocabulary}
+    - Exam Vocabulary: ${totalExamVocabulary}
+    - Grammar: ${totalGrammar}
+    - IELTS Questions: ${totalIeltsQuestions}
+    - HSK Questions: ${totalHskQuestions}
+    - JLPT Questions: ${totalJlptQuestions}
+    - TOPIK Questions: ${totalTopikQuestions}
     `);
 
   } catch (error) {
@@ -373,5 +482,5 @@ async function uploadAllData() {
   }
 }
 
-// Run the upload
+// ✅ Run the upload
 uploadAllData();

@@ -1,8 +1,7 @@
-// lib/screens/languages/level_selection_screen.dart
 import 'package:flutter/material.dart';
-import 'vocabulary_screen.dart';  // ✅ ADD THIS
-import 'grammar_screen.dart';     // ✅ ADD THIS
-import 'exam_questions_screen.dart';  // ✅ ADD THIS
+import 'vocabulary_screen.dart';
+import 'grammar_screen.dart';
+import 'exam_questions_screen.dart';
 
 class LevelSelectionScreen extends StatefulWidget {
   final String language;
@@ -32,38 +31,36 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
     switch (widget.exam) {
       case 'IELTS':
         return [
-          {'id': 'A1', 'name': 'Beginner', 'description': 'Can understand basic phrases'},
-          {'id': 'A2', 'name': 'Elementary', 'description': 'Can communicate in simple tasks'},
-          {'id': 'B1', 'name': 'Intermediate', 'description': 'Can handle most situations'},
-          {'id': 'B2', 'name': 'Upper Intermediate', 'description': 'Can interact with native speakers'},
-          {'id': 'C1', 'name': 'Advanced', 'description': 'Can express ideas fluently'},
-          {'id': 'C2', 'name': 'Proficient', 'description': 'Can understand virtually everything'},
+          {'id': 'Band 6', 'name': 'Band 6', 'description': 'Competent user'},
+          {'id': 'Band 7', 'name': 'Band 7', 'description': 'Good user'},
+          {'id': 'Band 8', 'name': 'Band 8', 'description': 'Very good user'},
+          {'id': 'Band 9', 'name': 'Band 9', 'description': 'Expert user'},
         ];
       case 'HSK':
         return [
-          {'id': 'HSK 1', 'name': 'Beginner', 'description': '150 words'},
-          {'id': 'HSK 2', 'name': 'Elementary', 'description': '300 words'},
-          {'id': 'HSK 3', 'name': 'Intermediate', 'description': '600 words'},
-          {'id': 'HSK 4', 'name': 'Upper Intermediate', 'description': '1200 words'},
-          {'id': 'HSK 5', 'name': 'Advanced', 'description': '2500 words'},
-          {'id': 'HSK 6', 'name': 'Proficient', 'description': '5000+ words'},
+          {'id': 'HSK 1', 'name': 'HSK 1', 'description': 'Beginner (150 words)'},
+          {'id': 'HSK 2', 'name': 'HSK 2', 'description': 'Elementary (300 words)'},
+          {'id': 'HSK 3', 'name': 'HSK 3', 'description': 'Intermediate (600 words)'},
+          {'id': 'HSK 4', 'name': 'HSK 4', 'description': 'Upper Intermediate (1200 words)'},
+          {'id': 'HSK 5', 'name': 'HSK 5', 'description': 'Advanced (2500 words)'},
+          {'id': 'HSK 6', 'name': 'HSK 6', 'description': 'Proficient (5000+ words)'},
         ];
       case 'JLPT':
         return [
-          {'id': 'N5', 'name': 'Beginner', 'description': 'Basic Japanese'},
-          {'id': 'N4', 'name': 'Elementary', 'description': 'Basic Japanese (advanced)'},
-          {'id': 'N3', 'name': 'Intermediate', 'description': 'Intermediate Japanese'},
-          {'id': 'N2', 'name': 'Upper Intermediate', 'description': 'Business Japanese'},
-          {'id': 'N1', 'name': 'Advanced', 'description': 'Advanced Japanese'},
+          {'id': 'N5', 'name': 'N5', 'description': 'Beginner (Basic Japanese)'},
+          {'id': 'N4', 'name': 'N4', 'description': 'Elementary (Basic Japanese advanced)'},
+          {'id': 'N3', 'name': 'N3', 'description': 'Intermediate (Intermediate Japanese)'},
+          {'id': 'N2', 'name': 'N2', 'description': 'Upper Intermediate (Business Japanese)'},
+          {'id': 'N1', 'name': 'N1', 'description': 'Advanced (Advanced Japanese)'},
         ];
       case 'TOPIK':
         return [
-          {'id': 'TOPIK I-1', 'name': 'Beginner', 'description': 'Level 1'},
-          {'id': 'TOPIK I-2', 'name': 'Elementary', 'description': 'Level 2'},
-          {'id': 'TOPIK II-1', 'name': 'Intermediate', 'description': 'Level 3'},
-          {'id': 'TOPIK II-2', 'name': 'Upper Intermediate', 'description': 'Level 4'},
-          {'id': 'TOPIK II-3', 'name': 'Advanced', 'description': 'Level 5'},
-          {'id': 'TOPIK II-4', 'name': 'Proficient', 'description': 'Level 6'},
+          {'id': 'TOPIK I-1', 'name': 'TOPIK I-1', 'description': 'Beginner (Level 1)'},
+          {'id': 'TOPIK I-2', 'name': 'TOPIK I-2', 'description': 'Elementary (Level 2)'},
+          {'id': 'TOPIK II-1', 'name': 'TOPIK II-1', 'description': 'Intermediate (Level 3)'},
+          {'id': 'TOPIK II-2', 'name': 'TOPIK II-2', 'description': 'Upper Intermediate (Level 4)'},
+          {'id': 'TOPIK II-3', 'name': 'TOPIK II-3', 'description': 'Advanced (Level 5)'},
+          {'id': 'TOPIK II-4', 'name': 'TOPIK II-4', 'description': 'Proficient (Level 6)'},
         ];
       default:
         return [];
@@ -310,7 +307,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
           MaterialPageRoute(
             builder: (context) => VocabularyScreen(
               language: widget.language,
-              exam: widget.exam,
+              exam: widget.exam.toLowerCase(), // Convert to lowercase for Firestore query
               level: _selectedLevel!,
             ),
           ),
@@ -322,7 +319,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
           MaterialPageRoute(
             builder: (context) => GrammarScreen(
               language: widget.language,
-              exam: widget.exam,
+              exam: widget.exam.toLowerCase(), // Convert to lowercase for Firestore query
               level: _selectedLevel!,
             ),
           ),
@@ -334,7 +331,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
           MaterialPageRoute(
             builder: (context) => ExamQuestionsScreen(
               language: widget.language,
-              exam: widget.exam,
+              exam: widget.exam.toLowerCase(), // Convert to lowercase for Firestore query
               level: _selectedLevel!,
             ),
           ),

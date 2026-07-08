@@ -1,0 +1,112 @@
+[
+  {
+    "id": "topik_q_001",
+    "exam": "topik",
+    "level": "TOPIK I-1",
+    "category": "Vocabulary",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of '안녕하세요'?",
+    "burmeseQuestion": "'안녕하세요' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'annyeonghaseyo' ye a dit par ye ka ba le?",
+    "options": [
+      "Goodbye",
+      "Hello",
+      "Thank you",
+      "Sorry"
+    ],
+    "correctAnswer": "Hello",
+    "correctAnswerIndex": 1,
+    "explanation": "'안녕하세요' means 'Hello' in Korean.",
+    "burmeseExplanation": "'안녕하세요' ဆိုသည်မှာ ကိုရီးယားလို 'မင်္ဂလာပါ' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "topik_q_002",
+    "exam": "topik",
+    "level": "TOPIK I-1",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What does '학교' mean?",
+    "burmeseQuestion": "'학교' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'hakgyo' ye a dit par ye ka ba le?",
+    "options": [
+      "Hospital",
+      "School",
+      "Office",
+      "Restaurant"
+    ],
+    "correctAnswer": "School",
+    "correctAnswerIndex": 1,
+    "explanation": "'학교' means 'school' in Korean.",
+    "burmeseExplanation": "'학교' ဆိုသည်မှာ ကိုရီးယားလို 'ကျောင်း' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "topik_q_003",
+    "exam": "topik",
+    "level": "TOPIK I-2",
+    "category": "Grammar",
+    "type": "multiple_choice",
+    "questionText": "Which particle is used as a subject marker?",
+    "burmeseQuestion": "ပြုလုပ်သူကို သတ်မှတ်ရန် မည်သည့်ဝိဘတ်ကိုသုံးသနည်း။",
+    "burmeseQuestionRomanization": "pyu lote thu ko that htet yan myae nyi wi but ko thone tha ne?",
+    "options": [
+      "은/는 (eun/neun)",
+      "이/가 (i/ga)",
+      "을/를 (eul/reul)",
+      "에 (e)"
+    ],
+    "correctAnswer": "이/가 (i/ga)",
+    "correctAnswerIndex": 1,
+    "explanation": "The particles '이/가 (i/ga)' are used as subject markers in Korean.",
+    "burmeseExplanation": "ဝိဘတ် '이/가 (i/ga)' ကို ကိုရီးယားလို ပြုလုပ်သူသတ်မှတ်ရန်သုံးသည်။",
+    "points": 15,
+    "difficulty": 2
+  },
+  {
+    "id": "topik_q_004",
+    "exam": "topik",
+    "level": "TOPIK I-2",
+    "category": "Vocabulary",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of '음식'?",
+    "burmeseQuestion": "'음식' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'eumsik' ye a dit par ye ka ba le?",
+    "options": [
+      "Drink",
+      "Food",
+      "Fruit",
+      "Vegetable"
+    ],
+    "correctAnswer": "Food",
+    "correctAnswerIndex": 1,
+    "explanation": "'음식' means 'food' in Korean.",
+    "burmeseExplanation": "'음식' ဆိုသည်မှာ ကိုရီးယားလို 'အစားအစာ' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "topik_q_005",
+    "exam": "topik",
+    "level": "TOPIK II-1",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of '환경'?",
+    "burmeseQuestion": "'환경' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'hwangyeong' ye a dit par ye ka ba le?",
+    "options": [
+      "Weather",
+      "Environment",
+      "City",
+      "Country"
+    ],
+    "correctAnswer": "Environment",
+    "correctAnswerIndex": 1,
+    "explanation": "'환경' means 'environment' in Korean.",
+    "burmeseExplanation": "'환경' ဆိုသည်မှာ ကိုရီးယားလို 'ပတ်ဝန်းကျင်' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 2
+  }
+]

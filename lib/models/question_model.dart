@@ -1,4 +1,3 @@
-// lib/models/question_model.dart
 class QuestionModel {
   final String id;
   final String exam;
@@ -6,13 +5,16 @@ class QuestionModel {
   final String category;
   final String type;
   final String questionText;
-  final List<String>? options;
-  final String? correctAnswer;
-  final String? audioUrl;
-  final String? passageText;
-  final String? aiExplanation;
-  final int? timeLimit;
+  final String? burmeseQuestion;
+  final String? burmeseQuestionRomanization;
+  final List<String> options;
+  final String correctAnswer;
+  final int correctAnswerIndex;
+  final String? passage;
+  final String? explanation;
+  final String? burmeseExplanation;
   final int? points;
+  final int difficulty;
 
   QuestionModel({
     required this.id,
@@ -21,30 +23,46 @@ class QuestionModel {
     required this.category,
     required this.type,
     required this.questionText,
-    this.options,
-    this.correctAnswer,
-    this.audioUrl,
-    this.passageText,
-    this.aiExplanation,
-    this.timeLimit,
+    this.burmeseQuestion,
+    this.burmeseQuestionRomanization,
+    required this.options,
+    required this.correctAnswer,
+    required this.correctAnswerIndex,
+    this.passage,
+    this.explanation,
+    this.burmeseExplanation,
     this.points,
+    this.difficulty = 1,
   });
 
-  factory QuestionModel.fromMap(String id, Map<String, dynamic> data) {
+  factory QuestionModel.fromMap(String id, Map<String, dynamic> map) {
+    final options = List<String>.from(map['options'] ?? []);
+    final correctAnswer = map['correctAnswer'] ?? '';
+    int correctIndex = map['correctAnswerIndex'] ?? 0;
+    
+    // If correctAnswerIndex is not provided, try to find it from options
+    if (correctIndex == 0 && correctAnswer.isNotEmpty && options.isNotEmpty) {
+      correctIndex = options.indexOf(correctAnswer);
+      if (correctIndex == -1) correctIndex = 0;
+    }
+    
     return QuestionModel(
       id: id,
-      exam: data['exam'] ?? '',
-      level: data['level'] ?? '',
-      category: data['category'] ?? '',
-      type: data['type'] ?? '',
-      questionText: data['questionText'] ?? '',
-      options: data['options'] != null ? List<String>.from(data['options']) : null,
-      correctAnswer: data['correctAnswer'],
-      audioUrl: data['audioUrl'],
-      passageText: data['passageText'],
-      aiExplanation: data['aiExplanation'],
-      timeLimit: data['timeLimit'],
-      points: data['points'] ?? 10,
+      exam: map['exam'] ?? '',
+      level: map['level'] ?? '',
+      category: map['category'] ?? '',
+      type: map['type'] ?? 'multiple_choice',
+      questionText: map['questionText'] ?? '',
+      burmeseQuestion: map['burmeseQuestion'],
+      burmeseQuestionRomanization: map['burmeseQuestionRomanization'],
+      options: options,
+      correctAnswer: correctAnswer,
+      correctAnswerIndex: correctIndex,
+      passage: map['passage'],
+      explanation: map['explanation'],
+      burmeseExplanation: map['burmeseExplanation'],
+      points: map['points'] ?? 10,
+      difficulty: map['difficulty'] ?? 1,
     );
   }
 
@@ -55,21 +73,16 @@ class QuestionModel {
       'category': category,
       'type': type,
       'questionText': questionText,
+      'burmeseQuestion': burmeseQuestion,
+      'burmeseQuestionRomanization': burmeseQuestionRomanization,
       'options': options,
       'correctAnswer': correctAnswer,
-      'audioUrl': audioUrl,
-      'passageText': passageText,
-      'aiExplanation': aiExplanation,
-      'timeLimit': timeLimit,
+      'correctAnswerIndex': correctAnswerIndex,
+      'passage': passage,
+      'explanation': explanation,
+      'burmeseExplanation': burmeseExplanation,
       'points': points,
+      'difficulty': difficulty,
     };
   }
-
-  bool isMultipleChoice() => type == 'multiple_choice';
-  bool isFillBlank() => type == 'fill_blank';
-  bool isEssay() => type == 'essay';
-  bool isListening() => category == 'Listening';
-  bool isReading() => category == 'Reading';
-  bool isWriting() => category == 'Writing';
-  bool isSpeaking() => category == 'Speaking';
 }

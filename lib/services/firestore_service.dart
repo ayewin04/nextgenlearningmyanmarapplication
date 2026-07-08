@@ -56,6 +56,29 @@ class FirestoreService {
     }
   }
 
+  Future<List<QuestionModel>> getQuestionsByLevel({
+    required String exam,
+    required String level,
+    int limit = 20,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('questions')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level);
+      
+      QuerySnapshot snapshot = await query
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => QuestionModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load questions: $e');
+    }
+  }
+
   // ============ VOCABULARY ============
   
   Future<List<VocabularyModel>> getVocabularyByLanguage({
@@ -108,103 +131,29 @@ class FirestoreService {
     }
   }
 
-  // lib/services/firestore_service.dart
-// Add this method
-
-Future<List<VocabularyModel>> getVocabularyByLevel({
-  required String exam,
-  required String level,
-  required String language,
-  int limit = 50,
-}) async {
-  try {
-    QuerySnapshot snapshot = await _firestore
-        .collection('vocabulary')
-        .where('exam', isEqualTo: exam)
-        .where('level', isEqualTo: level)
-        .limit(limit)
-        .get();
-    
-    return snapshot.docs
-        .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-        .where((vocab) => vocab.translations.containsKey(language))
-        .toList();
-  } catch (e) {
-    throw Exception('Failed to load vocabulary: $e');
+  Future<List<VocabularyModel>> getVocabularyByLevel({
+    required String exam,
+    required String level,
+    required String language,
+    int limit = 50,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('vocabulary')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .where((vocab) => vocab.translations.containsKey(language))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load vocabulary: $e');
+    }
   }
-}
 
-// lib/services/firestore_service.dart
-// Add this method
-
-Future<List<Map<String, dynamic>>> getGrammarByLevel({
-  required String exam,
-  required String level,
-  int limit = 20,
-}) async {
-  try {
-    QuerySnapshot snapshot = await _firestore
-        .collection('grammar')
-        .where('exam', isEqualTo: exam)
-        .where('level', isEqualTo: level)
-        .limit(limit)
-        .get();
-    
-    return snapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
-        .toList();
-  } catch (e) {
-    throw Exception('Failed to load grammar: $e');
-  }
-}
-
-// lib/services/firestore_service.dart
-// Add this method
-
-Future<List<QuestionModel>> getQuestionsByLevel({
-  required String exam,
-  required String level,
-  int limit = 20,
-}) async {
-  try {
-    QuerySnapshot snapshot = await _firestore
-        .collection('exam_questions')
-        .where('exam', isEqualTo: exam)
-        .where('level', isEqualTo: level)
-        .limit(limit)
-        .get();
-    
-    return snapshot.docs
-        .map((doc) => QuestionModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-        .toList();
-  } catch (e) {
-    throw Exception('Failed to load questions: $e');
-  }
-}
-
-// lib/services/firestore_service.dart
-// Add this method for exam vocabulary
-
-Future<List<ExamVocabularyModel>> getExamVocabularyByLevel({
-  required String exam,
-  required String level,
-  int limit = 50,
-}) async {
-  try {
-    QuerySnapshot snapshot = await _firestore
-        .collection('exam_vocabulary')
-        .where('exam', isEqualTo: exam)
-        .where('level', isEqualTo: level)
-        .limit(limit)
-        .get();
-    
-    return snapshot.docs
-        .map((doc) => ExamVocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-        .toList();
-  } catch (e) {
-    throw Exception('Failed to load exam vocabulary: $e');
-  }
-}
   Future<List<VocabularyModel>> getVocabularyByCategory({
     required String category,
     required String language,
@@ -243,6 +192,220 @@ Future<List<ExamVocabularyModel>> getExamVocabularyByLevel({
       return categories.toList();
     } catch (e) {
       throw Exception('Failed to load categories: $e');
+    }
+  }
+
+  // ============ EXAM VOCABULARY ============
+  
+  // ✅ Get exam vocabulary (returns Map, not ExamVocabularyModel)
+  Future<List<Map<String, dynamic>>> getExamVocabulary({
+    required String exam,
+    String? level,
+    int limit = 50,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('exam_vocabulary')
+          .where('exam', isEqualTo: exam);
+      
+      if (level != null && level != 'All') {
+        query = query.where('level', isEqualTo: level);
+      }
+      
+      QuerySnapshot snapshot = await query
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load exam vocabulary: $e');
+    }
+  }
+
+  
+
+  // ✅ Get exam vocabulary by level
+  Future<List<Map<String, dynamic>>> getExamVocabularyByLevel({
+    required String exam,
+    required String level,
+    int limit = 50,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('exam_vocabulary')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load exam vocabulary: $e');
+    }
+  }
+
+  // ============ GRAMMAR ============
+  
+  Future<List<Map<String, dynamic>>> getGrammar({
+    required String exam,
+    String? level,
+    int limit = 20,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('grammar')
+          .where('exam', isEqualTo: exam);
+      
+      if (level != null) {
+        query = query.where('level', isEqualTo: level);
+      }
+      
+      QuerySnapshot snapshot = await query
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load grammar: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getGrammarByLevel({
+    required String exam,
+    required String level,
+    int limit = 20,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('grammar')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load grammar: $e');
+    }
+  }
+
+    // ============ KANJI ============
+  
+  Future<List<Map<String, dynamic>>> getKanji() async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('kanji')
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load kanji: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getKanjiByLevel({
+    required String level, // JLPT N5, N4, N3, N2, N1
+    int limit = 50,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('kanji')
+          .where('jlptLevel', isEqualTo: level)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load kanji by level: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getKanjiByGrade({
+    required int grade,
+    int limit = 50,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('kanji')
+          .where('grade', isEqualTo: grade.toString())
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load kanji by grade: $e');
+    }
+  }
+
+  // ============ EXAM QUESTIONS ============
+  
+  Future<List<QuestionModel>> getExamQuestionsByLevel({
+    required String exam,
+    required String level,
+    int limit = 20,
+  }) async {
+    try {
+      final collectionMap = {
+        'ielts': 'ielts_questions',
+        'hsk': 'hsk_questions',
+        'jlpt': 'jlpt_questions',
+        'topik': 'topik_questions',
+      };
+      
+      final collectionName = collectionMap[exam] ?? 'ielts_questions';
+      
+      QuerySnapshot snapshot = await _firestore
+          .collection(collectionName)
+          .where('level', isEqualTo: level)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => QuestionModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load exam questions: $e');
+    }
+  }
+
+  Future<List<QuestionModel>> getExamQuestions({
+    required String exam,
+    int limit = 20,
+  }) async {
+    try {
+      final collectionMap = {
+        'ielts': 'ielts_questions',
+        'hsk': 'hsk_questions',
+        'jlpt': 'jlpt_questions',
+        'topik': 'topik_questions',
+      };
+      
+      final collectionName = collectionMap[exam] ?? 'ielts_questions';
+      
+      QuerySnapshot snapshot = await _firestore
+          .collection(collectionName)
+          .limit(limit)
+          .get();
+      
+      return snapshot.docs
+          .map((doc) => QuestionModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load exam questions: $e');
     }
   }
 
@@ -290,7 +453,7 @@ Future<List<ExamVocabularyModel>> getExamVocabularyByLevel({
     }
   }
 
-  // ✅ Save last word index - FIXED
+  // ✅ Save last word index
   Future<void> saveLastWordIndex({
     required String userId,
     required String language,
@@ -305,7 +468,6 @@ Future<List<ExamVocabularyModel>> getExamVocabularyByLevel({
         'lastWordIndex.$key': index,
       });
     } catch (e) {
-      // If the field doesn't exist, create it
       try {
         final userRef = _firestore.collection('users').doc(userId);
         final String key = '${language}_$category';
@@ -316,7 +478,6 @@ Future<List<ExamVocabularyModel>> getExamVocabularyByLevel({
           },
         }, SetOptions(merge: true));
       } catch (innerError) {
-        // If both fail, just log the error
         print('Error saving last word index: $innerError');
       }
     }

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "ielts_q_001",
+    "exam": "ielts",
+    "level": "Band 6",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the main purpose of the passage?",
+    "burmeseQuestion": "စာပိုဒ်၏ အဓိကရည်ရွယ်ချက်မှာ အဘယ်နည်း။",
+    "burmeseQuestionRomanization": "sa pote a de ka yay shwe chat hma a bel ne?",
+    "options": [
+      "To describe a historical event",
+      "To explain a scientific concept",
+      "To persuade the reader",
+      "To entertain the audience"
+    ],
+    "correctAnswer": "To explain a scientific concept",
+    "correctAnswerIndex": 1,
+    "passage": "The passage discusses the concept of renewable energy and its importance in combating climate change.",
+    "explanation": "The passage primarily explains the scientific concept of renewable energy.",
+    "burmeseExplanation": "စာပိုဒ်သည် ပြန်လည်ပြည့်ဖြိုးမြဲစွမ်းအင်၏ သိပ္ပံနည်းကျ အယူအဆကို အဓိကရှင်းပြထားသည်။",
+    "points": 10,
+    "difficulty": 3
+  },
+  {
+    "id": "ielts_q_002",
+    "exam": "ielts",
+    "level": "Band 6",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "According to the passage, what is the main cause of climate change?",
+    "burmeseQuestion": "စာပိုဒ်အရ ရာသီဥတုပြောင်းလဲမှု၏ အဓိကအကြောင်းရင်းမှာ အဘယ်နည်း။",
+    "burmeseQuestionRomanization": "sa pote a ya ya thi u tu pyaung le hmu a de ka a kyaung yin hma a bel ne?",
+    "options": [
+      "Natural cycles",
+      "Human activities",
+      "Solar radiation",
+      "Volcanic eruptions"
+    ],
+    "correctAnswer": "Human activities",
+    "correctAnswerIndex": 1,
+    "passage": "Human activities such as burning fossil fuels are the primary cause of climate change.",
+    "explanation": "The passage clearly identifies human activities as the main cause.",
+    "burmeseExplanation": "စာပိုဒ်သည် လူ့လုပ်ဆောင်မှုများကို အဓိကအကြောင်းရင်းအဖြစ် ရှင်းလင်းစွာဖော်ပြထားသည်။",
+    "points": 10,
+    "difficulty": 3
+  },
+  {
+    "id": "ielts_q_003",
+    "exam": "ielts",
+    "level": "Band 6",
+    "category": "Writing",
+    "type": "multiple_choice",
+    "questionText": "Which sentence is grammatically correct?",
+    "burmeseQuestion": "မည်သည့်ဝါကျသည် သဒ္ဒါအရ မှန်ကန်သနည်း။",
+    "burmeseQuestionRomanization": "myae nyi wut kya thi thadda a ya hman kan tha ne?",
+    "options": [
+      "He go to school every day.",
+      "He goes to school every day.",
+      "He going to school every day.",
+      "He gone to school every day."
+    ],
+    "correctAnswer": "He goes to school every day.",
+    "correctAnswerIndex": 1,
+    "explanation": "The present simple tense requires 'goes' for third person singular.",
+    "burmeseExplanation": "ပစ္စုပ္ပန်ရိုးရိုးကာလတွင် တတိယလူကိုယ်စားပြုအတွက် 'goes' ကိုသုံးရသည်။",
+    "points": 15,
+    "difficulty": 2
+  },
+  {
+    "id": "ielts_q_004",
+    "exam": "ielts",
+    "level": "Band 7",
+    "category": "Listening",
+    "type": "multiple_choice",
+    "questionText": "What time does the train depart?",
+    "burmeseQuestion": "ရထားဘယ်အချိန်ထွက်မလဲ။",
+    "burmeseQuestionRomanization": "ya hta bel a chayin htwet ma le?",
+    "options": [
+      "8:15 AM",
+      "9:30 AM",
+      "10:45 AM",
+      "11:00 AM"
+    ],
+    "correctAnswer": "9:30 AM",
+    "correctAnswerIndex": 1,
+    "explanation": "The train departs at 9:30 AM as mentioned in the audio.",
+    "burmeseExplanation": "အသံဖိုင်တွင်ဖော်ပြထားသည့်အတိုင်း ရထားသည် နံနက် ၉:၃၀ တွင်ထွက်ခွာသည်။",
+    "points": 10,
+    "difficulty": 2
+  },
+  {
+    "id": "ielts_q_005",
+    "exam": "ielts",
+    "level": "Band 7",
+    "category": "Speaking",
+    "type": "multiple_choice",
+    "questionText": "Which response is most appropriate for a formal interview?",
+    "burmeseQuestion": "တရားဝင်တွေ့ဆုံမေးမြန်းမှုအတွက် မည်သည့်အဖြေသည် အသင့်လျော်ဆုံးနည်း။",
+    "burmeseQuestionRomanization": "ta ya win tway sone may myan hmu a twet myae nyi a pyay thi a thin lyaw sone ne?",
+    "options": [
+      "Yeah, sounds good!",
+      "Yes, I would be happy to.",
+      "Sure, why not?",
+      "OK, no problem."
+    ],
+    "correctAnswer": "Yes, I would be happy to.",
+    "correctAnswerIndex": 1,
+    "explanation": "In formal situations, use more formal language.",
+    "burmeseExplanation": "တရားဝင်အခြေအနေများတွင် ပိုမိုတရားဝင်သောဘာသာစကားကိုသုံးပါ။",
+    "points": 15,
+    "difficulty": 2
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "jlpt_q_001",
+    "exam": "jlpt",
+    "level": "N5",
+    "category": "Vocabulary",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of 'こんにちは'?",
+    "burmeseQuestion": "'こんにちは' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'konnichiwa' ye a dit par ye ka ba le?",
+    "options": [
+      "Good morning",
+      "Hello",
+      "Good evening",
+      "Good night"
+    ],
+    "correctAnswer": "Hello",
+    "correctAnswerIndex": 1,
+    "explanation": "'こんにちは' means 'Hello' in Japanese.",
+    "burmeseExplanation": "'こんにちは' ဆိုသည်မှာ ဂျပန်လို 'မင်္ဂလာပါ' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "jlpt_q_002",
+    "exam": "jlpt",
+    "level": "N5",
+    "category": "Grammar",
+    "type": "multiple_choice",
+    "questionText": "Which particle is used to mark the topic?",
+    "burmeseQuestion": "အကြောင်းအရာကို သတ်မှတ်ရန် မည်သည့်ဝိဘတ်ကိုသုံးသနည်း။",
+    "burmeseQuestionRomanization": "a kyaung a ya ko that htet yan myae nyi wi but ko thone tha ne?",
+    "options": [
+      "が (ga)",
+      "は (wa)",
+      "を (o)",
+      "に (ni)"
+    ],
+    "correctAnswer": "は (wa)",
+    "correctAnswerIndex": 1,
+    "explanation": "The particle 'は (wa)' is used to mark the topic of a sentence.",
+    "burmeseExplanation": "ဝိဘတ် 'は (wa)' ကို ဝါကျ၏ အကြောင်းအရာကို သတ်မှတ်ရန်သုံးသည်။",
+    "points": 15,
+    "difficulty": 2
+  },
+  {
+    "id": "jlpt_q_003",
+    "exam": "jlpt",
+    "level": "N5",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the correct reading of '学校'?",
+    "burmeseQuestion": "'学校' ရဲ့ မှန်ကန်တဲ့ အသံထွက်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'gakkou' ye hman kan tha a than htwet ka ba le?",
+    "options": [
+      "がっこう (gakkou)",
+      "がくこう (gakukou)",
+      "がっこ (gakko)",
+      "がくこ (gakuko)"
+    ],
+    "correctAnswer": "がっこう (gakkou)",
+    "correctAnswerIndex": 0,
+    "explanation": "'学校' is read as 'gakkou' with a small tsu (っ).",
+    "burmeseExplanation": "'学校' ကို သေးငယ်သော tsu (っ) ဖြင့် 'gakkou' ဟု အသံထွက်သည်။",
+    "points": 10,
+    "difficulty": 1
+  },
+  {
+    "id": "jlpt_q_004",
+    "exam": "jlpt",
+    "level": "N4",
+    "category": "Vocabulary",
+    "type": "multiple_choice",
+    "questionText": "What is the meaning of '美しい'?",
+    "burmeseQuestion": "'美しい' ရဲ့ အဓိပ္ပါယ်က ဘာလဲ။",
+    "burmeseQuestionRomanization": "'utsukushii' ye a dit par ye ka ba le?",
+    "options": [
+      "Ugly",
+      "Beautiful",
+      "Smart",
+      "Kind"
+    ],
+    "correctAnswer": "Beautiful",
+    "correctAnswerIndex": 1,
+    "explanation": "'美しい' means 'beautiful' in Japanese.",
+    "burmeseExplanation": "'美しい' ဆိုသည်မှာ ဂျပန်လို 'လှပသော' ဟု ဆိုလိုသည်။",
+    "points": 10,
+    "difficulty": 2
+  },
+  {
+    "id": "jlpt_q_005",
+    "exam": "jlpt",
+    "level": "N4",
+    "category": "Grammar",
+    "type": "multiple_choice",
+    "questionText": "Which verb form is used for negative past tense?",
+    "burmeseQuestion": "အတိတ်ငြင်းပယ်သည့် ကြိယာပုံစံကို မည်သည့်ပုံစံသုံးသနည်း။",
+    "burmeseQuestionRomanization": "a tit nying pye thi kri ya pone san ko myae nyi pone san thone tha ne?",
+    "options": [
+      "た (ta)",
+      "なかった (nakatta)",
+      "ない (nai)",
+      "ます (masu)"
+    ],
+    "correctAnswer": "なかった (nakatta)",
+    "correctAnswerIndex": 1,
+    "explanation": "The negative past tense is formed with 'なかった (nakatta)'.",
+    "burmeseExplanation": "ငြင်းပယ်ထားသော အတိတ်ကာလကို 'なかった (nakatta)' ဖြင့် ဖွဲ့စည်းသည်။",
+    "points": 15,
+    "difficulty": 3
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "chi_vocab_001",
+    "word": "你好",
+    "pinyin": "nǐ hǎo",
+    "meaning": "Hello",
+    "partOfSpeech": "interjection",
+    "example": "你好，你好吗？",
+    "examplePinyin": "nǐ hǎo, nǐ hǎo ma?",
+    "exampleMeaning": "Hello, how are you?",
+    "difficulty": 1,
+    "tags": ["greeting", "basic"]
+  },
+  {
+    "id": "chi_vocab_002",
+    "word": "谢谢",
+    "pinyin": "xiè xiè",
+    "meaning": "Thank you",
+    "partOfSpeech": "verb",
+    "example": "谢谢你帮助我。",
+    "examplePinyin": "xiè xiè nǐ bāngzhù wǒ.",
+    "exampleMeaning": "Thank you for helping me.",
+    "difficulty": 1,
+    "tags": ["greeting", "polite"]
+  },
+  {
+    "id": "chi_vocab_003",
+    "word": "爱",
+    "pinyin": "ài",
+    "meaning": "Love",
+    "partOfSpeech": "noun",
+    "example": "我爱你。",
+    "examplePinyin": "wǒ ài nǐ.",
+    "exampleMeaning": "I love you.",
+    "difficulty": 2,
+    "tags": ["emotion", "common"]
+  },
+  {
+    "id": "chi_vocab_004",
+    "word": "学校",
+    "pinyin": "xuéxiào",
+    "meaning": "School",
+    "partOfSpeech": "noun",
+    "example": "我去学校。",
+    "examplePinyin": "wǒ qù xuéxiào.",
+    "exampleMeaning": "I go to school.",
+    "difficulty": 1,
+    "tags": ["education", "basic"]
+  },
+  {
+    "id": "chi_vocab_005",
+    "word": "食物",
+    "pinyin": "shíwù",
+    "meaning": "Food",
+    "partOfSpeech": "noun",
+    "example": "食物很好吃。",
+    "examplePinyin": "shíwù hěn hǎo chī.",
+    "exampleMeaning": "The food is delicious.",
+    "difficulty": 1,
+    "tags": ["food", "basic"]
+  }
+]

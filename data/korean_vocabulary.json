@@ -1,0 +1,62 @@
+[
+  {
+    "id": "kor_vocab_001",
+    "word": "안녕하세요",
+    "romanization": "annyeonghaseyo",
+    "meaning": "Hello",
+    "partOfSpeech": "interjection",
+    "example": "안녕하세요, 만나서 반갑습니다.",
+    "exampleRomanization": "annyeonghaseyo, mannaseo bangapseumnida.",
+    "exampleMeaning": "Hello, nice to meet you.",
+    "difficulty": 1,
+    "tags": ["greeting", "basic"]
+  },
+  {
+    "id": "kor_vocab_002",
+    "word": "감사합니다",
+    "romanization": "gamsahamnida",
+    "meaning": "Thank you",
+    "partOfSpeech": "verb",
+    "example": "도와주셔서 감사합니다.",
+    "exampleRomanization": "dowajusyeoseo gamsahamnida.",
+    "exampleMeaning": "Thank you for helping.",
+    "difficulty": 1,
+    "tags": ["greeting", "polite"]
+  },
+  {
+    "id": "kor_vocab_003",
+    "word": "사랑",
+    "romanization": "sarang",
+    "meaning": "Love",
+    "partOfSpeech": "noun",
+    "example": "나는 너를 사랑해.",
+    "exampleRomanization": "naneun neoreul saranghae.",
+    "exampleMeaning": "I love you.",
+    "difficulty": 2,
+    "tags": ["emotion", "common"]
+  },
+  {
+    "id": "kor_vocab_004",
+    "word": "학교",
+    "romanization": "hakgyo",
+    "meaning": "School",
+    "partOfSpeech": "noun",
+    "example": "학교에 가요.",
+    "exampleRomanization": "hakgyoe gayo.",
+    "exampleMeaning": "I go to school.",
+    "difficulty": 1,
+    "tags": ["education", "basic"]
+  },
+  {
+    "id": "kor_vocab_005",
+    "word": "음식",
+    "romanization": "eumsik",
+    "meaning": "Food",
+    "partOfSpeech": "noun",
+    "example": "음식이 맛있어요.",
+    "exampleRomanization": "eumsigi masisseoyo.",
+    "exampleMeaning": "The food is delicious.",
+    "difficulty": 1,
+    "tags": ["food", "basic"]
+  }
+]

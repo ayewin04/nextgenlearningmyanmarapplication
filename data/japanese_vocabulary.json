@@ -1,0 +1,62 @@
+[
+  {
+    "id": "jpn_vocab_001",
+    "word": "こんにちは",
+    "romanization": "konnichiwa",
+    "meaning": "Hello",
+    "partOfSpeech": "interjection",
+    "example": "こんにちは、お元気ですか？",
+    "exampleRomanization": "konnichiwa, ogenki desu ka?",
+    "exampleMeaning": "Hello, how are you?",
+    "difficulty": 1,
+    "tags": ["greeting", "basic"]
+  },
+  {
+    "id": "jpn_vocab_002",
+    "word": "ありがとう",
+    "romanization": "arigatou",
+    "meaning": "Thank you",
+    "partOfSpeech": "interjection",
+    "example": "ありがとうございます。",
+    "exampleRomanization": "arigatou gozaimasu.",
+    "exampleMeaning": "Thank you very much.",
+    "difficulty": 1,
+    "tags": ["greeting", "polite"]
+  },
+  {
+    "id": "jpn_vocab_003",
+    "word": "愛",
+    "romanization": "ai",
+    "meaning": "Love",
+    "partOfSpeech": "noun",
+    "example": "愛しています。",
+    "exampleRomanization": "aishite imasu.",
+    "exampleMeaning": "I love you.",
+    "difficulty": 2,
+    "tags": ["emotion", "common"]
+  },
+  {
+    "id": "jpn_vocab_004",
+    "word": "学校",
+    "romanization": "gakkou",
+    "meaning": "School",
+    "partOfSpeech": "noun",
+    "example": "学校に行きます。",
+    "exampleRomanization": "gakkou ni ikimasu.",
+    "exampleMeaning": "I go to school.",
+    "difficulty": 1,
+    "tags": ["education", "basic"]
+  },
+  {
+    "id": "jpn_vocab_005",
+    "word": "食べ物",
+    "romanization": "tabemono",
+    "meaning": "Food",
+    "partOfSpeech": "noun",
+    "example": "食べ物が美味しいです。",
+    "exampleRomanization": "tabemono ga oishii desu.",
+    "exampleMeaning": "The food is delicious.",
+    "difficulty": 1,
+    "tags": ["food", "basic"]
+  }
+]
