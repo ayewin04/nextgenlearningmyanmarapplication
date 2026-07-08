@@ -1,0 +1,12 @@
+{
+  "name": "polyglot-app-seeder",
+  "version": "1.0.0",
+  "description": "Seed Firestore data for Polyglot Exam App",
+  "main": "scripts/upload_data.js",
+  "scripts": {
+    "seed": "node scripts/upload_data.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

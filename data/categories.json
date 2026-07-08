@@ -1,0 +1,64 @@
+
+{
+  "allCategories": [
+    { "id": "daily_routine", "name": "Daily Routine", "icon": "🌅", "category": "Everyday Life" },
+    { "id": "home_living", "name": "Home & Living", "icon": "🏠", "category": "Everyday Life" },
+    { "id": "family", "name": "Family & Relationships", "icon": "👨‍👩‍👧‍👦", "category": "Everyday Life" },
+    { "id": "friends", "name": "Friends & Socializing", "icon": "🤝", "category": "Everyday Life" },
+    { "id": "neighborhood", "name": "Neighborhood", "icon": "🏘️", "category": "Everyday Life" },
+    { "id": "weather", "name": "Weather & Seasons", "icon": "🌤️", "category": "Everyday Life" },
+    { "id": "time", "name": "Time & Calendar", "icon": "📅", "category": "Everyday Life" },
+    { "id": "colors", "name": "Colors & Shapes", "icon": "🎨", "category": "Everyday Life" },
+    { "id": "numbers", "name": "Numbers & Measurements", "icon": "🔢", "category": "Everyday Life" },
+    { "id": "clothing", "name": "Clothing & Fashion", "icon": "👗", "category": "Everyday Life" },
+    
+    { "id": "food", "name": "Food & Ingredients", "icon": "🥘", "category": "Food & Dining" },
+    { "id": "cooking", "name": "Cooking & Recipes", "icon": "👨‍🍳", "category": "Food & Dining" },
+    { "id": "restaurants", "name": "Restaurants & Dining", "icon": "🍽️", "category": "Food & Dining" },
+    { "id": "drinks", "name": "Drinks & Beverages", "icon": "☕", "category": "Food & Dining" },
+    { "id": "nutrition", "name": "Diet & Nutrition", "icon": "🥗", "category": "Food & Dining" },
+    
+    { "id": "body_parts", "name": "Body Parts", "icon": "🦴", "category": "Health & Wellness" },
+    { "id": "health", "name": "Health & Illness", "icon": "🤒", "category": "Health & Wellness" },
+    { "id": "doctor", "name": "Doctor & Hospital", "icon": "🏥", "category": "Health & Wellness" },
+    { "id": "fitness", "name": "Fitness & Exercise", "icon": "💪", "category": "Health & Wellness" },
+    { "id": "mental_health", "name": "Mental Health", "icon": "🧠", "category": "Health & Wellness" },
+    
+    { "id": "jobs", "name": "Jobs & Professions", "icon": "👨‍💼", "category": "Work & Career" },
+    { "id": "office", "name": "Office & Workplace", "icon": "🏢", "category": "Work & Career" },
+    { "id": "business", "name": "Business & Finance", "icon": "💰", "category": "Work & Career" },
+    { "id": "meetings", "name": "Meetings & Presentations", "icon": "📊", "category": "Work & Career" },
+    { "id": "job_search", "name": "Job Search & Interviews", "icon": "📝", "category": "Work & Career" },
+    
+    { "id": "transportation", "name": "Transportation", "icon": "🚗", "category": "Travel & Transportation" },
+    { "id": "travel", "name": "Travel & Tourism", "icon": "✈️", "category": "Travel & Transportation" },
+    { "id": "directions", "name": "Directions & Navigation", "icon": "🧭", "category": "Travel & Transportation" },
+    { "id": "airport", "name": "Airports & Flights", "icon": "🛫", "category": "Travel & Transportation" },
+    { "id": "accommodation", "name": "Accommodation", "icon": "🏨", "category": "Travel & Transportation" },
+    
+    { "id": "school", "name": "School & University", "icon": "🎓", "category": "Education" },
+    { "id": "classroom", "name": "Classroom Vocabulary", "icon": "📖", "category": "Education" },
+    { "id": "exams", "name": "Exams & Tests", "icon": "📝", "category": "Education" },
+    { "id": "study_skills", "name": "Learning & Study Skills", "icon": "🧠", "category": "Education" },
+    
+    { "id": "shopping", "name": "Shopping", "icon": "🛍️", "category": "Shopping & Services" },
+    { "id": "money", "name": "Money & Banking", "icon": "💳", "category": "Shopping & Services" },
+    { "id": "services", "name": "Services", "icon": "🛠️", "category": "Shopping & Services" },
+    { "id": "online_shopping", "name": "Online Shopping", "icon": "📦", "category": "Shopping & Services" },
+    
+    { "id": "technology", "name": "Technology & Gadgets", "icon": "💻", "category": "Technology" },
+    { "id": "internet", "name": "Internet & Social Media", "icon": "🌐", "category": "Technology" },
+    { "id": "ai", "name": "AI & Emerging Tech", "icon": "🤖", "category": "Technology" },
+    
+    { "id": "hobbies", "name": "Hobbies & Interests", "icon": "🎨", "category": "Leisure & Entertainment" },
+    { "id": "sports", "name": "Sports & Games", "icon": "⚽", "category": "Leisure & Entertainment" },
+    { "id": "music", "name": "Music & Arts", "icon": "🎵", "category": "Leisure & Entertainment" },
+    { "id": "movies", "name": "Movies & TV Shows", "icon": "🎬", "category": "Leisure & Entertainment" },
+    { "id": "reading", "name": "Reading & Literature", "icon": "📚", "category": "Leisure & Entertainment" },
+    
+    { "id": "culture", "name": "Culture & Traditions", "icon": "🎭", "category": "Society & Culture" },
+    { "id": "history", "name": "History & Politics", "icon": "🏛️", "category": "Society & Culture" },
+    { "id": "social_issues", "name": "Social Issues", "icon": "🌎", "category": "Society & Culture" },
+    { "id": "religion", "name": "Religion & Beliefs", "icon": "🙏", "category": "Society & Culture" }
+  ]
+}

@@ -1,0 +1,6305 @@
+[
+  {
+    "id": "vocab_daily_001",
+    "burmeseWord": "နိုးသည်",
+    "romanization": "noe thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Wake up",
+      "korean": "일어나다",
+      "japanese": "起きる",
+      "chinese": "起床"
+    },
+    "romanizations": {
+      "english": "Wake up",
+      "korean": "ireonada",
+      "japanese": "okiru",
+      "chinese": "qǐchuáng"
+    },
+    "examples": {
+      "english": "I wake up at 6 AM.",
+      "korean": "아침 6시에 일어나요.",
+      "japanese": "朝6時に起きます。",
+      "chinese": "我早上6点起床。"
+    },
+    "exampleRomanizations": {
+      "english": "I wake up at 6 AM.",
+      "korean": "achim 6sie ireonayo.",
+      "japanese": "asa 6ji ni okimasu.",
+      "chinese": "wǒ zǎoshang 6 diǎn qǐchuáng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နံနက် ၆ နာရီမှာ နိုးတယ်။",
+      "korean": "ကျွန်တော် နံနက် ၆ နာရီမှာ နိုးတယ်။",
+      "japanese": "ကျွန်တော် နံနက် ၆ နာရီမှာ နိုးတယ်။",
+      "chinese": "ကျွန်တော် နံနက် ၆ နာရီမှာ နိုးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_002",
+    "burmeseWord": "အိပ်ရာထသည်",
+    "romanization": "eik ya htar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Get up / Get out of bed",
+      "korean": "일어나다",
+      "japanese": "ベッドから出る",
+      "chinese": "起床/下床"
+    },
+    "romanizations": {
+      "english": "Get up / Get out of bed",
+      "korean": "ireonada",
+      "japanese": "beddo kara deru",
+      "chinese": "qǐchuáng / xià chuáng"
+    },
+    "examples": {
+      "english": "I get out of bed at 6:30 AM.",
+      "korean": "아침 6시 30분에 일어나요.",
+      "japanese": "朝6時30分にベッドから出ます。",
+      "chinese": "我早上6点30分下床。"
+    },
+    "exampleRomanizations": {
+      "english": "I get out of bed at 6:30 AM.",
+      "korean": "achim 6si 30bune ireonayo.",
+      "japanese": "asa 6ji 30pun ni beddo kara demasu.",
+      "chinese": "wǒ zǎoshang 6 diǎn 30 fēn xià chuáng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နံနက် ၆ နာရီခွဲမှာ အိပ်ရာထတယ်။",
+      "korean": "ကျွန်တော် နံနက် ၆ နာရီခွဲမှာ အိပ်ရာထတယ်။",
+      "japanese": "ကျွန်တော် နံနက် ၆ နာရီခွဲမှာ အိပ်ရာထတယ်။",
+      "chinese": "ကျွန်တော် နံနက် ၆ နာရီခွဲမှာ အိပ်ရာထတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_003",
+    "burmeseWord": "သွားတိုက်သည်",
+    "romanization": "thwar taite thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Brush teeth",
+      "korean": "양치질하다",
+      "japanese": "歯を磨く",
+      "chinese": "刷牙"
+    },
+    "romanizations": {
+      "english": "Brush teeth",
+      "korean": "yangchijilhada",
+      "japanese": "ha wo migaku",
+      "chinese": "shuā yá"
+    },
+    "examples": {
+      "english": "I brush my teeth every morning.",
+      "korean": "매일 아침 양치질해요.",
+      "japanese": "毎朝歯を磨きます。",
+      "chinese": "我每天早上刷牙。"
+    },
+    "exampleRomanizations": {
+      "english": "I brush my teeth every morning.",
+      "korean": "maeil achim yangchijilhaeyo.",
+      "japanese": "maiasa ha wo migakimasu.",
+      "chinese": "wǒ měitiān zǎoshang shuā yá."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မနက်တိုင်း သွားတိုက်တယ်။",
+      "korean": "ကျွန်တော် မနက်တိုင်း သွားတိုက်တယ်။",
+      "japanese": "ကျွန်တော် မနက်တိုင်း သွားတိုက်တယ်။",
+      "chinese": "ကျွန်တော် မနက်တိုင်း သွားတိုက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "hygiene", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_004",
+    "burmeseWord": "မျက်နှာသစ်သည်",
+    "romanization": "myet hna thit thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Wash face",
+      "korean": "세수하다",
+      "japanese": "顔を洗う",
+      "chinese": "洗脸"
+    },
+    "romanizations": {
+      "english": "Wash face",
+      "korean": "sesuhada",
+      "japanese": "kao wo arau",
+      "chinese": "xǐ liǎn"
+    },
+    "examples": {
+      "english": "I wash my face with cold water.",
+      "korean": "찬물로 세수해요.",
+      "japanese": "冷たい水で顔を洗います。",
+      "chinese": "我用冷水洗脸。"
+    },
+    "exampleRomanizations": {
+      "english": "I wash my face with cold water.",
+      "korean": "chanmullo sesuhaeyo.",
+      "japanese": "tsumetai mizu de kao wo araimasu.",
+      "chinese": "wǒ yòng lěng shuǐ xǐ liǎn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ရေအေးနဲ့ မျက်နှာသစ်တယ်။",
+      "korean": "ကျွန်တော် ရေအေးနဲ့ မျက်နှာသစ်တယ်။",
+      "japanese": "ကျွန်တော် ရေအေးနဲ့ မျက်နှာသစ်တယ်။",
+      "chinese": "ကျွန်တော် ရေအေးနဲ့ မျက်နှာသစ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "hygiene", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_005",
+    "burmeseWord": "ရေချိုးသည်",
+    "romanization": "yay choe thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Take a shower / Bathe",
+      "korean": "샤워하다",
+      "japanese": "シャワーを浴びる",
+      "chinese": "洗澡/淋浴"
+    },
+    "romanizations": {
+      "english": "Take a shower / Bathe",
+      "korean": "syawohada",
+      "japanese": "shawaa wo abiru",
+      "chinese": "xǐzǎo / línyù"
+    },
+    "examples": {
+      "english": "I take a shower every morning.",
+      "korean": "매일 아침 샤워해요.",
+      "japanese": "毎朝シャワーを浴びます。",
+      "chinese": "我每天早上洗澡。"
+    },
+    "exampleRomanizations": {
+      "english": "I take a shower every morning.",
+      "korean": "maeil achim syawohaeyo.",
+      "japanese": "maiasa shawaa wo abimasu.",
+      "chinese": "wǒ měitiān zǎoshang xǐzǎo."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မနက်တိုင်း ရေချိုးတယ်။",
+      "korean": "ကျွန်တော် မနက်တိုင်း ရေချိုးတယ်။",
+      "japanese": "ကျွန်တော် မနက်တိုင်း ရေချိုးတယ်။",
+      "chinese": "ကျွန်တော် မနက်တိုင်း ရေချိုးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "hygiene", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_006",
+    "burmeseWord": "အဝတ်လဲသည်",
+    "romanization": "a wut lal thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Get dressed / Change clothes",
+      "korean": "옷을 입다",
+      "japanese": "服を着る",
+      "chinese": "穿衣服/换衣服"
+    },
+    "romanizations": {
+      "english": "Get dressed / Change clothes",
+      "korean": "oseul ipda",
+      "japanese": "fuku wo kiru",
+      "chinese": "chuān yīfu / huàn yīfu"
+    },
+    "examples": {
+      "english": "I get dressed for work.",
+      "korean": "일할 옷을 입어요.",
+      "japanese": "仕事の服を着ます。",
+      "chinese": "我穿上班的衣服。"
+    },
+    "exampleRomanizations": {
+      "english": "I get dressed for work.",
+      "korean": "ilhal oseul ibeoyo.",
+      "japanese": "shigoto no fuku wo kimasu.",
+      "chinese": "wǒ chuān shàngbān de yīfu."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အလုပ်ဝတ်အဝတ်လဲတယ်။",
+      "korean": "ကျွန်တော် အလုပ်ဝတ်အဝတ်လဲတယ်။",
+      "japanese": "ကျွန်တော် အလုပ်ဝတ်အဝတ်လဲတယ်။",
+      "chinese": "ကျွန်တော် အလုပ်ဝတ်အဝတ်လဲတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "clothing", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_007",
+    "burmeseWord": "မနက်စာစားသည်",
+    "romanization": "ma net sa sar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Eat breakfast",
+      "korean": "아침을 먹다",
+      "japanese": "朝ごはんを食べる",
+      "chinese": "吃早餐"
+    },
+    "romanizations": {
+      "english": "Eat breakfast",
+      "korean": "achimeul meokda",
+      "japanese": "asagohan wo taberu",
+      "chinese": "chī zǎocān"
+    },
+    "examples": {
+      "english": "I eat breakfast at 7 AM.",
+      "korean": "아침 7시에 아침을 먹어요.",
+      "japanese": "朝7時に朝ごはんを食べます。",
+      "chinese": "我早上7点吃早餐。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat breakfast at 7 AM.",
+      "korean": "achim 7sie achimeul meogeoyo.",
+      "japanese": "asa 7ji ni asagohan wo tabemasu.",
+      "chinese": "wǒ zǎoshang 7 diǎn chī zǎocān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နံနက် ၇ နာရီမှာ မနက်စာစားတယ်။",
+      "korean": "ကျွန်တော် နံနက် ၇ နာရီမှာ မနက်စာစားတယ်။",
+      "japanese": "ကျွန်တော် နံနက် ၇ နာရီမှာ မနက်စာစားတယ်။",
+      "chinese": "ကျွန်တော် နံနက် ၇ နာရီမှာ မနက်စာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "food", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_008",
+    "burmeseWord": "အလုပ်သွားသည်",
+    "romanization": "a lout thwar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Go to work",
+      "korean": "출근하다",
+      "japanese": "出勤する",
+      "chinese": "去上班"
+    },
+    "romanizations": {
+      "english": "Go to work",
+      "korean": "chulgeunhada",
+      "japanese": "shukkin suru",
+      "chinese": "qù shàngbān"
+    },
+    "examples": {
+      "english": "I go to work at 8 AM.",
+      "korean": "아침 8시에 출근해요.",
+      "japanese": "朝8時に出勤します。",
+      "chinese": "我早上8点去上班。"
+    },
+    "exampleRomanizations": {
+      "english": "I go to work at 8 AM.",
+      "korean": "achim 8sie chulgeunhaeyo.",
+      "japanese": "asa 8ji ni shukkin shimasu.",
+      "chinese": "wǒ zǎoshang 8 diǎn qù shàngbān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နံနက် ၈ နာရီမှာ အလုပ်သွားတယ်။",
+      "korean": "ကျွန်တော် နံနက် ၈ နာရီမှာ အလုပ်သွားတယ်။",
+      "japanese": "ကျွန်တော် နံနက် ၈ နာရီမှာ အလုပ်သွားတယ်။",
+      "chinese": "ကျွန်တော် နံနက် ၈ နာရီမှာ အလုပ်သွားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "work", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_009",
+    "burmeseWord": "ကျောင်းသွားသည်",
+    "romanization": "kyaung thwar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Morning Routine",
+    "translations": {
+      "english": "Go to school",
+      "korean": "학교에 가다",
+      "japanese": "学校に行く",
+      "chinese": "去上学/去学校"
+    },
+    "romanizations": {
+      "english": "Go to school",
+      "korean": "hakgyoe gada",
+      "japanese": "gakkou ni iku",
+      "chinese": "qù shàngxué / qù xuéxiào"
+    },
+    "examples": {
+      "english": "The children go to school at 8 AM.",
+      "korean": "아이들은 아침 8시에 학교에 가요.",
+      "japanese": "子供たちは朝8時に学校に行きます。",
+      "chinese": "孩子们早上8点去上学。"
+    },
+    "exampleRomanizations": {
+      "english": "The children go to school at 8 AM.",
+      "korean": "aideureun achim 8sie hakgyoe gayo.",
+      "japanese": "kodomotachi wa asa 8ji ni gakkou ni ikimasu.",
+      "chinese": "háizimen zǎoshang 8 diǎn qù shàngxué."
+    },
+    "exampleTranslations": {
+      "english": "ကလေးတွေ နံနက် ၈ နာရီမှာ ကျောင်းသွားတယ်။",
+      "korean": "ကလေးတွေ နံနက် ၈ နာရီမှာ ကျောင်းသွားတယ်။",
+      "japanese": "ကလေးတွေ နံနက် ၈ နာရီမှာ ကျောင်းသွားတယ်။",
+      "chinese": "ကလေးတွေ နံနက် ၈ နာရီမှာ ကျောင်းသွားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["morning", "school", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_010",
+    "burmeseWord": "အလုပ်လုပ်သည်",
+    "romanization": "a lout lote thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Work / Study",
+    "translations": {
+      "english": "Work",
+      "korean": "일하다",
+      "japanese": "働く",
+      "chinese": "工作"
+    },
+    "romanizations": {
+      "english": "Work",
+      "korean": "ilhada",
+      "japanese": "hataraku",
+      "chinese": "gōngzuò"
+    },
+    "examples": {
+      "english": "I work from 9 AM to 5 PM.",
+      "korean": "오전 9시부터 오후 5시까지 일해요.",
+      "japanese": "午前9時から午後5時まで働きます。",
+      "chinese": "我从上午9点工作到下午5点。"
+    },
+    "exampleRomanizations": {
+      "english": "I work from 9 AM to 5 PM.",
+      "korean": "ojeon 9sibuteo ohu 5sikkaji ilhaeyo.",
+      "japanese": "gozen 9ji kara gogo 5ji made hatarakimasu.",
+      "chinese": "wǒ cóng shàngwǔ 9 diǎn gōngzuò dào xiàwǔ 5 diǎn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နံနက် ၉ နာရီမှ ညနေ ၅ နာရီအထိ အလုပ်လုပ်တယ်။",
+      "korean": "ကျွန်တော် နံနက် ၉ နာရီမှ ညနေ ၅ နာရီအထိ အလုပ်လုပ်တယ်။",
+      "japanese": "ကျွန်တော် နံနက် ၉ နာရီမှ ညနေ ၅ နာရီအထိ အလုပ်လုပ်တယ်။",
+      "chinese": "ကျွန်တော် နံနက် ၉ နာရီမှ ညနေ ၅ နာရီအထိ အလုပ်လုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["work", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_011",
+    "burmeseWord": "စာကျက်သည်",
+    "romanization": "sa kyet thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Work / Study",
+    "translations": {
+      "english": "Study",
+      "korean": "공부하다",
+      "japanese": "勉強する",
+      "chinese": "学习"
+    },
+    "romanizations": {
+      "english": "Study",
+      "korean": "gongbuhada",
+      "japanese": "benkyou suru",
+      "chinese": "xuéxí"
+    },
+    "examples": {
+      "english": "I study English every day.",
+      "korean": "매일 영어를 공부해요.",
+      "japanese": "毎日英語を勉強します。",
+      "chinese": "我每天学习英语。"
+    },
+    "exampleRomanizations": {
+      "english": "I study English every day.",
+      "korean": "maeil yeongeoreul gongbuhaeyo.",
+      "japanese": "mainichi eigo wo benkyou shimasu.",
+      "chinese": "wǒ měitiān xuéxí yīngyǔ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်း အင်္ဂလိပ်စာကျက်တယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်း အင်္ဂလိပ်စာကျက်တယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်း အင်္ဂလိပ်စာကျက်တယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်း အင်္ဂလိပ်စာကျက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["study", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_012",
+    "burmeseWord": "နေ့လယ်စာစားသည်",
+    "romanization": "nay le sar sar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Meals",
+    "translations": {
+      "english": "Eat lunch",
+      "korean": "점심을 먹다",
+      "japanese": "昼ごはんを食べる",
+      "chinese": "吃午餐/吃午饭"
+    },
+    "romanizations": {
+      "english": "Eat lunch",
+      "korean": "jeomsimeul meokda",
+      "japanese": "hirugohan wo taberu",
+      "chinese": "chī wǔcān / chī wǔfàn"
+    },
+    "examples": {
+      "english": "I eat lunch at 12 PM.",
+      "korean": "정오에 점심을 먹어요.",
+      "japanese": "正午に昼ごはんを食べます。",
+      "chinese": "我中午12点吃午餐。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat lunch at 12 PM.",
+      "korean": "jeongo-e jeomsimeul meogeoyo.",
+      "japanese": "shougo ni hirugohan wo tabemasu.",
+      "chinese": "wǒ zhōngwǔ 12 diǎn chī wǔcān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့လယ် ၁၂ နာရီမှာ နေ့လယ်စာစားတယ်။",
+      "korean": "ကျွန်တော် နေ့လယ် ၁၂ နာရီမှာ နေ့လယ်စာစားတယ်။",
+      "japanese": "ကျွန်တော် နေ့လယ် ၁၂ နာရီမှာ နေ့လယ်စာစားတယ်။",
+      "chinese": "ကျွန်တော် နေ့လယ် ၁၂ နာရီမှာ နေ့လယ်စာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["food", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_013",
+    "burmeseWord": "အနားယူသည်",
+    "romanization": "a nar yu thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Breaks / Rest",
+    "translations": {
+      "english": "Take a break / Rest",
+      "korean": "쉬다",
+      "japanese": "休む",
+      "chinese": "休息"
+    },
+    "romanizations": {
+      "english": "Take a break / Rest",
+      "korean": "swida",
+      "japanese": "yasumu",
+      "chinese": "xiūxi"
+    },
+    "examples": {
+      "english": "I take a break at 3 PM.",
+      "korean": "오후 3시에 쉬어요.",
+      "japanese": "午後3時に休みます。",
+      "chinese": "我下午3点休息。"
+    },
+    "exampleRomanizations": {
+      "english": "I take a break at 3 PM.",
+      "korean": "ohu 3sie swieoyo.",
+      "japanese": "gogo 3ji ni yasumimasu.",
+      "chinese": "wǒ xiàwǔ 3 diǎn xiūxi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေ ၃ နာရီမှာ အနားယူတယ်။",
+      "korean": "ကျွန်တော် ညနေ ၃ နာရီမှာ အနားယူတယ်။",
+      "japanese": "ကျွန်တော် ညနေ ၃ နာရီမှာ အနားယူတယ်။",
+      "chinese": "ကျွန်တော် ညနေ ၃ နာရီမှာ အနားယူတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rest", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_014",
+    "burmeseWord": "ကော်ဖီသောက်သည်",
+    "romanization": "kaw fi thout thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Breaks / Rest",
+    "translations": {
+      "english": "Drink coffee",
+      "korean": "커피를 마시다",
+      "japanese": "コーヒーを飲む",
+      "chinese": "喝咖啡"
+    },
+    "romanizations": {
+      "english": "Drink coffee",
+      "korean": "keopireul masida",
+      "japanese": "koohii wo nomu",
+      "chinese": "hē kāfēi"
+    },
+    "examples": {
+      "english": "I drink coffee during my break.",
+      "korean": "쉬는 시간에 커피를 마셔요.",
+      "japanese": "休憩時間にコーヒーを飲みます。",
+      "chinese": "我在休息时间喝咖啡。"
+    },
+    "exampleRomanizations": {
+      "english": "I drink coffee during my break.",
+      "korean": "swineun sigane keopireul masyeoyo.",
+      "japanese": "kyuukei jikan ni koohii wo nomimasu.",
+      "chinese": "wǒ zài xiūxi shíjiān hē kāfēi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အနားယူချိန်မှာ ကော်ဖီသောက်တယ်။",
+      "korean": "ကျွန်တော် အနားယူချိန်မှာ ကော်ဖီသောက်တယ်။",
+      "japanese": "ကျွန်တော် အနားယူချိန်မှာ ကော်ဖီသောက်တယ်။",
+      "chinese": "ကျွန်တော် အနားယူချိန်မှာ ကော်ဖီသောက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["drinks", "break", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_015",
+    "burmeseWord": "အလုပ်ပြီးသည်",
+    "romanization": "a lout pyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Evening Routine",
+    "translations": {
+      "english": "Finish work",
+      "korean": "퇴근하다",
+      "japanese": "仕事が終わる",
+      "chinese": "下班/完成工作"
+    },
+    "romanizations": {
+      "english": "Finish work",
+      "korean": "toegeunhada",
+      "japanese": "shigoto ga owaru",
+      "chinese": "xiàbān / wánchéng gōngzuò"
+    },
+    "examples": {
+      "english": "I finish work at 5 PM.",
+      "korean": "오후 5시에 퇴근해요.",
+      "japanese": "午後5時に仕事が終わります。",
+      "chinese": "我下午5点下班。"
+    },
+    "exampleRomanizations": {
+      "english": "I finish work at 5 PM.",
+      "korean": "ohu 5sie toegeunhaeyo.",
+      "japanese": "gogo 5ji ni shigoto ga owarimasu.",
+      "chinese": "wǒ xiàwǔ 5 diǎn xiàbān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေ ၅ နာရီမှာ အလုပ်ပြီးတယ်။",
+      "korean": "ကျွန်တော် ညနေ ၅ နာရီမှာ အလုပ်ပြီးတယ်။",
+      "japanese": "ကျွန်တော် ညနေ ၅ နာရီမှာ အလုပ်ပြီးတယ်။",
+      "chinese": "ကျွန်တော် ညနေ ၅ နာရီမှာ အလုပ်ပြီးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["evening", "work", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_016",
+    "burmeseWord": "အိမ်ပြန်သည်",
+    "romanization": "ein pyan thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Evening Routine",
+    "translations": {
+      "english": "Go home / Return home",
+      "korean": "집에 가다",
+      "japanese": "家に帰る",
+      "chinese": "回家"
+    },
+    "romanizations": {
+      "english": "Go home / Return home",
+      "korean": "jibe gada",
+      "japanese": "ie ni kaeru",
+      "chinese": "huí jiā"
+    },
+    "examples": {
+      "english": "I go home after work.",
+      "korean": "퇴근 후에 집에 가요.",
+      "japanese": "仕事の後、家に帰ります。",
+      "chinese": "我下班后回家。"
+    },
+    "exampleRomanizations": {
+      "english": "I go home after work.",
+      "korean": "toegeun hue jibe gayo.",
+      "japanese": "shigoto no ato, ie ni kaerimasu.",
+      "chinese": "wǒ xiàbān hòu huí jiā."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အလုပ်ပြီးရင် အိမ်ပြန်တယ်။",
+      "korean": "ကျွန်တော် အလုပ်ပြီးရင် အိမ်ပြန်တယ်။",
+      "japanese": "ကျွန်တော် အလုပ်ပြီးရင် အိမ်ပြန်တယ်။",
+      "chinese": "ကျွန်တော် အလုပ်ပြီးရင် အိမ်ပြန်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["evening", "home", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_017",
+    "burmeseWord": "ညနေစာစားသည်",
+    "romanization": "nyay nay sar sar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Evening Routine",
+    "translations": {
+      "english": "Eat dinner",
+      "korean": "저녁을 먹다",
+      "japanese": "夕ごはんを食べる",
+      "chinese": "吃晚餐/吃晚饭"
+    },
+    "romanizations": {
+      "english": "Eat dinner",
+      "korean": "jeonyeogeul meokda",
+      "japanese": "yuugohan wo taberu",
+      "chinese": "chī wǎncān / chī wǎnfàn"
+    },
+    "examples": {
+      "english": "I eat dinner at 7 PM.",
+      "korean": "저녁 7시에 저녁을 먹어요.",
+      "japanese": "夜7時に夕ごはんを食べます。",
+      "chinese": "我晚上7点吃晚餐。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat dinner at 7 PM.",
+      "korean": "jeonyeok 7sie jeonyeogeul meogeoyo.",
+      "japanese": "yoru 7ji ni yuugohan wo tabemasu.",
+      "chinese": "wǒ wǎnshang 7 diǎn chī wǎncān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေ ၇ နာရီမှာ ညနေစာစားတယ်။",
+      "korean": "ကျွန်တော် ညနေ ၇ နာရီမှာ ညနေစာစားတယ်။",
+      "japanese": "ကျွန်တော် ညနေ ၇ နာရီမှာ ညနေစာစားတယ်။",
+      "chinese": "ကျွန်တော် ညနေ ၇ နာရီမှာ ညနေစာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["evening", "food", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_018",
+    "burmeseWord": "ရုပ်မြင်သံကြားကြည့်သည်",
+    "romanization": "yote myin than kyar kyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Evening Routine",
+    "translations": {
+      "english": "Watch TV",
+      "korean": "TV를 보다",
+      "japanese": "テレビを見る",
+      "chinese": "看电视"
+    },
+    "romanizations": {
+      "english": "Watch TV",
+      "korean": "TVreul boda",
+      "japanese": "terebi wo miru",
+      "chinese": "kàn diànshì"
+    },
+    "examples": {
+      "english": "I watch TV after dinner.",
+      "korean": "저녁을 먹은 후에 TV를 봐요.",
+      "japanese": "夕ごはんを食べた後にテレビを見ます。",
+      "chinese": "我吃完晚餐后看电视。"
+    },
+    "exampleRomanizations": {
+      "english": "I watch TV after dinner.",
+      "korean": "jeonyeogeul meogeun hue TVreul bwayo.",
+      "japanese": "yuugohan wo tabeta ato ni terebi wo mimasu.",
+      "chinese": "wǒ chī wán wǎncān hòu kàn diànshì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေစာစားပြီးရင် ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "korean": "ကျွန်တော် ညနေစာစားပြီးရင် ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "japanese": "ကျွန်တော် ညနေစာစားပြီးရင် ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "chinese": "ကျွန်တော် ညနေစာစားပြီးရင် ရုပ်မြင်သံကြားကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["evening", "entertainment", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_019",
+    "burmeseWord": "စာအုပ်ဖတ်သည်",
+    "romanization": "sa oke hput thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Evening Routine",
+    "translations": {
+      "english": "Read a book",
+      "korean": "책을 읽다",
+      "japanese": "本を読む",
+      "chinese": "看书/读书"
+    },
+    "romanizations": {
+      "english": "Read a book",
+      "korean": "chaegeul ikda",
+      "japanese": "hon wo yomu",
+      "chinese": "kàn shū / dú shū"
+    },
+    "examples": {
+      "english": "I read a book before sleeping.",
+      "korean": "잠자기 전에 책을 읽어요.",
+      "japanese": "寝る前に本を読みます。",
+      "chinese": "我睡觉前看书。"
+    },
+    "exampleRomanizations": {
+      "english": "I read a book before sleeping.",
+      "korean": "jamjagi jeone chaegeul ilgeoyo.",
+      "japanese": "neru mae ni hon wo yomimasu.",
+      "chinese": "wǒ shuìjiào qián kàn shū."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အိပ်ရာမဝင်ခင် စာအုပ်ဖတ်တယ်။",
+      "korean": "ကျွန်တော် အိပ်ရာမဝင်ခင် စာအုပ်ဖတ်တယ်။",
+      "japanese": "ကျွန်တော် အိပ်ရာမဝင်ခင် စာအုပ်ဖတ်တယ်။",
+      "chinese": "ကျွန်တော် အိပ်ရာမဝင်ခင် စာအုပ်ဖတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["evening", "reading", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_020",
+    "burmeseWord": "အိပ်ရာဝင်သည်",
+    "romanization": "eik ya win thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Night Routine",
+    "translations": {
+      "english": "Go to bed",
+      "korean": "잠자리에 들다",
+      "japanese": "寝る",
+      "chinese": "上床睡觉"
+    },
+    "romanizations": {
+      "english": "Go to bed",
+      "korean": "jamjarie deulda",
+      "japanese": "neru",
+      "chinese": "shàngchuáng shuìjiào"
+    },
+    "examples": {
+      "english": "I go to bed at 10 PM.",
+      "korean": "밤 10시에 잠자리에 들어요.",
+      "japanese": "夜10時に寝ます。",
+      "chinese": "我晚上10点上床睡觉。"
+    },
+    "exampleRomanizations": {
+      "english": "I go to bed at 10 PM.",
+      "korean": "bam 10sie jamjarie deureoyo.",
+      "japanese": "yoru 10ji ni nemasu.",
+      "chinese": "wǒ wǎnshang 10 diǎn shàngchuáng shuìjiào."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်ရာဝင်တယ်။",
+      "korean": "ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်ရာဝင်တယ်။",
+      "japanese": "ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်ရာဝင်တယ်။",
+      "chinese": "ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်ရာဝင်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["night", "sleep", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_021",
+    "burmeseWord": "အိပ်ပျော်သည်",
+    "romanization": "eik pyaw thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Night Routine",
+    "translations": {
+      "english": "Fall asleep",
+      "korean": "잠들다",
+      "japanese": "眠りにつく",
+      "chinese": "入睡/睡着"
+    },
+    "romanizations": {
+      "english": "Fall asleep",
+      "korean": "jamdeulda",
+      "japanese": "nemuri ni tsuku",
+      "chinese": "rùshuì / shuìzháo"
+    },
+    "examples": {
+      "english": "I fall asleep quickly.",
+      "korean": "빨리 잠들어요.",
+      "japanese": "すぐに眠りにつきます。",
+      "chinese": "我很快入睡。"
+    },
+    "exampleRomanizations": {
+      "english": "I fall asleep quickly.",
+      "korean": "ppalli jamdeureoyo.",
+      "japanese": "sugu ni nemuri ni tsukimasu.",
+      "chinese": "wǒ hěn kuài rùshuì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မြန်မြန်အိပ်ပျော်တယ်။",
+      "korean": "ကျွန်တော် မြန်မြန်အိပ်ပျော်တယ်။",
+      "japanese": "ကျွန်တော် မြန်မြန်အိပ်ပျော်တယ်။",
+      "chinese": "ကျွန်တော် မြန်မြန်အိပ်ပျော်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["night", "sleep", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_022",
+    "burmeseWord": "အိပ်မက်မက်သည်",
+    "romanization": "eik met met thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Night Routine",
+    "translations": {
+      "english": "Dream",
+      "korean": "꿈을 꾸다",
+      "japanese": "夢を見る",
+      "chinese": "做梦"
+    },
+    "romanizations": {
+      "english": "Dream",
+      "korean": "kkumeul kkuda",
+      "japanese": "yume wo miru",
+      "chinese": "zuò mèng"
+    },
+    "examples": {
+      "english": "I had a strange dream.",
+      "korean": "이상한 꿈을 꾸었어요.",
+      "japanese": "変な夢を見ました。",
+      "chinese": "我做了个奇怪的梦。"
+    },
+    "exampleRomanizations": {
+      "english": "I had a strange dream.",
+      "korean": "isanghan kkumeul kkueosseoyo.",
+      "japanese": "hen na yume wo mimashita.",
+      "chinese": "wǒ zuòle ge qíguài de mèng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ထူးဆန်းတဲ့ အိပ်မက်မက်တယ်။",
+      "korean": "ကျွန်တော် ထူးဆန်းတဲ့ အိပ်မက်မက်တယ်။",
+      "japanese": "ကျွန်တော် ထူးဆန်းတဲ့ အိပ်မက်မက်တယ်။",
+      "chinese": "ကျွန်တော် ထူးဆန်းတဲ့ အိပ်မက်မက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["night", "sleep", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_023",
+    "burmeseWord": "အစာစားသည်",
+    "romanization": "a sar sar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "General Activities",
+    "translations": {
+      "english": "Eat",
+      "korean": "먹다",
+      "japanese": "食べる",
+      "chinese": "吃"
+    },
+    "romanizations": {
+      "english": "Eat",
+      "korean": "meokda",
+      "japanese": "taberu",
+      "chinese": "chī"
+    },
+    "examples": {
+      "english": "I eat three meals a day.",
+      "korean": "하루에 세 끼를 먹어요.",
+      "japanese": "一日三食を食べます。",
+      "chinese": "我一天吃三顿饭。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat three meals a day.",
+      "korean": "harue se kkireul meogeoyo.",
+      "japanese": "ichinichi sanshoku wo tabemasu.",
+      "chinese": "wǒ yītiān chī sān dùn fàn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် တစ်နေ့ သုံးနပ်စာစားတယ်။",
+      "korean": "ကျွန်တော် တစ်နေ့ သုံးနပ်စာစားတယ်။",
+      "japanese": "ကျွန်တော် တစ်နေ့ သုံးနပ်စာစားတယ်။",
+      "chinese": "ကျွန်တော် တစ်နေ့ သုံးနပ်စာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["food", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_024",
+    "burmeseWord": "ရေသောက်သည်",
+    "romanization": "yay thout thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "General Activities",
+    "translations": {
+      "english": "Drink water",
+      "korean": "물을 마시다",
+      "japanese": "水を飲む",
+      "chinese": "喝水"
+    },
+    "romanizations": {
+      "english": "Drink water",
+      "korean": "mureul masida",
+      "japanese": "mizu wo nomu",
+      "chinese": "hē shuǐ"
+    },
+    "examples": {
+      "english": "I drink water every day.",
+      "korean": "매일 물을 마셔요.",
+      "japanese": "毎日水を飲みます。",
+      "chinese": "我每天喝水。"
+    },
+    "exampleRomanizations": {
+      "english": "I drink water every day.",
+      "korean": "maeil mureul masyeoyo.",
+      "japanese": "mainichi mizu wo nomimasu.",
+      "chinese": "wǒ měitiān hē shuǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်းရေသောက်တယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်းရေသောက်တယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်းရေသောက်တယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်းရေသောက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["drinks", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_025",
+    "burmeseWord": "အိမ်မှုကိစ္စလုပ်သည်",
+    "romanization": "ein hmu kait sa lote thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Do housework / Do chores",
+      "korean": "집안일을 하다",
+      "japanese": "家事をする",
+      "chinese": "做家务"
+    },
+    "romanizations": {
+      "english": "Do housework / Do chores",
+      "korean": "jibanireul hada",
+      "japanese": "kaji wo suru",
+      "chinese": "zuò jiāwù"
+    },
+    "examples": {
+      "english": "I do housework on weekends.",
+      "korean": "주말에 집안일을 해요.",
+      "japanese": "週末に家事をします。",
+      "chinese": "我周末做家务。"
+    },
+    "exampleRomanizations": {
+      "english": "I do housework on weekends.",
+      "korean": "jumare jibanireul haeyo.",
+      "japanese": "shuumatsu ni kaji wo shimasu.",
+      "chinese": "wǒ zhōumò zuò jiāwù."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားလပ်ရက်တွေမှာ အိမ်မှုကိစ္စလုပ်တယ်။",
+      "korean": "ကျွန်တော် အားလပ်ရက်တွေမှာ အိမ်မှုကိစ္စလုပ်တယ်။",
+      "japanese": "ကျွန်တော် အားလပ်ရက်တွေမှာ အိမ်မှုကိစ္စလုပ်တယ်။",
+      "chinese": "ကျွန်တော် အားလပ်ရက်တွေမှာ အိမ်မှုကိစ္စလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_026",
+    "burmeseWord": "အဝတ်လျှော်သည်",
+    "romanization": "a wut shaw thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Do laundry / Wash clothes",
+      "korean": "빨래하다",
+      "japanese": "洗濯する",
+      "chinese": "洗衣服"
+    },
+    "romanizations": {
+      "english": "Do laundry / Wash clothes",
+      "korean": "ppallaehada",
+      "japanese": "sentaku suru",
+      "chinese": "xǐ yīfu"
+    },
+    "examples": {
+      "english": "I do laundry every Sunday.",
+      "korean": "매주 일요일에 빨래해요.",
+      "japanese": "毎週日曜日に洗濯します。",
+      "chinese": "我每周日洗衣服。"
+    },
+    "exampleRomanizations": {
+      "english": "I do laundry every Sunday.",
+      "korean": "maeju iryoire ppallaehaeyo.",
+      "japanese": "maishuu nichiyoubi ni sentaku shimasu.",
+      "chinese": "wǒ měi zhōu rì xǐ yīfu."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် တနင်္ဂနွေတိုင်း အဝတ်လျှော်တယ်။",
+      "korean": "ကျွန်တော် တနင်္ဂနွေတိုင်း အဝတ်လျှော်တယ်။",
+      "japanese": "ကျွန်တော် တနင်္ဂနွေတိုင်း အဝတ်လျှော်တယ်။",
+      "chinese": "ကျွန်တော် တနင်္ဂနွေတိုင်း အဝတ်လျှော်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_027",
+    "burmeseWord": "ပန်းကန်ဆေးသည်",
+    "romanization": "pan kan say thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Wash dishes",
+      "korean": "설거지하다",
+      "japanese": "皿を洗う",
+      "chinese": "洗碗"
+    },
+    "romanizations": {
+      "english": "Wash dishes",
+      "korean": "seolgeojihada",
+      "japanese": "sara wo arau",
+      "chinese": "xǐ wǎn"
+    },
+    "examples": {
+      "english": "I wash dishes after dinner.",
+      "korean": "저녁 식사 후에 설거지해요.",
+      "japanese": "夕食後に皿を洗います。",
+      "chinese": "我晚餐后洗碗。"
+    },
+    "exampleRomanizations": {
+      "english": "I wash dishes after dinner.",
+      "korean": "jeonyeok siksahue seolgeojihaeyo.",
+      "japanese": "yuushoku go ni sara wo araimasu.",
+      "chinese": "wǒ wǎncān hòu xǐ wǎn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေစာစားပြီးရင် ပန်းကန်ဆေးတယ်။",
+      "korean": "ကျွန်တော် ညနေစာစားပြီးရင် ပန်းကန်ဆေးတယ်။",
+      "japanese": "ကျွန်တော် ညနေစာစားပြီးရင် ပန်းကန်ဆေးတယ်။",
+      "chinese": "ကျွန်တော် ညနေစာစားပြီးရင် ပန်းကန်ဆေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_028",
+    "burmeseWord": "အိမ်သန့်ရှင်းရေးလုပ်သည်",
+    "romanization": "ein than hsin yay lote thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Clean the house",
+      "korean": "집을 청소하다",
+      "japanese": "家を掃除する",
+      "chinese": "打扫房子"
+    },
+    "romanizations": {
+      "english": "Clean the house",
+      "korean": "jibeul cheongsohada",
+      "japanese": "ie wo souji suru",
+      "chinese": "dǎsǎo fángzi"
+    },
+    "examples": {
+      "english": "I clean the house every weekend.",
+      "korean": "매주 주말에 집을 청소해요.",
+      "japanese": "毎週週末に家を掃除します。",
+      "chinese": "我每个周末打扫房子。"
+    },
+    "exampleRomanizations": {
+      "english": "I clean the house every weekend.",
+      "korean": "maeju jumare jibeul cheongsohaeyo.",
+      "japanese": "maishuu shuumatsu ni ie wo souji shimasu.",
+      "chinese": "wǒ měi gè zhōumò dǎsǎo fángzi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "korean": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "japanese": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "chinese": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_029",
+    "burmeseWord": "ဈေးဝယ်သည်",
+    "romanization": "zay wel thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Shopping",
+    "translations": {
+      "english": "Go shopping",
+      "korean": "쇼핑하다",
+      "japanese": "買い物に行く",
+      "chinese": "购物/去买东西"
+    },
+    "romanizations": {
+      "english": "Go shopping",
+      "korean": "syopinghada",
+      "japanese": "kaimono ni iku",
+      "chinese": "gòuwù / qù mǎi dōngxi"
+    },
+    "examples": {
+      "english": "I go shopping every Saturday.",
+      "korean": "매주 토요일에 쇼핑해요.",
+      "japanese": "毎週土曜日に買い物に行きます。",
+      "chinese": "我每周六去购物。"
+    },
+    "exampleRomanizations": {
+      "english": "I go shopping every Saturday.",
+      "korean": "maeju toyoire syopinghaeyo.",
+      "japanese": "maishuu doyoubi ni kaimono ni ikimasu.",
+      "chinese": "wǒ měi zhōu liù qù gòuwù."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် စနေနေ့တိုင်း ဈေးဝယ်တယ်။",
+      "korean": "ကျွန်တော် စနေနေ့တိုင်း ဈေးဝယ်တယ်။",
+      "japanese": "ကျွန်တော် စနေနေ့တိုင်း ဈေးဝယ်တယ်။",
+      "chinese": "ကျွန်တော် စနေနေ့တိုင်း ဈေးဝယ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["shopping", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_030",
+    "burmeseWord": "အားကစားလုပ်သည်",
+    "romanization": "ar ka sar lote thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Exercise / Hobbies",
+    "translations": {
+      "english": "Exercise / Play sports",
+      "korean": "운동하다",
+      "japanese": "運動する",
+      "chinese": "运动/做运动"
+    },
+    "romanizations": {
+      "english": "Exercise / Play sports",
+      "korean": "undonghada",
+      "japanese": "undou suru",
+      "chinese": "yùndòng / zuò yùndòng"
+    },
+    "examples": {
+      "english": "I exercise every morning.",
+      "korean": "매일 아침 운동해요.",
+      "japanese": "毎朝運動します。",
+      "chinese": "我每天早上运动。"
+    },
+    "exampleRomanizations": {
+      "english": "I exercise every morning.",
+      "korean": "maeil achim undonghaeyo.",
+      "japanese": "maiasa undou shimasu.",
+      "chinese": "wǒ měitiān zǎoshang yùndòng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မနက်တိုင်း အားကစားလုပ်တယ်။",
+      "korean": "ကျွန်တော် မနက်တိုင်း အားကစားလုပ်တယ်။",
+      "japanese": "ကျွန်တော် မနက်တိုင်း အားကစားလုပ်တယ်။",
+      "chinese": "ကျွန်တော် မနက်တိုင်း အားကစားလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["exercise", "hobbies", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_031",
+    "burmeseWord": "ဂီတနားထောင်သည်",
+    "romanization": "gi ta nar htaung thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Exercise / Hobbies",
+    "translations": {
+      "english": "Listen to music",
+      "korean": "음악을 듣다",
+      "japanese": "音楽を聞く",
+      "chinese": "听音乐"
+    },
+    "romanizations": {
+      "english": "Listen to music",
+      "korean": "eumageul deotda",
+      "japanese": "ongaku wo kiku",
+      "chinese": "tīng yīnyuè"
+    },
+    "examples": {
+      "english": "I listen to music every day.",
+      "korean": "매일 음악을 들어요.",
+      "japanese": "毎日音楽を聞きます。",
+      "chinese": "我每天听音乐。"
+    },
+    "exampleRomanizations": {
+      "english": "I listen to music every day.",
+      "korean": "maeil eumageul deureoyo.",
+      "japanese": "mainichi ongaku wo kikimasu.",
+      "chinese": "wǒ měitiān tīng yīnyuè."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်း ဂီတနားထောင်တယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်း ဂီတနားထောင်တယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်း ဂီတနားထောင်တယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်း ဂီတနားထောင်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["music", "hobbies", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_032",
+    "burmeseWord": "သူငယ်ချင်းတွေနဲ့တွေ့သည်",
+    "romanization": "thu ngal chin tway ne twe thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Social Activities",
+    "translations": {
+      "english": "Meet friends",
+      "korean": "친구를 만나다",
+      "japanese": "友達に会う",
+      "chinese": "见朋友"
+    },
+    "romanizations": {
+      "english": "Meet friends",
+      "korean": "chingureul mannada",
+      "japanese": "tomodachi ni au",
+      "chinese": "jiàn péngyou"
+    },
+    "examples": {
+      "english": "I meet friends on weekends.",
+      "korean": "주말에 친구를 만나요.",
+      "japanese": "週末に友達に会います。",
+      "chinese": "我周末见朋友。"
+    },
+    "exampleRomanizations": {
+      "english": "I meet friends on weekends.",
+      "korean": "jumare chingureul mannayo.",
+      "japanese": "shuumatsu ni tomodachi ni aimasu.",
+      "chinese": "wǒ zhōumò jiàn péngyou."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားလပ်ရက်တွေမှာ သူငယ်ချင်းတွေနဲ့တွေ့တယ်။",
+      "korean": "ကျွန်တော် အားလပ်ရက်တွေမှာ သူငယ်ချင်းတွေနဲ့တွေ့တယ်။",
+      "japanese": "ကျွန်တော် အားလပ်ရက်တွေမှာ သူငယ်ချင်းတွေနဲ့တွေ့တယ်။",
+      "chinese": "ကျွန်တော် အားလပ်ရက်တွေမှာ သူငယ်ချင်းတွေနဲ့တွေ့တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["social", "friends", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_033",
+    "burmeseWord": "မိသားစုနဲ့အတူအချိန်ဖြုန်းသည်",
+    "romanization": "mi thar su ne a tu a chane pyone thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Social Activities",
+    "translations": {
+      "english": "Spend time with family",
+      "korean": "가족과 시간을 보내다",
+      "japanese": "家族と時間を過ごす",
+      "chinese": "和家人共度时光"
+    },
+    "romanizations": {
+      "english": "Spend time with family",
+      "korean": "gajokgwa siganeul bonaeda",
+      "japanese": "kazoku to jikan wo sugosu",
+      "chinese": "hé jiārén gòngdù shíguāng"
+    },
+    "examples": {
+      "english": "I spend time with my family on Sundays.",
+      "korean": "일요일에 가족과 시간을 보내요.",
+      "japanese": "日曜日に家族と時間を過ごします。",
+      "chinese": "我周日和家人共度时光。"
+    },
+    "exampleRomanizations": {
+      "english": "I spend time with my family on Sundays.",
+      "korean": "iryoire gajokgwa siganeul bonaeyo.",
+      "japanese": "nichiyoubi ni kazoku to jikan wo sugoshimasu.",
+      "chinese": "wǒ zhōu rì hé jiārén gòngdù shíguāng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် တနင်္ဂနွေနေ့တွေမှာ မိသားစုနဲ့အတူအချိန်ဖြုန်းတယ်။",
+      "korean": "ကျွန်တော် တနင်္ဂနွေနေ့တွေမှာ မိသားစုနဲ့အတူအချိန်ဖြုန်းတယ်။",
+      "japanese": "ကျွန်တော် တနင်္ဂနွေနေ့တွေမှာ မိသားစုနဲ့အတူအချိန်ဖြုန်းတယ်။",
+      "chinese": "ကျွန်တော် တနင်္ဂနွေနေ့တွေမှာ မိသားစုနဲ့အတူအချိန်ဖြုန်းတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "social", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_034",
+    "burmeseWord": "ဖုန်းပြောသည်",
+    "romanization": "phone pyaw thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Communication",
+    "translations": {
+      "english": "Talk on the phone",
+      "korean": "전화하다",
+      "japanese": "電話する",
+      "chinese": "打电话"
+    },
+    "romanizations": {
+      "english": "Talk on the phone",
+      "korean": "jeonhwahada",
+      "japanese": "denwa suru",
+      "chinese": "dǎ diànhuà"
+    },
+    "examples": {
+      "english": "I talk on the phone with my mother.",
+      "korean": "어머니와 전화해요.",
+      "japanese": "母と電話します。",
+      "chinese": "我和妈妈打电话。"
+    },
+    "exampleRomanizations": {
+      "english": "I talk on the phone with my mother.",
+      "korean": "eomeoniwa jeonwahaeyo.",
+      "japanese": "haha to denwa shimasu.",
+      "chinese": "wǒ hé māma dǎ diànhuà."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အမေနဲ့ ဖုန်းပြောတယ်။",
+      "korean": "ကျွန်တော် အမေနဲ့ ဖုန်းပြောတယ်။",
+      "japanese": "ကျွန်တော် အမေနဲ့ ဖုန်းပြောတယ်။",
+      "chinese": "ကျွန်တော် အမေနဲ့ ဖုန်းပြောတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["communication", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_035",
+    "burmeseWord": "စာတိုပေးပို့သည်",
+    "romanization": "sa toe pay po thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Communication",
+    "translations": {
+      "english": "Send a message",
+      "korean": "메시지를 보내다",
+      "japanese": "メッセージを送る",
+      "chinese": "发信息/发消息"
+    },
+    "romanizations": {
+      "english": "Send a message",
+      "korean": "mesijireul bonaeda",
+      "japanese": "messeeji wo okuru",
+      "chinese": "fā xìnxī / fā xiāoxi"
+    },
+    "examples": {
+      "english": "I send a message to my friend.",
+      "korean": "친구에게 메시지를 보내요.",
+      "japanese": "友達にメッセージを送ります。",
+      "chinese": "我给朋友发信息。"
+    },
+    "exampleRomanizations": {
+      "english": "I send a message to my friend.",
+      "korean": "chinguege mesijireul bonaeyo.",
+      "japanese": "tomodachi ni messeeji wo okurimasu.",
+      "chinese": "wǒ gěi péngyou fā xìnxī."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် သူငယ်ချင်းကို စာတိုပေးပို့တယ်။",
+      "korean": "ကျွန်တော် သူငယ်ချင်းကို စာတိုပေးပို့တယ်။",
+      "japanese": "ကျွန်တော် သူငယ်ချင်းကို စာတိုပေးပို့တယ်။",
+      "chinese": "ကျွန်တော် သူငယ်ချင်းကို စာတိုပေးပို့တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["communication", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_036",
+    "burmeseWord": "အင်တာနက်သုံးသည်",
+    "romanization": "in ta net thone thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Technology",
+    "translations": {
+      "english": "Use the internet",
+      "korean": "인터넷을 사용하다",
+      "japanese": "インターネットを使う",
+      "chinese": "使用互联网"
+    },
+    "romanizations": {
+      "english": "Use the internet",
+      "korean": "inteoneteul sayonghada",
+      "japanese": "intaanetto wo tsukau",
+      "chinese": "shǐyòng hùliánwǎng"
+    },
+    "examples": {
+      "english": "I use the internet every day.",
+      "korean": "매일 인터넷을 사용해요.",
+      "japanese": "毎日インターネットを使います。",
+      "chinese": "我每天使用互联网。"
+    },
+    "exampleRomanizations": {
+      "english": "I use the internet every day.",
+      "korean": "maeil inteoneteul sayonghaeyo.",
+      "japanese": "mainichi intaanetto wo tsukaimasu.",
+      "chinese": "wǒ měitiān shǐyòng hùliánwǎng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်း အင်တာနက်သုံးတယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်း အင်တာနက်သုံးတယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်း အင်တာနက်သုံးတယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်း အင်တာနက်သုံးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["technology", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_037",
+    "burmeseWord": "အွန်လိုင်းကြည့်သည်",
+    "romanization": "on line kyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Technology",
+    "translations": {
+      "english": "Surf the internet / Browse online",
+      "korean": "인터넷을 하다",
+      "japanese": "ネットサーフィンする",
+      "chinese": "上网/浏览网络"
+    },
+    "romanizations": {
+      "english": "Surf the internet / Browse online",
+      "korean": "inteoneteul hada",
+      "japanese": "netto saafin suru",
+      "chinese": "shàngwǎng / liúlǎn wǎngluò"
+    },
+    "examples": {
+      "english": "I browse the internet in my free time.",
+      "korean": "자유 시간에 인터넷을 해요.",
+      "japanese": "自由時間にネットサーフィンをします。",
+      "chinese": "我在空闲时间上网。"
+    },
+    "exampleRomanizations": {
+      "english": "I browse the internet in my free time.",
+      "korean": "jayu sigane inteoneteul haeyo.",
+      "japanese": "jiyuu jikan ni netto saafin wo shimasu.",
+      "chinese": "wǒ zài kòngxián shíjiān shàngwǎng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားချိန်မှာ အွန်လိုင်းကြည့်တယ်။",
+      "korean": "ကျွန်တော် အားချိန်မှာ အွန်လိုင်းကြည့်တယ်။",
+      "japanese": "ကျွန်တော် အားချိန်မှာ အွန်လိုင်းကြည့်တယ်။",
+      "chinese": "ကျွန်တော် အားချိန်မှာ အွန်လိုင်းကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["technology", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_038",
+    "burmeseWord": "ဗီဒီယိုကြည့်သည်",
+    "romanization": "video kyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Entertainment",
+    "translations": {
+      "english": "Watch videos",
+      "korean": "영상을 보다",
+      "japanese": "ビデオを見る",
+      "chinese": "看视频"
+    },
+    "romanizations": {
+      "english": "Watch videos",
+      "korean": "yeongsangeul boda",
+      "japanese": "bideo wo miru",
+      "chinese": "kàn shìpín"
+    },
+    "examples": {
+      "english": "I watch videos on YouTube.",
+      "korean": "유튜브에서 영상을 봐요.",
+      "japanese": "YouTubeでビデオを見ます。",
+      "chinese": "我在YouTube上看视频。"
+    },
+    "exampleRomanizations": {
+      "english": "I watch videos on YouTube.",
+      "korean": "yutyubeueseo yeongsangeul bwayo.",
+      "japanese": "Youtube de bideo wo mimasu.",
+      "chinese": "wǒ zài YouTube shàng kàn shìpín."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် YouTube မှာ ဗီဒီယိုကြည့်တယ်။",
+      "korean": "ကျွန်တော် YouTube မှာ ဗီဒီယိုကြည့်တယ်။",
+      "japanese": "ကျွန်တော် YouTube မှာ ဗီဒီယိုကြည့်တယ်။",
+      "chinese": "ကျွန်တော် YouTube မှာ ဗီဒီယိုကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["entertainment", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_039",
+    "burmeseWord": "ဂိမ်းကစားသည်",
+    "romanization": "game ka sar thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Entertainment",
+    "translations": {
+      "english": "Play games",
+      "korean": "게임을 하다",
+      "japanese": "ゲームをする",
+      "chinese": "玩游戏"
+    },
+    "romanizations": {
+      "english": "Play games",
+      "korean": "geimeul hada",
+      "japanese": "geemu wo suru",
+      "chinese": "wán yóuxì"
+    },
+    "examples": {
+      "english": "I play games on my phone.",
+      "korean": "휴대폰으로 게임을 해요.",
+      "japanese": "スマホでゲームをします。",
+      "chinese": "我在手机上玩游戏。"
+    },
+    "exampleRomanizations": {
+      "english": "I play games on my phone.",
+      "korean": "hyudaeponeuro geimeul haeyo.",
+      "japanese": "sumaho de geemu wo shimasu.",
+      "chinese": "wǒ zài shǒujī shàng wán yóuxì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ဖုန်းနဲ့ ဂိမ်းကစားတယ်။",
+      "korean": "ကျွန်တော် ဖုန်းနဲ့ ဂိမ်းကစားတယ်။",
+      "japanese": "ကျွန်တော် ဖုန်းနဲ့ ဂိမ်းကစားတယ်။",
+      "chinese": "ကျွန်တော် ဖုန်းနဲ့ ဂိမ်းကစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["entertainment", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_040",
+    "burmeseWord": "ရုပ်ရှင်ကြည့်သည်",
+    "romanization": "yote yin kyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Entertainment",
+    "translations": {
+      "english": "Watch a movie",
+      "korean": "영화를 보다",
+      "japanese": "映画を見る",
+      "chinese": "看电影"
+    },
+    "romanizations": {
+      "english": "Watch a movie",
+      "korean": "yeonghwareul boda",
+      "japanese": "eiga wo miru",
+      "chinese": "kàn diànyǐng"
+    },
+    "examples": {
+      "english": "I watch a movie on weekends.",
+      "korean": "주말에 영화를 봐요.",
+      "japanese": "週末に映画を見ます。",
+      "chinese": "我周末看电影。"
+    },
+    "exampleRomanizations": {
+      "english": "I watch a movie on weekends.",
+      "korean": "jumare yeonghwareul bwayo.",
+      "japanese": "shuumatsu ni eiga wo mimasu.",
+      "chinese": "wǒ zhōumò kàn diànyǐng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားလပ်ရက်တွေမှာ ရုပ်ရှင်ကြည့်တယ်။",
+      "korean": "ကျွန်တော် အားလပ်ရက်တွေမှာ ရုပ်ရှင်ကြည့်တယ်။",
+      "japanese": "ကျွန်တော် အားလပ်ရက်တွေမှာ ရုပ်ရှင်ကြည့်တယ်။",
+      "chinese": "ကျွန်တော် အားလပ်ရက်တွေမှာ ရုပ်ရှင်ကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["entertainment", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_041",
+    "burmeseWord": "စာဖတ်သည်",
+    "romanization": "sa hput thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Reading",
+    "translations": {
+      "english": "Read",
+      "korean": "읽다",
+      "japanese": "読む",
+      "chinese": "读/阅读"
+    },
+    "romanizations": {
+      "english": "Read",
+      "korean": "ikda",
+      "japanese": "yomu",
+      "chinese": "dú / yuèdú"
+    },
+    "examples": {
+      "english": "I read the newspaper every morning.",
+      "korean": "매일 아침 신문을 읽어요.",
+      "japanese": "毎朝新聞を読みます。",
+      "chinese": "我每天早上读报纸。"
+    },
+    "exampleRomanizations": {
+      "english": "I read the newspaper every morning.",
+      "korean": "maeil achim sinmuneul ilgeoyo.",
+      "japanese": "maiasa shinbun wo yomimasu.",
+      "chinese": "wǒ měitiān zǎoshang dú bàozhǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မနက်တိုင်း သတင်းစာဖတ်တယ်။",
+      "korean": "ကျွန်တော် မနက်တိုင်း သတင်းစာဖတ်တယ်။",
+      "japanese": "ကျွန်တော် မနက်တိုင်း သတင်းစာဖတ်တယ်။",
+      "chinese": "ကျွန်တော် မနက်တိုင်း သတင်းစာဖတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["reading", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_042",
+    "burmeseWord": "သတင်းကြည့်သည်",
+    "romanization": "tha tin kyi thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Reading",
+    "translations": {
+      "english": "Watch / Read the news",
+      "korean": "뉴스를 보다",
+      "japanese": "ニュースを見る",
+      "chinese": "看新闻/读新闻"
+    },
+    "romanizations": {
+      "english": "Watch / Read the news",
+      "korean": "nyuseureul boda",
+      "japanese": "nyuusu wo miru",
+      "chinese": "kàn xīnwén / dú xīnwén"
+    },
+    "examples": {
+      "english": "I watch the news every evening.",
+      "korean": "매일 저녁에 뉴스를 봐요.",
+      "japanese": "毎晩ニュースを見ます。",
+      "chinese": "我每天晚上看新闻。"
+    },
+    "exampleRomanizations": {
+      "english": "I watch the news every evening.",
+      "korean": "maeil jeonyeoge nyuseureul bwayo.",
+      "japanese": "maiban nyuusu wo mimasu.",
+      "chinese": "wǒ měitiān wǎnshang kàn xīnwén."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေတိုင်း သတင်းကြည့်တယ်။",
+      "korean": "ကျွန်တော် ညနေတိုင်း သတင်းကြည့်တယ်။",
+      "japanese": "ကျွန်တော် ညနေတိုင်း သတင်းကြည့်တယ်။",
+      "chinese": "ကျွန်တော် ညနေတိုင်း သတင်းကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["news", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_043",
+    "burmeseWord": "ဂျာနယ်ရေးသည်",
+    "romanization": "journal yay thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Writing",
+    "translations": {
+      "english": "Write a journal / Diary",
+      "korean": "일기를 쓰다",
+      "japanese": "日記を書く",
+      "chinese": "写日记"
+    },
+    "romanizations": {
+      "english": "Write a journal / Diary",
+      "korean": "ilgireul sseuda",
+      "japanese": "nikki wo kaku",
+      "chinese": "xiě rìjì"
+    },
+    "examples": {
+      "english": "I write in my journal every night.",
+      "korean": "매일 밤 일기를 써요.",
+      "japanese": "毎晩日記を書きます。",
+      "chinese": "我每天晚上写日记。"
+    },
+    "exampleRomanizations": {
+      "english": "I write in my journal every night.",
+      "korean": "maeil bam ilgireul sseoyo.",
+      "japanese": "maiban nikki wo kakimasu.",
+      "chinese": "wǒ měitiān wǎnshang xiě rìjì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညတိုင်း ဂျာနယ်ရေးတယ်။",
+      "korean": "ကျွန်တော် ညတိုင်း ဂျာနယ်ရေးတယ်။",
+      "japanese": "ကျွန်တော် ညတိုင်း ဂျာနယ်ရေးတယ်။",
+      "chinese": "ကျွန်တော် ညတိုင်း ဂျာနယ်ရေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["writing", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_044",
+    "burmeseWord": "ဈေးဝယ်စာရင်းလုပ်သည်",
+    "romanization": "zay wel sar yin lote thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Planning / Organizing",
+    "translations": {
+      "english": "Make a shopping list",
+      "korean": "쇼핑 목록을 만들다",
+      "japanese": "買い物リストを作る",
+      "chinese": "制作购物清单"
+    },
+    "romanizations": {
+      "english": "Make a shopping list",
+      "korean": "syoping mokrogeul mandeulda",
+      "japanese": "kaimono risuto wo tsukuru",
+      "chinese": "zhìzuò gòuwù qīngdān"
+    },
+    "examples": {
+      "english": "I make a shopping list before going to the store.",
+      "korean": "가게에 가기 전에 쇼핑 목록을 만들어요.",
+      "japanese": "店に行く前に買い物リストを作ります。",
+      "chinese": "我去商店前制作购物清单。"
+    },
+    "exampleRomanizations": {
+      "english": "I make a shopping list before going to the store.",
+      "korean": "gagee gagi jeone syoping mokrogeul mandeureoyo.",
+      "japanese": "mise ni iku mae ni kaimono risuto wo tsukurimasu.",
+      "chinese": "wǒ qù shāngdiàn qián zhìzuò gòuwù qīngdān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ဈေးမသွားခင် ဈေးဝယ်စာရင်းလုပ်တယ်။",
+      "korean": "ကျွန်တော် ဈေးမသွားခင် ဈေးဝယ်စာရင်းလုပ်တယ်။",
+      "japanese": "ကျွန်တော် ဈေးမသွားခင် ဈေးဝယ်စာရင်းလုပ်တယ်။",
+      "chinese": "ကျွန်တော် ဈေးမသွားခင် ဈေးဝယ်စာရင်းလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["planning", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_045",
+    "burmeseWord": "အစီအစဉ်ဆွဲသည်",
+    "romanization": "a si a sin swel thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Planning / Organizing",
+    "translations": {
+      "english": "Make a plan / Plan",
+      "korean": "계획을 세우다",
+      "japanese": "計画を立てる",
+      "chinese": "制定计划/计划"
+    },
+    "romanizations": {
+      "english": "Make a plan / Plan",
+      "korean": "gyehoegeul seuda",
+      "japanese": "keikaku wo tateru",
+      "chinese": "zhìdìng jìhuà / jìhuà"
+    },
+    "examples": {
+      "english": "I make a plan for the week on Sunday.",
+      "korean": "일요일에 한 주 계획을 세워요.",
+      "japanese": "日曜日に一週間の計画を立てます。",
+      "chinese": "我在周日制定一周的计划。"
+    },
+    "exampleRomanizations": {
+      "english": "I make a plan for the week on Sunday.",
+      "korean": "iryoire han ju gyehoegeul sewoyo.",
+      "japanese": "nichiyoubi ni isshuukan no keikaku wo tatemasu.",
+      "chinese": "wǒ zài zhōu rì zhìdìng yī zhōu de jìhuà."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် တနင်္ဂနွေနေ့မှာ တစ်ပတ်အစီအစဉ်ဆွဲတယ်။",
+      "korean": "ကျွန်တော် တနင်္ဂနွေနေ့မှာ တစ်ပတ်အစီအစဉ်ဆွဲတယ်။",
+      "japanese": "ကျွန်တော် တနင်္ဂနွေနေ့မှာ တစ်ပတ်အစီအစဉ်ဆွဲတယ်။",
+      "chinese": "ကျွန်တော် တနင်္ဂနွေနေ့မှာ တစ်ပတ်အစီအစဉ်ဆွဲတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["planning", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_046",
+    "burmeseWord": "မှတ်စုရေးသည်",
+    "romanization": "hmat su yay thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Writing",
+    "translations": {
+      "english": "Take notes",
+      "korean": "메모하다",
+      "japanese": "メモを取る",
+      "chinese": "做笔记"
+    },
+    "romanizations": {
+      "english": "Take notes",
+      "korean": "memohada",
+      "japanese": " memo wo toru",
+      "chinese": "zuò bǐjì"
+    },
+    "examples": {
+      "english": "I take notes during the meeting.",
+      "korean": "회의 중에 메모해요.",
+      "japanese": "会議中にメモを取ります。",
+      "chinese": "我在会议期间做笔记。"
+    },
+    "exampleRomanizations": {
+      "english": "I take notes during the meeting.",
+      "korean": "hoeui junge memohaeyo.",
+      "japanese": "kaigi chuu ni memo wo torimasu.",
+      "chinese": "wǒ zài huìyì qījiān zuò bǐjì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အစည်းအဝေးအတွင်းမှာ မှတ်စုရေးတယ်။",
+      "korean": "ကျွန်တော် အစည်းအဝေးအတွင်းမှာ မှတ်စုရေးတယ်။",
+      "japanese": "ကျွန်တော် အစည်းအဝေးအတွင်းမှာ မှတ်စုရေးတယ်။",
+      "chinese": "ကျွန်တော် အစည်းအဝေးအတွင်းမှာ မှတ်စုရေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["writing", "work", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_047",
+    "burmeseWord": "အမှိုက်ပစ်သည်",
+    "romanization": "a hmaik pyit thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Throw away trash / Take out garbage",
+      "korean": "쓰레기를 버리다",
+      "japanese": "ゴミを捨てる",
+      "chinese": "丢垃圾/倒垃圾"
+    },
+    "romanizations": {
+      "english": "Throw away trash / Take out garbage",
+      "korean": "sseuregireul beorida",
+      "japanese": "gomi wo suteru",
+      "chinese": "diū lājī / dào lājī"
+    },
+    "examples": {
+      "english": "I take out the garbage every day.",
+      "korean": "매일 쓰레기를 버려요.",
+      "japanese": "毎日ゴミを捨てます。",
+      "chinese": "我每天倒垃圾。"
+    },
+    "exampleRomanizations": {
+      "english": "I take out the garbage every day.",
+      "korean": "maeil sseuregireul beoryeoyo.",
+      "japanese": "mainichi gomi wo sutemasu.",
+      "chinese": "wǒ měitiān dào lājī."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်း အမှိုက်ပစ်တယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်း အမှိုက်ပစ်တယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်း အမှိုက်ပစ်တယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်း အမှိုက်ပစ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_048",
+    "burmeseWord": "အပင်ရေလောင်းသည်",
+    "romanization": "a pin yay laung thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Household Chores",
+    "translations": {
+      "english": "Water plants",
+      "korean": "식물에 물을 주다",
+      "japanese": "植物に水をやる",
+      "chinese": "给植物浇水"
+    },
+    "romanizations": {
+      "english": "Water plants",
+      "korean": "singmure mureul juda",
+      "japanese": "shokubutsu ni mizu wo yaru",
+      "chinese": "gěi zhíwù jiāo shuǐ"
+    },
+    "examples": {
+      "english": "I water the plants every morning.",
+      "korean": "매일 아침 식물에 물을 줘요.",
+      "japanese": "毎朝植物に水をやります。",
+      "chinese": "我每天早上给植物浇水。"
+    },
+    "exampleRomanizations": {
+      "english": "I water the plants every morning.",
+      "korean": "maeil achim singmure mureul jwoyo.",
+      "japanese": "maiasa shokubutsu ni mizu wo yarimasu.",
+      "chinese": "wǒ měitiān zǎoshang gěi zhíwù jiāo shuǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မနက်တိုင်း အပင်တွေကို ရေလောင်းတယ်။",
+      "korean": "ကျွန်တော် မနက်တိုင်း အပင်တွေကို ရေလောင်းတယ်။",
+      "japanese": "ကျွန်တော် မနက်တိုင်း အပင်တွေကို ရေလောင်းတယ်။",
+      "chinese": "ကျွန်တော် မနက်တိုင်း အပင်တွေကို ရေလောင်းတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["chores", "plants", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_049",
+    "burmeseWord": "အိမ်မွေးတိရစ္ဆာန်ကျွေးသည်",
+    "romanization": "ein mway ti yat kyan kyal thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Pets",
+    "translations": {
+      "english": "Feed pets",
+      "korean": "반려동물에게 먹이를 주다",
+      "japanese": "ペットに餌をあげる",
+      "chinese": "喂宠物"
+    },
+    "romanizations": {
+      "english": "Feed pets",
+      "korean": "ballyeodongmurege meogireul juda",
+      "japanese": "petto ni esa wo ageru",
+      "chinese": "wèi chǒngwù"
+    },
+    "examples": {
+      "english": "I feed my dog twice a day.",
+      "korean": "개에게 하루에 두 번 먹이를 줘요.",
+      "japanese": "犬に一日二回餌をあげます。",
+      "chinese": "我每天喂我的狗两次。"
+    },
+    "exampleRomanizations": {
+      "english": "I feed my dog twice a day.",
+      "korean": "gaeege harue du beon meogireul jwoyo.",
+      "japanese": "inu ni ichinichi nikai esa wo agemasu.",
+      "chinese": "wǒ měitiān wèi wǒ de gǒu liǎng cì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ကျွန်တော့်ခွေးကို တစ်နေ့ နှစ်ခါကျွေးတယ်။",
+      "korean": "ကျွန်တော် ကျွန်တော့်ခွေးကို တစ်နေ့ နှစ်ခါကျွေးတယ်။",
+      "japanese": "ကျွန်တော် ကျွန်တော့်ခွေးကို တစ်နေ့ နှစ်ခါကျွေးတယ်။",
+      "chinese": "ကျွန်တော် ကျွန်တော့်ခွေးကို တစ်နေ့ နှစ်ခါကျွေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["pets", "daily", "verbs"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_daily_050",
+    "burmeseWord": "အိမ်ပြင်လမ်းလျှောက်သည်",
+    "romanization": "ein pyin lan shauk thar",
+    "partOfSpeech": "verb",
+    "category": "daily_routine",
+    "subCategory": "Exercise / Outdoor",
+    "translations": {
+      "english": "Take a walk / Go for a walk",
+      "korean": "산책하다",
+      "japanese": "散歩する",
+      "chinese": "散步"
+    },
+    "romanizations": {
+      "english": "Take a walk / Go for a walk",
+      "korean": "sanchaeghada",
+      "japanese": "sanpo suru",
+      "chinese": "sànbù"
+    },
+    "examples": {
+      "english": "I take a walk after dinner.",
+      "korean": "저녁 식사 후에 산책해요.",
+      "japanese": "夕食後に散歩します。",
+      "chinese": "我晚餐后散步。"
+    },
+    "exampleRomanizations": {
+      "english": "I take a walk after dinner.",
+      "korean": "jeonyeok siksahue sanchaeghaeyo.",
+      "japanese": "yuushoku go ni sanpo shimasu.",
+      "chinese": "wǒ wǎncān hòu sànbù."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညနေစာစားပြီးရင် အိမ်ပြင်လမ်းလျှောက်တယ်။",
+      "korean": "ကျွန်တော် ညနေစာစားပြီးရင် အိမ်ပြင်လမ်းလျှောက်တယ်။",
+      "japanese": "ကျွန်တော် ညနေစာစားပြီးရင် အိမ်ပြင်လမ်းလျှောက်တယ်။",
+      "chinese": "ကျွန်တော် ညနေစာစားပြီးရင် အိမ်ပြင်လမ်းလျှောက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["exercise", "outdoor", "verbs"],
+    "isFavourite": false
+  },
+  
+  {
+    "id": "vocab_home_001",
+    "burmeseWord": "အိပ်ခန်း",
+    "romanization": "eik khan",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Rooms",
+    "translations": {
+      "english": "Bedroom",
+      "korean": "침실",
+      "japanese": "寝室",
+      "chinese": "卧室"
+    },
+    "romanizations": {
+      "english": "Bedroom",
+      "korean": "chimsil",
+      "japanese": "shinshitsu",
+      "chinese": "wòshì"
+    },
+    "examples": {
+      "english": "My bedroom is comfortable.",
+      "korean": "제 침실은 편안해요.",
+      "japanese": "私の寝室は快適です。",
+      "chinese": "我的卧室很舒适。"
+    },
+    "exampleRomanizations": {
+      "english": "My bedroom is comfortable.",
+      "korean": "je chimsireun pyeonanhaeyo.",
+      "japanese": "watashi no shinshitsu wa kaiteki desu.",
+      "chinese": "wǒ de wòshì hěn shūshì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အိပ်ခန်းက သက်တောင့်သက်သာရှိတယ်။",
+      "korean": "ကျွန်တော့်အိပ်ခန်းက သက်တောင့်သက်သာရှိတယ်။",
+      "japanese": "ကျွန်တော့်အိပ်ခန်းက သက်တောင့်သက်သာရှိတယ်။",
+      "chinese": "ကျွန်တော့်အိပ်ခန်းက သက်တောင့်သက်သာရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rooms", "house", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_002",
+    "burmeseWord": "ဧည့်ခန်း",
+    "romanization": "e khan",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Rooms",
+    "translations": {
+      "english": "Living room",
+      "korean": "거실",
+      "japanese": "リビング",
+      "chinese": "客厅"
+    },
+    "romanizations": {
+      "english": "Living room",
+      "korean": "geosil",
+      "japanese": "ribingu",
+      "chinese": "kètīng"
+    },
+    "examples": {
+      "english": "We watch TV in the living room.",
+      "korean": "거실에서 TV를 봐요.",
+      "japanese": "リビングでテレビを見ます。",
+      "chinese": "我们在客厅看电视。"
+    },
+    "exampleRomanizations": {
+      "english": "We watch TV in the living room.",
+      "korean": "geosireseo TVreul bwayo.",
+      "japanese": "ribingu de terebi wo mimasu.",
+      "chinese": "wǒmen zài kètīng kàn diànshì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်တို့ ဧည့်ခန်းမှာ ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "korean": "ကျွန်တော်တို့ ဧည့်ခန်းမှာ ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "japanese": "ကျွန်တော်တို့ ဧည့်ခန်းမှာ ရုပ်မြင်သံကြားကြည့်တယ်။",
+      "chinese": "ကျွန်တော်တို့ ဧည့်ခန်းမှာ ရုပ်မြင်သံကြားကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rooms", "house", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_003",
+    "burmeseWord": "မီးဖိုချောင်",
+    "romanization": "mi pho chaung",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Rooms",
+    "translations": {
+      "english": "Kitchen",
+      "korean": "부엌",
+      "japanese": "キッチン",
+      "chinese": "厨房"
+    },
+    "romanizations": {
+      "english": "Kitchen",
+      "korean": "bueok",
+      "japanese": "kitchin",
+      "chinese": "chúfáng"
+    },
+    "examples": {
+      "english": "I cook in the kitchen.",
+      "korean": "부엌에서 요리해요.",
+      "japanese": "キッチンで料理をします。",
+      "chinese": "我在厨房做饭。"
+    },
+    "exampleRomanizations": {
+      "english": "I cook in the kitchen.",
+      "korean": "bueokeseo yorihaeyo.",
+      "japanese": "kitchin de ryouri wo shimasu.",
+      "chinese": "wǒ zài chúfáng zuòfàn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မီးဖိုချောင်မှာ ချက်ပြုတ်တယ်။",
+      "korean": "ကျွန်တော် မီးဖိုချောင်မှာ ချက်ပြုတ်တယ်။",
+      "japanese": "ကျွန်တော် မီးဖိုချောင်မှာ ချက်ပြုတ်တယ်။",
+      "chinese": "ကျွန်တော် မီးဖိုချောင်မှာ ချက်ပြုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rooms", "house", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_004",
+    "burmeseWord": "ထမင်းစားခန်း",
+    "romanization": "htamin sar khan",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Rooms",
+    "translations": {
+      "english": "Dining room",
+      "korean": "식당",
+      "japanese": "ダイニングルーム",
+      "chinese": "餐厅"
+    },
+    "romanizations": {
+      "english": "Dining room",
+      "korean": "sikdang",
+      "japanese": "dainingu ruumu",
+      "chinese": "cāntīng"
+    },
+    "examples": {
+      "english": "We eat dinner in the dining room.",
+      "korean": "식당에서 저녁을 먹어요.",
+      "japanese": "ダイニングルームで夕食を食べます。",
+      "chinese": "我们在餐厅吃晚餐。"
+    },
+    "exampleRomanizations": {
+      "english": "We eat dinner in the dining room.",
+      "korean": "sikdangeseo jeonyeogeul meogeoyo.",
+      "japanese": "dainingu ruumu de yuushoku wo tabemasu.",
+      "chinese": "wǒmen zài cāntīng chī wǎncān."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်တို့ ထမင်းစားခန်းမှာ ညနေစာစားတယ်။",
+      "korean": "ကျွန်တော်တို့ ထမင်းစားခန်းမှာ ညနေစာစားတယ်။",
+      "japanese": "ကျွန်တော်တို့ ထမင်းစားခန်းမှာ ညနေစာစားတယ်။",
+      "chinese": "ကျွန်တော်တို့ ထမင်းစားခန်းမှာ ညနေစာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rooms", "house", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_005",
+    "burmeseWord": "ရေချိုးခန်း",
+    "romanization": "yay choe khan",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Rooms",
+    "translations": {
+      "english": "Bathroom",
+      "korean": "욕실",
+      "japanese": "浴室",
+      "chinese": "浴室/卫生间"
+    },
+    "romanizations": {
+      "english": "Bathroom",
+      "korean": "yoksil",
+      "japanese": "yokushitsu",
+      "chinese": "yùshì / wèishēngjiān"
+    },
+    "examples": {
+      "english": "The bathroom is clean.",
+      "korean": "욕실이 깨끗해요.",
+      "japanese": "浴室はきれいです。",
+      "chinese": "浴室很干净。"
+    },
+    "exampleRomanizations": {
+      "english": "The bathroom is clean.",
+      "korean": "yoksiri kkaekkeuthaeyo.",
+      "japanese": "yokushitsu wa kirei desu.",
+      "chinese": "yùshì hěn gānjìng."
+    },
+    "exampleTranslations": {
+      "english": "ရေချိုးခန်းက သန့်ရှင်းတယ်။",
+      "korean": "ရေချိုးခန်းက သန့်ရှင်းတယ်။",
+      "japanese": "ရေချိုးခန်းက သန့်ရှင်းတယ်။",
+      "chinese": "ရေချိုးခန်းက သန့်ရှင်းတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["rooms", "house", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_006",
+    "burmeseWord": "ကုတင်",
+    "romanization": "ko tin",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Furniture",
+    "translations": {
+      "english": "Bed",
+      "korean": "침대",
+      "japanese": "ベッド",
+      "chinese": "床"
+    },
+    "romanizations": {
+      "english": "Bed",
+      "korean": "chimdae",
+      "japanese": "beddo",
+      "chinese": "chuáng"
+    },
+    "examples": {
+      "english": "I sleep on the bed.",
+      "korean": "침대에서 자요.",
+      "japanese": "ベッドで寝ます。",
+      "chinese": "我在床上睡觉。"
+    },
+    "exampleRomanizations": {
+      "english": "I sleep on the bed.",
+      "korean": "chimdaeseo jayo.",
+      "japanese": "beddo de nemasu.",
+      "chinese": "wǒ zài chuáng shàng shuìjiào."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ကုတင်ပေါ်မှာ အိပ်တယ်။",
+      "korean": "ကျွန်တော် ကုတင်ပေါ်မှာ အိပ်တယ်။",
+      "japanese": "ကျွန်တော် ကုတင်ပေါ်မှာ အိပ်တယ်။",
+      "chinese": "ကျွန်တော် ကုတင်ပေါ်မှာ အိပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["furniture", "bedroom", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_007",
+    "burmeseWord": "စားပွဲ",
+    "romanization": "sa pwe",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Furniture",
+    "translations": {
+      "english": "Table",
+      "korean": "테이블",
+      "japanese": "テーブル",
+      "chinese": "桌子"
+    },
+    "romanizations": {
+      "english": "Table",
+      "korean": "teibeul",
+      "japanese": "teeburu",
+      "chinese": "zhuōzi"
+    },
+    "examples": {
+      "english": "The books are on the table.",
+      "korean": "책이 테이블 위에 있어요.",
+      "japanese": "本がテーブルの上にあります。",
+      "chinese": "书在桌子上。"
+    },
+    "exampleRomanizations": {
+      "english": "The books are on the table.",
+      "korean": "chaegi teibeul wie isseoyo.",
+      "japanese": "hon ga teeburu no ue ni arimasu.",
+      "chinese": "shū zài zhuōzi shàng."
+    },
+    "exampleTranslations": {
+      "english": "စာအုပ်တွေ စားပွဲပေါ်မှာရှိတယ်။",
+      "korean": "စာအုပ်တွေ စားပွဲပေါ်မှာရှိတယ်။",
+      "japanese": "စာအုပ်တွေ စားပွဲပေါ်မှာရှိတယ်။",
+      "chinese": "စာအုပ်တွေ စားပွဲပေါ်မှာရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["furniture", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_008",
+    "burmeseWord": "ကုလားထိုင်",
+    "romanization": "ku lar htaing",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Furniture",
+    "translations": {
+      "english": "Chair",
+      "korean": "의자",
+      "japanese": "椅子",
+      "chinese": "椅子"
+    },
+    "romanizations": {
+      "english": "Chair",
+      "korean": "uija",
+      "japanese": "isu",
+      "chinese": "yǐzi"
+    },
+    "examples": {
+      "english": "Please sit on the chair.",
+      "korean": "의자에 앉으세요.",
+      "japanese": "椅子に座ってください。",
+      "chinese": "请坐在椅子上。"
+    },
+    "exampleRomanizations": {
+      "english": "Please sit on the chair.",
+      "korean": "uijae anjeuseyo.",
+      "japanese": "isu ni suwatte kudasai.",
+      "chinese": "qǐng zuò zài yǐzi shàng."
+    },
+    "exampleTranslations": {
+      "english": "ကုလားထိုင်ပေါ်မှာ ထိုင်ပါ။",
+      "korean": "ကုလားထိုင်ပေါ်မှာ ထိုင်ပါ။",
+      "japanese": "ကုလားထိုင်ပေါ်မှာ ထိုင်ပါ။",
+      "chinese": "ကုလားထိုင်ပေါ်မှာ ထိုင်ပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["furniture", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_009",
+    "burmeseWord": "ဗီရို",
+    "romanization": "vi yo",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Furniture",
+    "translations": {
+      "english": "Wardrobe / Closet",
+      "korean": "옷장",
+      "japanese": "クローゼット",
+      "chinese": "衣柜/壁橱"
+    },
+    "romanizations": {
+      "english": "Wardrobe / Closet",
+      "korean": "otjang",
+      "japanese": "kurozetto",
+      "chinese": "yīguì / bìchú"
+    },
+    "examples": {
+      "english": "I keep my clothes in the wardrobe.",
+      "korean": "옷장에 옷을 보관해요.",
+      "japanese": "クローゼットに服をしまいます。",
+      "chinese": "我把衣服放在衣柜里。"
+    },
+    "exampleRomanizations": {
+      "english": "I keep my clothes in the wardrobe.",
+      "korean": "otjange oseul bogwanhaeyo.",
+      "japanese": "kurozetto ni fuku wo shima imasu.",
+      "chinese": "wǒ bǎ yīfu fàng zài yīguì lǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အဝတ်တွေကို ဗီရိုထဲမှာ ထားတယ်။",
+      "korean": "ကျွန်တော် အဝတ်တွေကို ဗီရိုထဲမှာ ထားတယ်။",
+      "japanese": "ကျွန်တော် အဝတ်တွေကို ဗီရိုထဲမှာ ထားတယ်။",
+      "chinese": "ကျွန်တော် အဝတ်တွေကို ဗီရိုထဲမှာ ထားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["furniture", "bedroom", "storage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_010",
+    "burmeseWord": "စာအုပ်စင်",
+    "romanization": "sa oke zin",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Furniture",
+    "translations": {
+      "english": "Bookshelf",
+      "korean": "책장",
+      "japanese": "本棚",
+      "chinese": "书架"
+    },
+    "romanizations": {
+      "english": "Bookshelf",
+      "korean": "chaekjang",
+      "japanese": "hondana",
+      "chinese": "shūjià"
+    },
+    "examples": {
+      "english": "The bookshelf is full of books.",
+      "korean": "책장이 책으로 가득 차 있어요.",
+      "japanese": "本棚が本でいっぱいです。",
+      "chinese": "书架上放满了书。"
+    },
+    "exampleRomanizations": {
+      "english": "The bookshelf is full of books.",
+      "korean": "chaekjangi chaegeuro gadeuk cha isseoyo.",
+      "japanese": "hondana ga hon de ippai desu.",
+      "chinese": "shūjià shàng fàng mǎnle shū."
+    },
+    "exampleTranslations": {
+      "english": "စာအုပ်စင်မှာ စာအုပ်တွေ ပြည့်နေတယ်။",
+      "korean": "စာအုပ်စင်မှာ စာအုပ်တွေ ပြည့်နေတယ်။",
+      "japanese": "စာအုပ်စင်မှာ စာအုပ်တွေ ပြည့်နေတယ်။",
+      "chinese": "စာအုပ်စင်မှာ စာအုပ်တွေ ပြည့်နေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["furniture", "reading", "storage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_011",
+    "burmeseWord": "ခေါင်းအုံး",
+    "romanization": "kaung one",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bedroom Items",
+    "translations": {
+      "english": "Pillow",
+      "korean": "베개",
+      "japanese": "枕",
+      "chinese": "枕头"
+    },
+    "romanizations": {
+      "english": "Pillow",
+      "korean": "begae",
+      "japanese": "makura",
+      "chinese": "zhěntou"
+    },
+    "examples": {
+      "english": "I need a soft pillow.",
+      "korean": "부드러운 베개가 필요해요.",
+      "japanese": "柔らかい枕が必要です。",
+      "chinese": "我需要一个柔软的枕头。"
+    },
+    "exampleRomanizations": {
+      "english": "I need a soft pillow.",
+      "korean": "budeureoun begaega piryohaeyo.",
+      "japanese": "yawarakai makura ga hitsuyou desu.",
+      "chinese": "wǒ xūyào yī gè róuruǎn de zhěntou."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်မှာ ပျော့တဲ့ ခေါင်းအုံးတစ်လုံး လိုတယ်။",
+      "korean": "ကျွန်တော်မှာ ပျော့တဲ့ ခေါင်းအုံးတစ်လုံး လိုတယ်။",
+      "japanese": "ကျွန်တော်မှာ ပျော့တဲ့ ခေါင်းအုံးတစ်လုံး လိုတယ်။",
+      "chinese": "ကျွန်တော်မှာ ပျော့တဲ့ ခေါင်းအုံးတစ်လုံး လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bedroom", "furnishings", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_012",
+    "burmeseWord": "စောင်",
+    "romanization": "saung",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bedroom Items",
+    "translations": {
+      "english": "Blanket",
+      "korean": "담요",
+      "japanese": "毛布",
+      "chinese": "毯子"
+    },
+    "romanizations": {
+      "english": "Blanket",
+      "korean": "damyo",
+      "japanese": "moufu",
+      "chinese": "tǎnzi"
+    },
+    "examples": {
+      "english": "I use a blanket at night.",
+      "korean": "밤에 담요를 사용해요.",
+      "japanese": "夜に毛布を使います。",
+      "chinese": "我晚上用毯子。"
+    },
+    "exampleRomanizations": {
+      "english": "I use a blanket at night.",
+      "korean": "bame damyoreul sayonghaeyo.",
+      "japanese": "yoru ni moufu wo tsukaimasu.",
+      "chinese": "wǒ wǎnshang yòng tǎnzi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ညမှာ စောင်သုံးတယ်။",
+      "korean": "ကျွန်တော် ညမှာ စောင်သုံးတယ်။",
+      "japanese": "ကျွန်တော် ညမှာ စောင်သုံးတယ်။",
+      "chinese": "ကျွန်တော် ညမှာ စောင်သုံးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bedroom", "furnishings", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_013",
+    "burmeseWord": "မီးချောင်း",
+    "romanization": "mi chaung",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Lighting",
+    "translations": {
+      "english": "Lamp / Light",
+      "korean": "전등",
+      "japanese": "電気",
+      "chinese": "灯/电灯"
+    },
+    "romanizations": {
+      "english": "Lamp / Light",
+      "korean": "jeondeung",
+      "japanese": "denki",
+      "chinese": "dēng / diàndēng"
+    },
+    "examples": {
+      "english": "Please turn on the light.",
+      "korean": "전등을 켜 주세요.",
+      "japanese": "電気をつけてください。",
+      "chinese": "请开灯。"
+    },
+    "exampleRomanizations": {
+      "english": "Please turn on the light.",
+      "korean": "jeondeungeul kyeo juseyo.",
+      "japanese": "denki wo tsukete kudasai.",
+      "chinese": "qǐng kāi dēng."
+    },
+    "exampleTranslations": {
+      "english": "မီးဖွင့်ပေးပါ။",
+      "korean": "မီးဖွင့်ပေးပါ။",
+      "japanese": "မီးဖွင့်ပေးပါ။",
+      "chinese": "မီးဖွင့်ပေးပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["lighting", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_014",
+    "burmeseWord": "ပြတင်းပေါက်",
+    "romanization": "pya tin pauk",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "House Parts",
+    "translations": {
+      "english": "Window",
+      "korean": "창문",
+      "japanese": "窓",
+      "chinese": "窗户"
+    },
+    "romanizations": {
+      "english": "Window",
+      "korean": "changmun",
+      "japanese": "mado",
+      "chinese": "chuānghu"
+    },
+    "examples": {
+      "english": "The window is open.",
+      "korean": "창문이 열려 있어요.",
+      "japanese": "窓が開いています。",
+      "chinese": "窗户开着。"
+    },
+    "exampleRomanizations": {
+      "english": "The window is open.",
+      "korean": "changmuni yeollyeo isseoyo.",
+      "japanese": "mado ga aite imasu.",
+      "chinese": "chuānghu kāizhe."
+    },
+    "exampleTranslations": {
+      "english": "ပြတင်းပေါက် ဖွင့်ထားတယ်။",
+      "korean": "ပြတင်းပေါက် ဖွင့်ထားတယ်။",
+      "japanese": "ပြတင်းပေါက် ဖွင့်ထားတယ်။",
+      "chinese": "ပြတင်းပေါက် ဖွင့်ထားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["house_parts", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_015",
+    "burmeseWord": "တံခါး",
+    "romanization": "da ga",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "House Parts",
+    "translations": {
+      "english": "Door",
+      "korean": "문",
+      "japanese": "ドア",
+      "chinese": "门"
+    },
+    "romanizations": {
+      "english": "Door",
+      "korean": "mun",
+      "japanese": "doa",
+      "chinese": "mén"
+    },
+    "examples": {
+      "english": "Please close the door.",
+      "korean": "문을 닫아 주세요.",
+      "japanese": "ドアを閉めてください。",
+      "chinese": "请关门。"
+    },
+    "exampleRomanizations": {
+      "english": "Please close the door.",
+      "korean": "muneul dada juseyo.",
+      "japanese": "doa wo shimete kudasai.",
+      "chinese": "qǐng guān mén."
+    },
+    "exampleTranslations": {
+      "english": "တံခါးပိတ်ပေးပါ။",
+      "korean": "တံခါးပိတ်ပေးပါ။",
+      "japanese": "တံခါးပိတ်ပေးပါ။",
+      "chinese": "တံခါးပိတ်ပေးပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["house_parts", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_016",
+    "burmeseWord": "မျက်နှာကြက်",
+    "romanization": "myet hna kyet",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "House Parts",
+    "translations": {
+      "english": "Ceiling",
+      "korean": "천장",
+      "japanese": "天井",
+      "chinese": "天花板"
+    },
+    "romanizations": {
+      "english": "Ceiling",
+      "korean": "cheonjang",
+      "japanese": "tenjou",
+      "chinese": "tiānhuābǎn"
+    },
+    "examples": {
+      "english": "The ceiling is white.",
+      "korean": "천장이 하얘요.",
+      "japanese": "天井が白いです。",
+      "chinese": "天花板是白色的。"
+    },
+    "exampleRomanizations": {
+      "english": "The ceiling is white.",
+      "korean": "cheonjangi hayaeyo.",
+      "japanese": "tenjou ga shiroi desu.",
+      "chinese": "tiānhuābǎn shì báisè de."
+    },
+    "exampleTranslations": {
+      "english": "မျက်နှာကြက်က အဖြူရောင်ပါ။",
+      "korean": "မျက်နှာကြက်က အဖြူရောင်ပါ။",
+      "japanese": "မျက်နှာကြက်က အဖြူရောင်ပါ။",
+      "chinese": "မျက်နှာကြက်က အဖြူရောင်ပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["house_parts", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_017",
+    "burmeseWord": "ကြမ်းပြင်",
+    "romanization": "kyan pyin",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "House Parts",
+    "translations": {
+      "english": "Floor",
+      "korean": "바닥",
+      "japanese": "床",
+      "chinese": "地板"
+    },
+    "romanizations": {
+      "english": "Floor",
+      "korean": "badak",
+      "japanese": "yuka",
+      "chinese": "dìbǎn"
+    },
+    "examples": {
+      "english": "The floor is made of wood.",
+      "korean": "바닥이 나무로 되어 있어요.",
+      "japanese": "床は木でできています。",
+      "chinese": "地板是木头做的。"
+    },
+    "exampleRomanizations": {
+      "english": "The floor is made of wood.",
+      "korean": "badagi namuro doeeo isseoyo.",
+      "japanese": "yuka wa ki de dekite imasu.",
+      "chinese": "dìbǎn shì mùtou zuò de."
+    },
+    "exampleTranslations": {
+      "english": "ကြမ်းပြင်က သစ်သားနဲ့လုပ်ထားတယ်။",
+      "korean": "ကြမ်းပြင်က သစ်သားနဲ့လုပ်ထားတယ်။",
+      "japanese": "ကြမ်းပြင်က သစ်သားနဲ့လုပ်ထားတယ်။",
+      "chinese": "ကြမ်းပြင်က သစ်သားနဲ့လုပ်ထားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["house_parts", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_018",
+    "burmeseWord": "မီးဖို",
+    "romanization": "mi pho",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Kitchen Items",
+    "translations": {
+      "english": "Stove / Oven",
+      "korean": "스토브 / 오븐",
+      "japanese": "コンロ / オーブン",
+      "chinese": "炉灶/烤箱"
+    },
+    "romanizations": {
+      "english": "Stove / Oven",
+      "korean": "seutobeu / obeun",
+      "japanese": "konro / oobun",
+      "chinese": "lúzào / kǎoxiāng"
+    },
+    "examples": {
+      "english": "I cook on the stove.",
+      "korean": "스토브에서 요리해요.",
+      "japanese": "コンロで料理をします。",
+      "chinese": "我在炉灶上做饭。"
+    },
+    "exampleRomanizations": {
+      "english": "I cook on the stove.",
+      "korean": "seutobeueseo yorihaeyo.",
+      "japanese": "konro de ryouri wo shimasu.",
+      "chinese": "wǒ zài lúzào shàng zuòfàn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မီးဖိုမှာ ချက်ပြုတ်တယ်။",
+      "korean": "ကျွန်တော် မီးဖိုမှာ ချက်ပြုတ်တယ်။",
+      "japanese": "ကျွန်တော် မီးဖိုမှာ ချက်ပြုတ်တယ်။",
+      "chinese": "ကျွန်တော် မီးဖိုမှာ ချက်ပြုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["kitchen", "appliances"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_019",
+    "burmeseWord": "ရေခဲသေတ္တာ",
+    "romanization": "yay gale thit ta",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Kitchen Items",
+    "translations": {
+      "english": "Refrigerator",
+      "korean": "냉장고",
+      "japanese": "冷蔵庫",
+      "chinese": "冰箱"
+    },
+    "romanizations": {
+      "english": "Refrigerator",
+      "korean": "naengjanggo",
+      "japanese": "reizouko",
+      "chinese": "bīngxiāng"
+    },
+    "examples": {
+      "english": "I put food in the refrigerator.",
+      "korean": "냉장고에 음식을 넣어요.",
+      "japanese": "冷蔵庫に食べ物を入れます。",
+      "chinese": "我把食物放进冰箱。"
+    },
+    "exampleRomanizations": {
+      "english": "I put food in the refrigerator.",
+      "korean": "naengjanggo-e eumsigeul neoheoyo.",
+      "japanese": "reizouko ni tabemono wo iremasu.",
+      "chinese": "wǒ bǎ shíwù fàng jìn bīngxiāng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အစားအစာတွေကို ရေခဲသေတ္တာထဲထည့်တယ်။",
+      "korean": "ကျွန်တော် အစားအစာတွေကို ရေခဲသေတ္တာထဲထည့်တယ်။",
+      "japanese": "ကျွန်တော် အစားအစာတွေကို ရေခဲသေတ္တာထဲထည့်တယ်။",
+      "chinese": "ကျွန်တော် အစားအစာတွေကို ရေခဲသေတ္တာထဲထည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["kitchen", "appliances"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_020",
+    "burmeseWord": "ရေနွေးအိုး",
+    "romanization": "yay nwe o",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Kitchen Items",
+    "translations": {
+      "english": "Kettle",
+      "korean": "주전자",
+      "japanese": "やかん",
+      "chinese": "水壶"
+    },
+    "romanizations": {
+      "english": "Kettle",
+      "korean": "jujeonja",
+      "japanese": "yakan",
+      "chinese": "shuǐhú"
+    },
+    "examples": {
+      "english": "I boil water in the kettle.",
+      "korean": "주전자에 물을 끓여요.",
+      "japanese": "やかんでお湯を沸かします。",
+      "chinese": "我用壶烧水。"
+    },
+    "exampleRomanizations": {
+      "english": "I boil water in the kettle.",
+      "korean": "jujeonja-e mureul kkeullyeoyo.",
+      "japanese": "yakan de oyu wo wakashimasu.",
+      "chinese": "wǒ yòng hú shāo shuǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ရေနွေးအိုးနဲ့ ရေပြုတ်တယ်။",
+      "korean": "ကျွန်တော် ရေနွေးအိုးနဲ့ ရေပြုတ်တယ်။",
+      "japanese": "ကျွန်တော် ရေနွေးအိုးနဲ့ ရေပြုတ်တယ်။",
+      "chinese": "ကျွန်တော် ရေနွေးအိုးနဲ့ ရေပြုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["kitchen", "appliances"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_021",
+    "burmeseWord": "ပန်းကန်",
+    "romanization": "pan kan",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Dining Items",
+    "translations": {
+      "english": "Plate",
+      "korean": "접시",
+      "japanese": "皿",
+      "chinese": "盘子"
+    },
+    "romanizations": {
+      "english": "Plate",
+      "korean": "jeopsi",
+      "japanese": "sara",
+      "chinese": "pánzi"
+    },
+    "examples": {
+      "english": "Please put the food on the plate.",
+      "korean": "접시에 음식을 담아 주세요.",
+      "japanese": "皿に食べ物を盛ってください。",
+      "chinese": "请把食物放在盘子上。"
+    },
+    "exampleRomanizations": {
+      "english": "Please put the food on the plate.",
+      "korean": "jeopsie eumsigeul dama juseyo.",
+      "japanese": "sara ni tabemono wo motte kudasai.",
+      "chinese": "qǐng bǎ shíwù fàng zài pánzi shàng."
+    },
+    "exampleTranslations": {
+      "english": "ပန်းကန်ပေါ်မှာ အစားအစာထည့်ပေးပါ။",
+      "korean": "ပန်းကန်ပေါ်မှာ အစားအစာထည့်ပေးပါ။",
+      "japanese": "ပန်းကန်ပေါ်မှာ အစားအစာထည့်ပေးပါ။",
+      "chinese": "ပန်းကန်ပေါ်မှာ အစားအစာထည့်ပေးပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["dining", "kitchen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_022",
+    "burmeseWord": "ခွက်",
+    "romanization": "khwet",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Dining Items",
+    "translations": {
+      "english": "Cup / Bowl",
+      "korean": "잔 / 그릇",
+      "japanese": "カップ / 碗",
+      "chinese": "杯子/碗"
+    },
+    "romanizations": {
+      "english": "Cup / Bowl",
+      "korean": "jan / geureut",
+      "japanese": "kappu / wan",
+      "chinese": "bēizi / wǎn"
+    },
+    "examples": {
+      "english": "I drink tea from a cup.",
+      "korean": "잔에 차를 마셔요.",
+      "japanese": "カップでお茶を飲みます。",
+      "chinese": "我用杯子喝茶。"
+    },
+    "exampleRomanizations": {
+      "english": "I drink tea from a cup.",
+      "korean": "jane chareul masyeoyo.",
+      "japanese": "kappu de ocha wo nomimasu.",
+      "chinese": "wǒ yòng bēizi hē chá."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ခွက်နဲ့ လက်ဖက်ရည်သောက်တယ်။",
+      "korean": "ကျွန်တော် ခွက်နဲ့ လက်ဖက်ရည်သောက်တယ်။",
+      "japanese": "ကျွန်တော် ခွက်နဲ့ လက်ဖက်ရည်သောက်တယ်။",
+      "chinese": "ကျွန်တော် ခွက်နဲ့ လက်ဖက်ရည်သောက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["dining", "kitchen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_023",
+    "burmeseWord": "ဇွန်း",
+    "romanization": "zun",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Dining Items",
+    "translations": {
+      "english": "Spoon",
+      "korean": "숟가락",
+      "japanese": "スプーン",
+      "chinese": "勺子"
+    },
+    "romanizations": {
+      "english": "Spoon",
+      "korean": "sutgarak",
+      "japanese": "supuun",
+      "chinese": "sháozi"
+    },
+    "examples": {
+      "english": "I eat soup with a spoon.",
+      "korean": "숟가락으로 수프를 먹어요.",
+      "japanese": "スプーンでスープを食べます。",
+      "chinese": "我用勺子喝汤。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat soup with a spoon.",
+      "korean": "sutgarageuro supeureul meogeoyo.",
+      "japanese": "supuun de suupu wo tabemasu.",
+      "chinese": "wǒ yòng sháozi hē tāng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ဇွန်းနဲ့ ဟင်းချိုစားတယ်။",
+      "korean": "ကျွန်တော် ဇွန်းနဲ့ ဟင်းချိုစားတယ်။",
+      "japanese": "ကျွန်တော် ဇွန်းနဲ့ ဟင်းချိုစားတယ်။",
+      "chinese": "ကျွန်တော် ဇွန်းနဲ့ ဟင်းချိုစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["dining", "kitchen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_024",
+    "burmeseWord": "ခရင်း",
+    "romanization": "kha yin",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Dining Items",
+    "translations": {
+      "english": "Fork",
+      "korean": "포크",
+      "japanese": "フォーク",
+      "chinese": "叉子"
+    },
+    "romanizations": {
+      "english": "Fork",
+      "korean": "pokeu",
+      "japanese": "fooku",
+      "chinese": "chāzi"
+    },
+    "examples": {
+      "english": "I eat pasta with a fork.",
+      "korean": "포크로 파스타를 먹어요.",
+      "japanese": "フォークでパスタを食べます。",
+      "chinese": "我用叉子吃意大利面。"
+    },
+    "exampleRomanizations": {
+      "english": "I eat pasta with a fork.",
+      "korean": "pokeuro paseutareul meogeoyo.",
+      "japanese": "fooku de pasuta wo tabemasu.",
+      "chinese": "wǒ yòng chāzi chī yìdàlìmiàn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ခရင်းနဲ့ ပါစတာစားတယ်။",
+      "korean": "ကျွန်တော် ခရင်းနဲ့ ပါစတာစားတယ်။",
+      "japanese": "ကျွန်တော် ခရင်းနဲ့ ပါစတာစားတယ်။",
+      "chinese": "ကျွန်တော် ခရင်းနဲ့ ပါစတာစားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["dining", "kitchen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_025",
+    "burmeseWord": "ဓား",
+    "romanization": "da",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Kitchen Items",
+    "translations": {
+      "english": "Knife",
+      "korean": "칼",
+      "japanese": "ナイフ",
+      "chinese": "刀"
+    },
+    "romanizations": {
+      "english": "Knife",
+      "korean": "kal",
+      "japanese": "naifu",
+      "chinese": "dāo"
+    },
+    "examples": {
+      "english": "I cut vegetables with a knife.",
+      "korean": "칼로 채소를 썰어요.",
+      "japanese": "ナイフで野菜を切ります。",
+      "chinese": "我用刀切蔬菜。"
+    },
+    "exampleRomanizations": {
+      "english": "I cut vegetables with a knife.",
+      "korean": "kallo chaesoreul sseoreoyo.",
+      "japanese": "naifu de yasai wo kirimasu.",
+      "chinese": "wǒ yòng dāo qiè shūcài."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ဓားနဲ့ ဟင်းသီးဟင်းရွက်တွေကို လှီးတယ်။",
+      "korean": "ကျွန်တော် ဓားနဲ့ ဟင်းသီးဟင်းရွက်တွေကို လှီးတယ်။",
+      "japanese": "ကျွန်တော် ဓားနဲ့ ဟင်းသီးဟင်းရွက်တွေကို လှီးတယ်။",
+      "chinese": "ကျွန်တော် ဓားနဲ့ ဟင်းသီးဟင်းရွက်တွေကို လှီးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["kitchen", "utensils"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_026",
+    "burmeseWord": "မီးသွေးဖိုင်",
+    "romanization": "mi thway phine",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bathroom Items",
+    "translations": {
+      "english": "Toothbrush",
+      "korean": "칫솔",
+      "japanese": "歯ブラシ",
+      "chinese": "牙刷"
+    },
+    "romanizations": {
+      "english": "Toothbrush",
+      "korean": "chitsol",
+      "japanese": "haburashi",
+      "chinese": "yáshuā"
+    },
+    "examples": {
+      "english": "I use a toothbrush every day.",
+      "korean": "매일 칫솔을 사용해요.",
+      "japanese": "毎日歯ブラシを使います。",
+      "chinese": "我每天用牙刷。"
+    },
+    "exampleRomanizations": {
+      "english": "I use a toothbrush every day.",
+      "korean": "maeil chitsoreul sayonghaeyo.",
+      "japanese": "mainichi haburashi wo tsukaimasu.",
+      "chinese": "wǒ měitiān yòng yáshuā."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် နေ့တိုင်း မီးသွေးဖိုင်သုံးတယ်။",
+      "korean": "ကျွန်တော် နေ့တိုင်း မီးသွေးဖိုင်သုံးတယ်။",
+      "japanese": "ကျွန်တော် နေ့တိုင်း မီးသွေးဖိုင်သုံးတယ်။",
+      "chinese": "ကျွန်တော် နေ့တိုင်း မီးသွေးဖိုင်သုံးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "hygiene"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_027",
+    "burmeseWord": "သွားတိုက်ဆေး",
+    "romanization": "thwar taite say",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bathroom Items",
+    "translations": {
+      "english": "Toothpaste",
+      "korean": "치약",
+      "japanese": "歯磨き粉",
+      "chinese": "牙膏"
+    },
+    "romanizations": {
+      "english": "Toothpaste",
+      "korean": "chiyak",
+      "japanese": "hamigakiko",
+      "chinese": "yágāo"
+    },
+    "examples": {
+      "english": "I need to buy toothpaste.",
+      "korean": "치약을 사야 해요.",
+      "japanese": "歯磨き粉を買わなければなりません。",
+      "chinese": "我需要买牙膏。"
+    },
+    "exampleRomanizations": {
+      "english": "I need to buy toothpaste.",
+      "korean": "chiyageul saya haeyo.",
+      "japanese": "hamigakiko wo kawanakereba narimasen.",
+      "chinese": "wǒ xūyào mǎi yágāo."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် သွားတိုက်ဆေးဝယ်ဖို့လိုတယ်။",
+      "korean": "ကျွန်တော် သွားတိုက်ဆေးဝယ်ဖို့လိုတယ်။",
+      "japanese": "ကျွန်တော် သွားတိုက်ဆေးဝယ်ဖို့လိုတယ်။",
+      "chinese": "ကျွန်တော် သွားတိုက်ဆေးဝယ်ဖို့လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "hygiene"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_028",
+    "burmeseWord": "ဆပ်ပြာ",
+    "romanization": "hput pya",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bathroom Items",
+    "translations": {
+      "english": "Soap",
+      "korean": "비누",
+      "japanese": "石鹸",
+      "chinese": "肥皂"
+    },
+    "romanizations": {
+      "english": "Soap",
+      "korean": "binu",
+      "japanese": "sekken",
+      "chinese": "féizào"
+    },
+    "examples": {
+      "english": "I wash my hands with soap.",
+      "korean": "비누로 손을 씻어요.",
+      "japanese": "石鹸で手を洗います。",
+      "chinese": "我用肥皂洗手。"
+    },
+    "exampleRomanizations": {
+      "english": "I wash my hands with soap.",
+      "korean": "binuro soneul ssisseoyo.",
+      "japanese": "sekken de te wo araimasu.",
+      "chinese": "wǒ yòng féizào xǐ shǒu."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ဆပ်ပြာနဲ့ လက်ဆေးတယ်။",
+      "korean": "ကျွန်တော် ဆပ်ပြာနဲ့ လက်ဆေးတယ်။",
+      "japanese": "ကျွန်တော် ဆပ်ပြာနဲ့ လက်ဆေးတယ်။",
+      "chinese": "ကျွန်တော် ဆပ်ပြာနဲ့ လက်ဆေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "hygiene"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_029",
+    "burmeseWord": "လှည်းမျှော်",
+    "romanization": "hle hmyaw",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Cleaning Items",
+    "translations": {
+      "english": "Broom",
+      "korean": "빗자루",
+      "japanese": "ほうき",
+      "chinese": "扫帚"
+    },
+    "romanizations": {
+      "english": "Broom",
+      "korean": "bitjaru",
+      "japanese": "houki",
+      "chinese": "sàozhou"
+    },
+    "examples": {
+      "english": "I sweep the floor with a broom.",
+      "korean": "빗자루로 바닥을 쓸어요.",
+      "japanese": "ほうきで床を掃きます。",
+      "chinese": "我用扫帚扫地。"
+    },
+    "exampleRomanizations": {
+      "english": "I sweep the floor with a broom.",
+      "korean": "bitjaruro badageul sseureoyo.",
+      "japanese": "houki de yuka wo hakimasu.",
+      "chinese": "wǒ yòng sàozhou sǎo dì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် လှည်းမျှော်နဲ့ ကြမ်းပြင်တွေသုတ်တယ်။",
+      "korean": "ကျွန်တော် လှည်းမျှော်နဲ့ ကြမ်းပြင်တွေသုတ်တယ်။",
+      "japanese": "ကျွန်တော် လှည်းမျှော်နဲ့ ကြမ်းပြင်တွေသုတ်တယ်။",
+      "chinese": "ကျွန်တော် လှည်းမျှော်နဲ့ ကြမ်းပြင်တွေသုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["cleaning", "household"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_030",
+    "burmeseWord": "တစ်ရှူး",
+    "romanization": "ta shu",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Cleaning Items",
+    "translations": {
+      "english": "Tissue / Napkin",
+      "korean": "휴지",
+      "japanese": "ティッシュ",
+      "chinese": "纸巾/餐巾"
+    },
+    "romanizations": {
+      "english": "Tissue / Napkin",
+      "korean": "hyuji",
+      "japanese": "tisshu",
+      "chinese": "zhǐjīn / cānjīn"
+    },
+    "examples": {
+      "english": "I use a tissue to clean the table.",
+      "korean": "휴지로 테이블을 닦아요.",
+      "japanese": "ティッシュでテーブルを拭きます。",
+      "chinese": "我用纸巾擦桌子。"
+    },
+    "exampleRomanizations": {
+      "english": "I use a tissue to clean the table.",
+      "korean": "hyujiro teibeureul dakkaeyo.",
+      "japanese": "tisshu de teeburu wo fukimasu.",
+      "chinese": "wǒ yòng zhǐjīn cā zhuōzi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် တစ်ရှူးနဲ့ စားပွဲသုတ်တယ်။",
+      "korean": "ကျွန်တော် တစ်ရှူးနဲ့ စားပွဲသုတ်တယ်။",
+      "japanese": "ကျွန်တော် တစ်ရှူးနဲ့ စားပွဲသုတ်တယ်။",
+      "chinese": "ကျွန်တော် တစ်ရှူးနဲ့ စားပွဲသုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["cleaning", "household"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_031",
+    "burmeseWord": "အဝတ်လျှော်စက်",
+    "romanization": "a wut shaw set",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Appliances",
+    "translations": {
+      "english": "Washing machine",
+      "korean": "세탁기",
+      "japanese": "洗濯機",
+      "chinese": "洗衣机"
+    },
+    "romanizations": {
+      "english": "Washing machine",
+      "korean": "setakgi",
+      "japanese": "sentakuki",
+      "chinese": "xǐyījī"
+    },
+    "examples": {
+      "english": "I wash clothes in the washing machine.",
+      "korean": "세탁기로 옷을 빨아요.",
+      "japanese": "洗濯機で服を洗います。",
+      "chinese": "我用洗衣机洗衣服。"
+    },
+    "exampleRomanizations": {
+      "english": "I wash clothes in the washing machine.",
+      "korean": "setakgiro oseul ppallayo.",
+      "japanese": "sentakuki de fuku wo araimasu.",
+      "chinese": "wǒ yòng xǐyījī xǐ yīfu."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အဝတ်လျှော်စက်နဲ့ အဝတ်လျှော်တယ်။",
+      "korean": "ကျွန်တော် အဝတ်လျှော်စက်နဲ့ အဝတ်လျှော်တယ်။",
+      "japanese": "ကျွန်တော် အဝတ်လျှော်စက်နဲ့ အဝတ်လျှော်တယ်။",
+      "chinese": "ကျွန်တော် အဝတ်လျှော်စက်နဲ့ အဝတ်လျှော်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["appliances", "cleaning"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_032",
+    "burmeseWord": "ရေစုပ်စက်",
+    "romanization": "yay zoke set",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Appliances",
+    "translations": {
+      "english": "Dishwasher",
+      "korean": "식기세척기",
+      "japanese": "食器洗い機",
+      "chinese": "洗碗机"
+    },
+    "romanizations": {
+      "english": "Dishwasher",
+      "korean": "sikgisecheokgi",
+      "japanese": "shokki araiki",
+      "chinese": "xǐwǎnjī"
+    },
+    "examples": {
+      "english": "The dishwasher cleans the dishes.",
+      "korean": "식기세척기가 설거지를 해요.",
+      "japanese": "食器洗い機が皿を洗います。",
+      "chinese": "洗碗机洗碗。"
+    },
+    "exampleRomanizations": {
+      "english": "The dishwasher cleans the dishes.",
+      "korean": "sikgisecheokgiga seolgeojireul haeyo.",
+      "japanese": "shokki araiki ga sara wo araimasu.",
+      "chinese": "xǐwǎnjī xǐ wǎn."
+    },
+    "exampleTranslations": {
+      "english": "ရေစုပ်စက်က ပန်းကန်တွေကို ဆေးပေးတယ်။",
+      "korean": "ရေစုပ်စက်က ပန်းကန်တွေကို ဆေးပေးတယ်။",
+      "japanese": "ရေစုပ်စက်က ပန်းကန်တွေကို ဆေးပေးတယ်။",
+      "chinese": "ရေစုပ်စက်က ပန်းကန်တွေကို ဆေးပေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["appliances", "kitchen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_033",
+    "burmeseWord": "ရေပူပေးစက်",
+    "romanization": "yay pu pay set",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Appliances",
+    "translations": {
+      "english": "Water heater",
+      "korean": "온수기",
+      "japanese": "給湯器",
+      "chinese": "热水器"
+    },
+    "romanizations": {
+      "english": "Water heater",
+      "korean": "onsugi",
+      "japanese": "kyuutouki",
+      "chinese": "rèshuǐqì"
+    },
+    "examples": {
+      "english": "The water heater gives hot water.",
+      "korean": "온수기가 뜨거운 물을 공급해요.",
+      "japanese": "給湯器がお湯を供給します。",
+      "chinese": "热水器提供热水。"
+    },
+    "exampleRomanizations": {
+      "english": "The water heater gives hot water.",
+      "korean": "onsugiga tteugeoun mureul gonggeuphaeyo.",
+      "japanese": "kyuutouki ga oyu wo kyoukyuu shimasu.",
+      "chinese": "rèshuǐqì tígōng rèshuǐ."
+    },
+    "exampleTranslations": {
+      "english": "ရေပူပေးစက်က ရေပူကိုပေးတယ်။",
+      "korean": "ရေပူပေးစက်က ရေပူကိုပေးတယ်။",
+      "japanese": "ရေပူပေးစက်က ရေပူကိုပေးတယ်။",
+      "chinese": "ရေပူပေးစက်က ရေပူကိုပေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["appliances", "bathroom"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_034",
+    "burmeseWord": "အိမ်သာ",
+    "romanization": "ein tha",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bathroom",
+    "translations": {
+      "english": "Toilet",
+      "korean": "화장실",
+      "japanese": "トイレ",
+      "chinese": "厕所"
+    },
+    "romanizations": {
+      "english": "Toilet",
+      "korean": "hwajangsil",
+      "japanese": "toire",
+      "chinese": "cèsuǒ"
+    },
+    "examples": {
+      "english": "Where is the toilet?",
+      "korean": "화장실이 어디에요?",
+      "japanese": "トイレはどこですか？",
+      "chinese": "厕所在哪里？"
+    },
+    "exampleRomanizations": {
+      "english": "Where is the toilet?",
+      "korean": "hwajangsiri eodieyo?",
+      "japanese": "toire wa doko desu ka?",
+      "chinese": "cèsuǒ zài nǎlǐ?"
+    },
+    "exampleTranslations": {
+      "english": "အိမ်သာ ဘယ်မှာလဲ။",
+      "korean": "အိမ်သာ ဘယ်မှာလဲ။",
+      "japanese": "အိမ်သာ ဘယ်မှာလဲ။",
+      "chinese": "အိမ်သာ ဘယ်မှာလဲ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_035",
+    "burmeseWord": "ကြေး",
+    "romanization": "kyay",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Home Maintenance",
+    "translations": {
+      "english": "Mirror",
+      "korean": "거울",
+      "japanese": "鏡",
+      "chinese": "镜子"
+    },
+    "romanizations": {
+      "english": "Mirror",
+      "korean": "geoul",
+      "japanese": "kagami",
+      "chinese": "jìngzi"
+    },
+    "examples": {
+      "english": "I look at myself in the mirror.",
+      "korean": "거울에서 저를 봐요.",
+      "japanese": "鏡で自分を見ます。",
+      "chinese": "我在镜子里看自己。"
+    },
+    "exampleRomanizations": {
+      "english": "I look at myself in the mirror.",
+      "korean": "geoureseo jeoreul bwayo.",
+      "japanese": "kagami de jibun wo mimasu.",
+      "chinese": "wǒ zài jìngzi lǐ kàn zìjǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် ကြေးမှာ ကိုယ့်ကိုယ်ကိုကြည့်တယ်။",
+      "korean": "ကျွန်တော် ကြေးမှာ ကိုယ့်ကိုယ်ကိုကြည့်တယ်။",
+      "japanese": "ကျွန်တော် ကြေးမှာ ကိုယ့်ကိုယ်ကိုကြည့်တယ်။",
+      "chinese": "ကျွန်တော် ကြေးမှာ ကိုယ့်ကိုယ်ကိုကြည့်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "bedroom"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_036",
+    "burmeseWord": "အိမ်ဖော်",
+    "romanization": "ein hpo",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Home Maintenance",
+    "translations": {
+      "english": "Housekeeper / Maid",
+      "korean": "가정부",
+      "japanese": "家政婦",
+      "chinese": "管家/家政"
+    },
+    "romanizations": {
+      "english": "Housekeeper / Maid",
+      "korean": "gajeongbu",
+      "japanese": "kaseifu",
+      "chinese": "guǎnjiā / jiāzhèng"
+    },
+    "examples": {
+      "english": "The housekeeper cleans the house.",
+      "korean": "가정부가 집을 청소해요.",
+      "japanese": "家政婦が家を掃除します。",
+      "chinese": "管家打扫房子。"
+    },
+    "exampleRomanizations": {
+      "english": "The housekeeper cleans the house.",
+      "korean": "gajeongbuga jibeul cheongsohaeyo.",
+      "japanese": "kaseifu ga ie wo souji shimasu.",
+      "chinese": "guǎnjiā dǎsǎo fángzi."
+    },
+    "exampleTranslations": {
+      "english": "အိမ်ဖော်က အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "korean": "အိမ်ဖော်က အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "japanese": "အိမ်ဖော်က အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "chinese": "အိမ်ဖော်က အိမ်သန့်ရှင်းရေးလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["household", "work"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_037",
+    "burmeseWord": "အိမ်ငှားခမှုန်",
+    "romanization": "ein hngar kha hmu",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Home Maintenance",
+    "translations": {
+      "english": "Rent",
+      "korean": "집세",
+      "japanese": "家賃",
+      "chinese": "租金"
+    },
+    "romanizations": {
+      "english": "Rent",
+      "korean": "jipse",
+      "japanese": "yachin",
+      "chinese": "zūjīn"
+    },
+    "examples": {
+      "english": "The rent is expensive.",
+      "korean": "집세가 비싸요.",
+      "japanese": "家賃が高いです。",
+      "chinese": "租金很贵。"
+    },
+    "exampleRomanizations": {
+      "english": "The rent is expensive.",
+      "korean": "jipsega bissayo.",
+      "japanese": "yachin ga takai desu.",
+      "chinese": "zūjīn hěn guì."
+    },
+    "exampleTranslations": {
+      "english": "အိမ်ငှားခမှုန် စျေးကြီးတယ်။",
+      "korean": "အိမ်ငှားခမှုန် စျေးကြီးတယ်။",
+      "japanese": "အိမ်ငှားခမှုန် စျေးကြီးတယ်။",
+      "chinese": "အိမ်ငှားခမှုန် စျေးကြီးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["housing", "finance"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_038",
+    "burmeseWord": "မီးလုံး",
+    "romanization": "mi lone",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Lighting",
+    "translations": {
+      "english": "Light bulb",
+      "korean": "전구",
+      "japanese": "電球",
+      "chinese": "灯泡"
+    },
+    "romanizations": {
+      "english": "Light bulb",
+      "korean": "jeongu",
+      "japanese": "denkyuu",
+      "chinese": "dēngpào"
+    },
+    "examples": {
+      "english": "The light bulb needs to be replaced.",
+      "korean": "전구를 교체해야 해요.",
+      "japanese": "電球を交換しなければなりません。",
+      "chinese": "灯泡需要更换。"
+    },
+    "exampleRomanizations": {
+      "english": "The light bulb needs to be replaced.",
+      "korean": "jeongureul gyochehaeya haeyo.",
+      "japanese": "denkyuu wo koukan shinakereba narimasen.",
+      "chinese": "dēngpào xūyào gēnghuàn."
+    },
+    "exampleTranslations": {
+      "english": "မီးလုံးကို လဲဖို့လိုတယ်။",
+      "korean": "မီးလုံးကို လဲဖို့လိုတယ်။",
+      "japanese": "မီးလုံးကို လဲဖို့လိုတယ်။",
+      "chinese": "မီးလုံးကို လဲဖို့လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["lighting", "maintenance"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_039",
+    "burmeseWord": "အရောင်ခြယ်ထားသော",
+    "romanization": "a yaung chay htar thaw",
+    "partOfSpeech": "adjective",
+    "category": "home_living",
+    "subCategory": "Decor",
+    "translations": {
+      "english": "Painted / Colored",
+      "korean": "칠한 / 색칠한",
+      "japanese": "塗った / 色をつけた",
+      "chinese": "涂色的/着色的"
+    },
+    "romanizations": {
+      "english": "Painted / Colored",
+      "korean": "chilhan / saekchilhan",
+      "japanese": "nutta / iro wo tsuketa",
+      "chinese": "túsè de / zhuósè de"
+    },
+    "examples": {
+      "english": "The wall is painted blue.",
+      "korean": "벽이 파란색으로 칠해져 있어요.",
+      "japanese": "壁が青色に塗ってあります。",
+      "chinese": "墙被漆成了蓝色。"
+    },
+    "exampleRomanizations": {
+      "english": "The wall is painted blue.",
+      "korean": "byeogi paransaegeuro chilhaejyeo isseoyo.",
+      "japanese": "kabe ga aoiro ni nutte arimasu.",
+      "chinese": "qiáng bèi qī chéngle lánsè."
+    },
+    "exampleTranslations": {
+      "english": "နံရံကို အပြာရောင်ဆိုးထားတယ်။",
+      "korean": "နံရံကို အပြာရောင်ဆိုးထားတယ်။",
+      "japanese": "နံရံကို အပြာရောင်ဆိုးထားတယ်။",
+      "chinese": "နံရံကို အပြာရောင်ဆိုးထားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["decor", "colors"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_040",
+    "burmeseWord": "ကော်ဇော",
+    "romanization": "kaw zaw",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Floor Coverings",
+    "translations": {
+      "english": "Carpet",
+      "korean": "카펫",
+      "japanese": "カーペット",
+      "chinese": "地毯"
+    },
+    "romanizations": {
+      "english": "Carpet",
+      "korean": "kapet",
+      "japanese": "kaapetto",
+      "chinese": "dìtǎn"
+    },
+    "examples": {
+      "english": "The carpet is soft.",
+      "korean": "카펫이 부드러워요.",
+      "japanese": "カーペットは柔らかいです。",
+      "chinese": "地毯很柔软。"
+    },
+    "exampleRomanizations": {
+      "english": "The carpet is soft.",
+      "korean": "kapeti budeureowoyo.",
+      "japanese": "kaapetto wa yawarakai desu.",
+      "chinese": "dìtǎn hěn róuruǎn."
+    },
+    "exampleTranslations": {
+      "english": "ကော်ဇောက ပျော့တယ်။",
+      "korean": "ကော်ဇောက ပျော့တယ်။",
+      "japanese": "ကော်ဇောက ပျော့တယ်။",
+      "chinese": "ကော်ဇောက ပျော့တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["floor", "decor"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_041",
+    "burmeseWord": "ကုလားကာ",
+    "romanization": "ku lar ka",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Decor",
+    "translations": {
+      "english": "Curtain",
+      "korean": "커튼",
+      "japanese": "カーテン",
+      "chinese": "窗帘"
+    },
+    "romanizations": {
+      "english": "Curtain",
+      "korean": "keoteun",
+      "japanese": "kaaten",
+      "chinese": "chuānglián"
+    },
+    "examples": {
+      "english": "Please close the curtains.",
+      "korean": "커튼을 닫아 주세요.",
+      "japanese": "カーテンを閉めてください。",
+      "chinese": "请拉上窗帘。"
+    },
+    "exampleRomanizations": {
+      "english": "Please close the curtains.",
+      "korean": "keoteuneul dada juseyo.",
+      "japanese": "kaaten wo shimete kudasai.",
+      "chinese": "qǐng lā shàng chuānglián."
+    },
+    "exampleTranslations": {
+      "english": "ကုလားကာပိတ်ပေးပါ။",
+      "korean": "ကုလားကာပိတ်ပေးပါ။",
+      "japanese": "ကုလားကာပိတ်ပေးပါ။",
+      "chinese": "ကုလားကာပိတ်ပေးပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["decor", "window"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_042",
+    "burmeseWord": "ပန်းချီ",
+    "romanization": "pan chi",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Decor",
+    "translations": {
+      "english": "Painting / Picture",
+      "korean": "그림",
+      "japanese": "絵",
+      "chinese": "画/图画"
+    },
+    "romanizations": {
+      "english": "Painting / Picture",
+      "korean": "geurim",
+      "japanese": "e",
+      "chinese": "huà / túhuà"
+    },
+    "examples": {
+      "english": "There is a painting on the wall.",
+      "korean": "벽에 그림이 있어요.",
+      "japanese": "壁に絵があります。",
+      "chinese": "墙上有一幅画。"
+    },
+    "exampleRomanizations": {
+      "english": "There is a painting on the wall.",
+      "korean": "byeoge geurimi isseoyo.",
+      "japanese": "kabe ni e ga arimasu.",
+      "chinese": "qiáng shàng yǒu yī fú huà."
+    },
+    "exampleTranslations": {
+      "english": "နံရံမှာ ပန်းချီတစ်ချပ်ရှိတယ်။",
+      "korean": "နံရံမှာ ပန်းချီတစ်ချပ်ရှိတယ်။",
+      "japanese": "နံရံမှာ ပန်းချီတစ်ချပ်ရှိတယ်။",
+      "chinese": "နံရံမှာ ပန်းချီတစ်ချပ်ရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["decor", "art"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_043",
+    "burmeseWord": "အပင်အိုး",
+    "romanization": "a pin o",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Decor",
+    "translations": {
+      "english": "Potted plant / Flower pot",
+      "korean": "화분",
+      "japanese": "植木鉢",
+      "chinese": "花盆/盆栽"
+    },
+    "romanizations": {
+      "english": "Potted plant / Flower pot",
+      "korean": "hwabun",
+      "japanese": "uekibachi",
+      "chinese": "huāpén / pénzāi"
+    },
+    "examples": {
+      "english": "There are potted plants in the living room.",
+      "korean": "거실에 화분이 있어요.",
+      "japanese": "リビングに植木鉢があります。",
+      "chinese": "客厅里有盆栽植物。"
+    },
+    "exampleRomanizations": {
+      "english": "There are potted plants in the living room.",
+      "korean": "geosire hwabuni isseoyo.",
+      "japanese": "ribingu ni uekibachi ga arimasu.",
+      "chinese": "kètīng lǐ yǒu pénzāi zhíwù."
+    },
+    "exampleTranslations": {
+      "english": "ဧည့်ခန်းမှာ အပင်အိုးတွေရှိတယ်။",
+      "korean": "ဧည့်ခန်းမှာ အပင်အိုးတွေရှိတယ်။",
+      "japanese": "ဧည့်ခန်းမှာ အပင်အိုးတွေရှိတယ်။",
+      "chinese": "ဧည့်ခန်းမှာ အပင်အိုးတွေရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["decor", "plants"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_044",
+    "burmeseWord": "မီးလျှံကိရိယာ",
+    "romanization": "mi shan ka rai ya",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Lighting",
+    "translations": {
+      "english": "Fire alarm / Smoke detector",
+      "korean": "화재경보기",
+      "japanese": "火災警報器",
+      "chinese": "火灾报警器"
+    },
+    "romanizations": {
+      "english": "Fire alarm / Smoke detector",
+      "korean": "hwajaegyeongbogi",
+      "japanese": "kasai keihouki",
+      "chinese": "huǒzāi bàojǐngqì"
+    },
+    "examples": {
+      "english": "The fire alarm is in the kitchen.",
+      "korean": "화재경보기가 부엌에 있어요.",
+      "japanese": "火災警報器がキッチンにあります。",
+      "chinese": "火灾报警器在厨房里。"
+    },
+    "exampleRomanizations": {
+      "english": "The fire alarm is in the kitchen.",
+      "korean": "hwajaegyeongbogiga bueoke isseoyo.",
+      "japanese": "kasai keihouki ga kitchin ni arimasu.",
+      "chinese": "huǒzāi bàojǐngqì zài chúfáng lǐ."
+    },
+    "exampleTranslations": {
+      "english": "မီးလျှံကိရိယာက မီးဖိုချောင်မှာရှိတယ်။",
+      "korean": "မီးလျှံကိရိယာက မီးဖိုချောင်မှာရှိတယ်။",
+      "japanese": "မီးလျှံကိရိယာက မီးဖိုချောင်မှာရှိတယ်။",
+      "chinese": "မီးလျှံကိရိယာက မီးဖိုချောင်မှာရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["safety", "appliances"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_045",
+    "burmeseWord": "အိမ်အသုံးအဆောင်",
+    "romanization": "ein a thone a saung",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "General",
+    "translations": {
+      "english": "Household items / Furniture",
+      "korean": "가정 용품",
+      "japanese": "家庭用品",
+      "chinese": "家居用品"
+    },
+    "romanizations": {
+      "english": "Household items / Furniture",
+      "korean": "gajeong yongpum",
+      "japanese": "katei youhin",
+      "chinese": "jiājū yòngpǐn"
+    },
+    "examples": {
+      "english": "I need to buy some household items.",
+      "korean": "가정 용품을 좀 사야 해요.",
+      "japanese": "家庭用品を買わなければなりません。",
+      "chinese": "我需要买一些家居用品。"
+    },
+    "exampleRomanizations": {
+      "english": "I need to buy some household items.",
+      "korean": "gajeong yongpumeul jom saya haeyo.",
+      "japanese": "katei youhin wo kawanakereba narimasen.",
+      "chinese": "wǒ xūyào mǎi yīxiē jiājū yòngpǐn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အိမ်အသုံးအဆောင်တွေဝယ်ဖို့လိုတယ်။",
+      "korean": "ကျွန်တော် အိမ်အသုံးအဆောင်တွေဝယ်ဖို့လိုတယ်။",
+      "japanese": "ကျွန်တော် အိမ်အသုံးအဆောင်တွေဝယ်ဖို့လိုတယ်။",
+      "chinese": "ကျွန်တော် အိမ်အသုံးအဆောင်တွေဝယ်ဖို့လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["household", "furniture"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_046",
+    "burmeseWord": "အိမ်သန့်ရှင်းရေး",
+    "romanization": "ein than hsin yay",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Cleaning",
+    "translations": {
+      "english": "House cleaning",
+      "korean": "집 청소",
+      "japanese": "家の掃除",
+      "chinese": "打扫房屋"
+    },
+    "romanizations": {
+      "english": "House cleaning",
+      "korean": "jip cheongso",
+      "japanese": "ie no souji",
+      "chinese": "dǎsǎo fángwū"
+    },
+    "examples": {
+      "english": "I do house cleaning every weekend.",
+      "korean": "매주 주말에 집 청소를 해요.",
+      "japanese": "毎週週末に家の掃除をします。",
+      "chinese": "我每个周末打扫房屋。"
+    },
+    "exampleRomanizations": {
+      "english": "I do house cleaning every weekend.",
+      "korean": "maeju jumare jip cheongsoreul haeyo.",
+      "japanese": "maishuu shuumatsu ni ie no souji wo shimasu.",
+      "chinese": "wǒ měi gè zhōumò dǎsǎo fángwū."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "korean": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "japanese": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။",
+      "chinese": "ကျွန်တော် အားလပ်ရက်တိုင်း အိမ်သန့်ရှင်းရေးလုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["cleaning", "household"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_047",
+    "burmeseWord": "လက်ဆေးချိတ်",
+    "romanization": "let say chait",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bathroom",
+    "translations": {
+      "english": "Hand towel",
+      "korean": "손수건",
+      "japanese": "ハンドタオル",
+      "chinese": "手巾/擦手巾"
+    },
+    "romanizations": {
+      "english": "Hand towel",
+      "korean": "sonsugeon",
+      "japanese": "hando taoru",
+      "chinese": "shǒujīn / cāshǒujīn"
+    },
+    "examples": {
+      "english": "Please use the hand towel.",
+      "korean": "손수건을 사용해 주세요.",
+      "japanese": "ハンドタオルを使ってください。",
+      "chinese": "请使用擦手巾。"
+    },
+    "exampleRomanizations": {
+      "english": "Please use the hand towel.",
+      "korean": "sonsugeoneul sayonghae juseyo.",
+      "japanese": "hando taoru wo tsukatte kudasai.",
+      "chinese": "qǐng shǐyòng cāshǒujīn."
+    },
+    "exampleTranslations": {
+      "english": "လက်ဆေးချိတ်သုံးပေးပါ။",
+      "korean": "လက်ဆေးချိတ်သုံးပေးပါ။",
+      "japanese": "လက်ဆေးချိတ်သုံးပေးပါ။",
+      "chinese": "လက်ဆေးချိတ်သုံးပေးပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bathroom", "linen"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_048",
+    "burmeseWord": "ကုတင်အကာ",
+    "romanization": "ko tin a kar",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Bedroom",
+    "translations": {
+      "english": "Bed frame",
+      "korean": "침대 프레임",
+      "japanese": "ベッドフレーム",
+      "chinese": "床架"
+    },
+    "romanizations": {
+      "english": "Bed frame",
+      "korean": "chimdae peureim",
+      "japanese": "beddo fureemu",
+      "chinese": "chuángjià"
+    },
+    "examples": {
+      "english": "The bed frame is made of wood.",
+      "korean": "침대 프레임은 나무로 만들어졌어요.",
+      "japanese": "ベッドフレームは木で作られています。",
+      "chinese": "床架是木头做的。"
+    },
+    "exampleRomanizations": {
+      "english": "The bed frame is made of wood.",
+      "korean": "chimdae peureimeun namuro mandeureojyeosseoyo.",
+      "japanese": "beddo fureemu wa ki de tsukurarete imasu.",
+      "chinese": "chuángjià shì mùtou zuò de."
+    },
+    "exampleTranslations": {
+      "english": "ကုတင်အကာက သစ်သားနဲ့လုပ်ထားတယ်။",
+      "korean": "ကုတင်အကာက သစ်သားနဲ့လုပ်ထားတယ်။",
+      "japanese": "ကုတင်အကာက သစ်သားနဲ့လုပ်ထားတယ်။",
+      "chinese": "ကုတင်အကာက သစ်သားနဲ့လုပ်ထားတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["bedroom", "furniture"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_049",
+    "burmeseWord": "အိမ်သုံးပစ္စည်း",
+    "romanization": "ein thone pyit si",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "General",
+    "translations": {
+      "english": "Home supplies",
+      "korean": "생활용품",
+      "japanese": "生活用品",
+      "chinese": "生活用品/家庭用品"
+    },
+    "romanizations": {
+      "english": "Home supplies",
+      "korean": "saenghwalyongpum",
+      "japanese": "seikatsu youhin",
+      "chinese": "shēnghuó yòngpǐn / jiātíng yòngpǐn"
+    },
+    "examples": {
+      "english": "I need to buy some home supplies.",
+      "korean": "생활용품을 좀 사야 해요.",
+      "japanese": "生活用品を買わなければなりません。",
+      "chinese": "我需要买一些生活用品。"
+    },
+    "exampleRomanizations": {
+      "english": "I need to buy some home supplies.",
+      "korean": "saenghwalyongpumeul jom saya haeyo.",
+      "japanese": "seikatsu youhin wo kawanakereba narimasen.",
+      "chinese": "wǒ xūyào mǎi yīxiē shēnghuó yòngpǐn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် အိမ်သုံးပစ္စည်းတွေဝယ်ဖို့လိုတယ်။",
+      "korean": "ကျွန်တော် အိမ်သုံးပစ္စည်းတွေဝယ်ဖို့လိုတယ်။",
+      "japanese": "ကျွန်တော် အိမ်သုံးပစ္စည်းတွေဝယ်ဖို့လိုတယ်။",
+      "chinese": "ကျွန်တော် အိမ်သုံးပစ္စည်းတွေဝယ်ဖို့လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["household", "supplies"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_home_050",
+    "burmeseWord": "အိမ်ပြုပြင်ရေး",
+    "romanization": "ein pyu pyin yay",
+    "partOfSpeech": "noun",
+    "category": "home_living",
+    "subCategory": "Maintenance",
+    "translations": {
+      "english": "Home repair / Maintenance",
+      "korean": "집 수리",
+      "japanese": "家の修理",
+      "chinese": "房屋维修"
+    },
+    "romanizations": {
+      "english": "Home repair / Maintenance",
+      "korean": "jip suri",
+      "japanese": "ie no shuuri",
+      "chinese": "fángwū wéixiū"
+    },
+    "examples": {
+      "english": "The house needs home repair.",
+      "korean": "집이 수리가 필요해요.",
+      "japanese": "家は修理が必要です。",
+      "chinese": "这房子需要维修。"
+    },
+    "exampleRomanizations": {
+      "english": "The house needs home repair.",
+      "korean": "jibi suriga piryohaeyo.",
+      "japanese": "ie wa shuuri ga hitsuyou desu.",
+      "chinese": "zhè fángzi xūyào wéixiū."
+    },
+    "exampleTranslations": {
+      "english": "အိမ်က ပြုပြင်ဖို့လိုတယ်။",
+      "korean": "အိမ်က ပြုပြင်ဖို့လိုတယ်။",
+      "japanese": "အိမ်က ပြုပြင်ဖို့လိုတယ်။",
+      "chinese": "အိမ်က ပြုပြင်ဖို့လိုတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["maintenance", "household"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_001",
+    "burmeseWord": "မိခင်",
+    "romanization": "mi khin",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Mother",
+      "korean": "어머니",
+      "japanese": "母",
+      "chinese": "母亲"
+    },
+    "romanizations": {
+      "english": "Mother",
+      "korean": "eomeoni",
+      "japanese": "haha",
+      "chinese": "mǔqīn"
+    },
+    "examples": {
+      "english": "My mother is kind.",
+      "korean": "제 어머니는 친절하세요.",
+      "japanese": "私の母は優しいです。",
+      "chinese": "我的母亲很善良。"
+    },
+    "exampleRomanizations": {
+      "english": "My mother is kind.",
+      "korean": "je eomeonineun chinjeolhaseyo.",
+      "japanese": "watashi no haha wa yasashii desu.",
+      "chinese": "wǒ de mǔqīn hěn shànliáng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အမေက ကြင်နာတယ်။",
+      "korean": "ကျွန်တော့်အမေက ကြင်နာတယ်။",
+      "japanese": "ကျွန်တော့်အမေက ကြင်နာတယ်။",
+      "chinese": "ကျွန်တော့်အမေက ကြင်နာတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "immediate", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_002",
+    "burmeseWord": "ဖခင်",
+    "romanization": "pha khin",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Father",
+      "korean": "아버지",
+      "japanese": "父",
+      "chinese": "父亲"
+    },
+    "romanizations": {
+      "english": "Father",
+      "korean": "abeoji",
+      "japanese": "chichi",
+      "chinese": "fùqīn"
+    },
+    "examples": {
+      "english": "My father works hard.",
+      "korean": "제 아버지는 열심히 일하세요.",
+      "japanese": "私の父は一生懸命働きます。",
+      "chinese": "我的父亲工作很努力。"
+    },
+    "exampleRomanizations": {
+      "english": "My father works hard.",
+      "korean": "je abeojineun yeolsimhi ilhaseyo.",
+      "japanese": "watashi no chichi wa isshoukenmei hatarakimasu.",
+      "chinese": "wǒ de fùqīn gōngzuò hěn nǔlì."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အဖေက ကြိုးစားပြီး အလုပ်လုပ်တယ်။",
+      "korean": "ကျွန်တော့်အဖေက ကြိုးစားပြီး အလုပ်လုပ်တယ်။",
+      "japanese": "ကျွန်တော့်အဖေက ကြိုးစားပြီး အလုပ်လုပ်တယ်။",
+      "chinese": "ကျွန်တော့်အဖေက ကြိုးစားပြီး အလုပ်လုပ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "immediate", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_003",
+    "burmeseWord": "သား",
+    "romanization": "tha",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Son",
+      "korean": "아들",
+      "japanese": "息子",
+      "chinese": "儿子"
+    },
+    "romanizations": {
+      "english": "Son",
+      "korean": "adeul",
+      "japanese": "musuko",
+      "chinese": "érzi"
+    },
+    "examples": {
+      "english": "I have one son.",
+      "korean": "아들이 한 명 있어요.",
+      "japanese": "息子が一人います。",
+      "chinese": "我有一个儿子。"
+    },
+    "exampleRomanizations": {
+      "english": "I have one son.",
+      "korean": "adeuri han myeong isseoyo.",
+      "japanese": "musuko ga hitori imasu.",
+      "chinese": "wǒ yǒu yī gè érzi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်မှာ သားတစ်ယောက်ရှိတယ်။",
+      "korean": "ကျွန်တော်မှာ သားတစ်ယောက်ရှိတယ်။",
+      "japanese": "ကျွန်တော်မှာ သားတစ်ယောက်ရှိတယ်။",
+      "chinese": "ကျွန်တော်မှာ သားတစ်ယောက်ရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "immediate", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_004",
+    "burmeseWord": "သမီး",
+    "romanization": "tha mee",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Daughter",
+      "korean": "딸",
+      "japanese": "娘",
+      "chinese": "女儿"
+    },
+    "romanizations": {
+      "english": "Daughter",
+      "korean": "ttal",
+      "japanese": "musume",
+      "chinese": "nǚér"
+    },
+    "examples": {
+      "english": "My daughter is a student.",
+      "korean": "제 딸은 학생이에요.",
+      "japanese": "私の娘は学生です。",
+      "chinese": "我的女儿是学生。"
+    },
+    "exampleRomanizations": {
+      "english": "My daughter is a student.",
+      "korean": "je ttareun haksaengieyo.",
+      "japanese": "watashi no musume wa gakusei desu.",
+      "chinese": "wǒ de nǚér shì xuéshēng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်သမီးက ကျောင်းသူပါ။",
+      "korean": "ကျွန်တော့်သမီးက ကျောင်းသူပါ။",
+      "japanese": "ကျွန်တော့်သမီးက ကျောင်းသူပါ။",
+      "chinese": "ကျွန်တော့်သမီးက ကျောင်းသူပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "immediate", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_005",
+    "burmeseWord": "အစ်ကို",
+    "romanization": "et ko",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Older brother",
+      "korean": "형 / 오빠",
+      "japanese": "兄",
+      "chinese": "哥哥"
+    },
+    "romanizations": {
+      "english": "Older brother",
+      "korean": "hyeong / oppa",
+      "japanese": "ani",
+      "chinese": "gēge"
+    },
+    "examples": {
+      "english": "My older brother is tall.",
+      "korean": "제 형은 키가 커요.",
+      "japanese": "私の兄は背が高いです。",
+      "chinese": "我的哥哥很高。"
+    },
+    "exampleRomanizations": {
+      "english": "My older brother is tall.",
+      "korean": "je hyeongeun kiga keoyo.",
+      "japanese": "watashi no ani wa se ga takai desu.",
+      "chinese": "wǒ de gēge hěn gāo."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အစ်ကိုက အရပ်ရှည်တယ်။",
+      "korean": "ကျွန်တော့်အစ်ကိုက အရပ်ရှည်တယ်။",
+      "japanese": "ကျွန်တော့်အစ်ကိုက အရပ်ရှည်တယ်။",
+      "chinese": "ကျွန်တော့်အစ်ကိုက အရပ်ရှည်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_006",
+    "burmeseWord": "အစ်မ",
+    "romanization": "et ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Older sister",
+      "korean": "누나 / 언니",
+      "japanese": "姉",
+      "chinese": "姐姐"
+    },
+    "romanizations": {
+      "english": "Older sister",
+      "korean": "nuna / eonni",
+      "japanese": "ane",
+      "chinese": "jiějie"
+    },
+    "examples": {
+      "english": "My older sister is a teacher.",
+      "korean": "제 누나는 선생님이에요.",
+      "japanese": "私の姉は先生です。",
+      "chinese": "我的姐姐是老师。"
+    },
+    "exampleRomanizations": {
+      "english": "My older sister is a teacher.",
+      "korean": "je nunaneun seonsaengnimieyo.",
+      "japanese": "watashi no ane wa sensei desu.",
+      "chinese": "wǒ de jiějie shì lǎoshī."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အစ်မက ဆရာမပါ။",
+      "korean": "ကျွန်တော့်အစ်မက ဆရာမပါ။",
+      "japanese": "ကျွန်တော့်အစ်မက ဆရာမပါ။",
+      "chinese": "ကျွန်တော့်အစ်မက ဆရာမပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_007",
+    "burmeseWord": "ညီ",
+    "romanization": "nyi",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Younger brother",
+      "korean": "남동생",
+      "japanese": "弟",
+      "chinese": "弟弟"
+    },
+    "romanizations": {
+      "english": "Younger brother",
+      "korean": "namdongsaeng",
+      "japanese": "otouto",
+      "chinese": "dìdi"
+    },
+    "examples": {
+      "english": "My younger brother is playful.",
+      "korean": "제 남동생은 장난꾸러기예요.",
+      "japanese": "私の弟はいたずら好きです。",
+      "chinese": "我的弟弟很调皮。"
+    },
+    "exampleRomanizations": {
+      "english": "My younger brother is playful.",
+      "korean": "je namdongsaengeun jangnankkureogiyeyo.",
+      "japanese": "watashi no otouto wa itazurazuki desu.",
+      "chinese": "wǒ de dìdi hěn tiáopí."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ညီက ဆော့ကစားချင်တယ်။",
+      "korean": "ကျွန်တော့်ညီက ဆော့ကစားချင်တယ်။",
+      "japanese": "ကျွန်တော့်ညီက ဆော့ကစားချင်တယ်။",
+      "chinese": "ကျွန်တော့်ညီက ဆော့ကစားချင်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_008",
+    "burmeseWord": "ညီမ",
+    "romanization": "nyi ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Younger sister",
+      "korean": "여동생",
+      "japanese": "妹",
+      "chinese": "妹妹"
+    },
+    "romanizations": {
+      "english": "Younger sister",
+      "korean": "yeodongsaeng",
+      "japanese": "imouto",
+      "chinese": "mèimei"
+    },
+    "examples": {
+      "english": "My younger sister is cute.",
+      "korean": "제 여동생은 귀여워요.",
+      "japanese": "私の妹はかわいいです。",
+      "chinese": "我的妹妹很可爱。"
+    },
+    "exampleRomanizations": {
+      "english": "My younger sister is cute.",
+      "korean": "je yeodongsaengeun gwiyeowoyo.",
+      "japanese": "watashi no imouto wa kawaii desu.",
+      "chinese": "wǒ de mèimei hěn kě'ài."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ညီမက ချစ်စရာကောင်းတယ်။",
+      "korean": "ကျွန်တော့်ညီမက ချစ်စရာကောင်းတယ်။",
+      "japanese": "ကျွန်တော့်ညီမက ချစ်စရာကောင်းတယ်။",
+      "chinese": "ကျွန်တော့်ညီမက ချစ်စရာကောင်းတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_009",
+    "burmeseWord": "အဘိုး",
+    "romanization": "a pho",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Grandfather",
+      "korean": "할아버지",
+      "japanese": "祖父",
+      "chinese": "祖父/爷爷"
+    },
+    "romanizations": {
+      "english": "Grandfather",
+      "korean": "harabeoji",
+      "japanese": "sofu",
+      "chinese": "zǔfù / yéye"
+    },
+    "examples": {
+      "english": "My grandfather is 80 years old.",
+      "korean": "제 할아버지는 80살이에요.",
+      "japanese": "私の祖父は80歳です。",
+      "chinese": "我的祖父80岁了。"
+    },
+    "exampleRomanizations": {
+      "english": "My grandfather is 80 years old.",
+      "korean": "je harabeojineun 80sarieyo.",
+      "japanese": "watashi no sofu wa 80sai desu.",
+      "chinese": "wǒ de zǔfù 80 suìle."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အဘိုးက အသက် ၈၀ ရှိပြီ။",
+      "korean": "ကျွန်တော့်အဘိုးက အသက် ၈၀ ရှိပြီ။",
+      "japanese": "ကျွန်တော့်အဘိုးက အသက် ၈၀ ရှိပြီ။",
+      "chinese": "ကျွန်တော့်အဘိုးက အသက် ၈၀ ရှိပြီ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended", "elderly"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_010",
+    "burmeseWord": "အဘွား",
+    "romanization": "a phwar",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Grandmother",
+      "korean": "할머니",
+      "japanese": "祖母",
+      "chinese": "祖母/奶奶"
+    },
+    "romanizations": {
+      "english": "Grandmother",
+      "korean": "halmeoni",
+      "japanese": "sobo",
+      "chinese": "zǔmǔ / nǎinai"
+    },
+    "examples": {
+      "english": "My grandmother cooks delicious food.",
+      "korean": "제 할머니는 맛있는 음식을 만드세요.",
+      "japanese": "私の祖母は美味しい料理を作ります。",
+      "chinese": "我的祖母做很好吃的食物。"
+    },
+    "exampleRomanizations": {
+      "english": "My grandmother cooks delicious food.",
+      "korean": "je halmeonineun massinneun eumsigeul mandeuseyo.",
+      "japanese": "watashi no sobo wa oishii ryouri wo tsukurimasu.",
+      "chinese": "wǒ de zǔmǔ zuò hěn hàochī de shíwù."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အဘွားက အရသာရှိတဲ့ အစားအစာတွေ ချက်ပြုတ်တယ်။",
+      "korean": "ကျွန်တော့်အဘွားက အရသာရှိတဲ့ အစားအစာတွေ ချက်ပြုတ်တယ်။",
+      "japanese": "ကျွန်တော့်အဘွားက အရသာရှိတဲ့ အစားအစာတွေ ချက်ပြုတ်တယ်။",
+      "chinese": "ကျွန်တော့်အဘွားက အရသာရှိတဲ့ အစားအစာတွေ ချက်ပြုတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended", "elderly"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_011",
+    "burmeseWord": "ဘထွေး",
+    "romanization": "ba htwai",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Uncle (paternal)",
+      "korean": "삼촌",
+      "japanese": "おじ",
+      "chinese": "叔叔/伯父"
+    },
+    "romanizations": {
+      "english": "Uncle (paternal)",
+      "korean": "samchon",
+      "japanese": "oji",
+      "chinese": "shūshu / bófù"
+    },
+    "examples": {
+      "english": "My uncle visits us often.",
+      "korean": "삼촌이 자주 우리를 방문하세요.",
+      "japanese": "おじがよく私たちを訪ねます。",
+      "chinese": "我叔叔经常来看我们。"
+    },
+    "exampleRomanizations": {
+      "english": "My uncle visits us often.",
+      "korean": "samchoni jaju urireul bangmunhaseyo.",
+      "japanese": "oji ga yoku watashitachi wo tazunemasu.",
+      "chinese": "wǒ shūshu jīngcháng lái kàn wǒmen."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဘထွေးက ကျွန်တော်တို့ကို မကြာခဏလာတယ်။",
+      "korean": "ကျွန်တော့်ဘထွေးက ကျွန်တော်တို့ကို မကြာခဏလာတယ်။",
+      "japanese": "ကျွန်တော့်ဘထွေးက ကျွန်တော်တို့ကို မကြာခဏလာတယ်။",
+      "chinese": "ကျွန်တော့်ဘထွေးက ကျွန်တော်တို့ကို မကြာခဏလာတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_012",
+    "burmeseWord": "ဦးလေး",
+    "romanization": "oo lay",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Uncle (maternal)",
+      "korean": "외삼촌",
+      "japanese": "おじ",
+      "chinese": "舅舅"
+    },
+    "romanizations": {
+      "english": "Uncle (maternal)",
+      "korean": "oesamchon",
+      "japanese": "oji",
+      "chinese": "jiùjiu"
+    },
+    "examples": {
+      "english": "My uncle is a businessman.",
+      "korean": "외삼촌은 사업가예요.",
+      "japanese": "おじはビジネスマンです。",
+      "chinese": "我舅舅是个商人。"
+    },
+    "exampleRomanizations": {
+      "english": "My uncle is a businessman.",
+      "korean": "oesamchoneun saeopgayeyo.",
+      "japanese": "oji wa bijinesuman desu.",
+      "chinese": "wǒ jiùjiu shì gè shāngrén."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဦးလေးက စီးပွားရေးသမားပါ။",
+      "korean": "ကျွန်တော့်ဦးလေးက စီးပွားရေးသမားပါ။",
+      "japanese": "ကျွန်တော့်ဦးလေးက စီးပွားရေးသမားပါ။",
+      "chinese": "ကျွန်တော့်ဦးလေးက စီးပွားရေးသမားပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_013",
+    "burmeseWord": "ဒေါ်ကြီး",
+    "romanization": "daw gyi",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Aunt (paternal)",
+      "korean": "고모",
+      "japanese": "おば",
+      "chinese": "姑妈/伯母"
+    },
+    "romanizations": {
+      "english": "Aunt (paternal)",
+      "korean": "gomo",
+      "japanese": "oba",
+      "chinese": "gūmā / bómǔ"
+    },
+    "examples": {
+      "english": "My aunt is a nurse.",
+      "korean": "고모는 간호사예요.",
+      "japanese": "おばは看護師です。",
+      "chinese": "我的姑妈是护士。"
+    },
+    "exampleRomanizations": {
+      "english": "My aunt is a nurse.",
+      "korean": "gomoneun ganhosayeyo.",
+      "japanese": "oba wa kangoshi desu.",
+      "chinese": "wǒ de gūmā shì hùshi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဒေါ်ကြီးက သူနာပြုဆရာမပါ။",
+      "korean": "ကျွန်တော့်ဒေါ်ကြီးက သူနာပြုဆရာမပါ။",
+      "japanese": "ကျွန်တော့်ဒေါ်ကြီးက သူနာပြုဆရာမပါ။",
+      "chinese": "ကျွန်တော့်ဒေါ်ကြီးက သူနာပြုဆရာမပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_014",
+    "burmeseWord": "အဒေါ်",
+    "romanization": "a daw",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Aunt (maternal)",
+      "korean": "이모",
+      "japanese": "おば",
+      "chinese": "姨母/阿姨"
+    },
+    "romanizations": {
+      "english": "Aunt (maternal)",
+      "korean": "imo",
+      "japanese": "oba",
+      "chinese": "yímǔ / āyí"
+    },
+    "examples": {
+      "english": "My aunt lives in the city.",
+      "korean": "이모는 도시에 살아요.",
+      "japanese": "おばは都市に住んでいます。",
+      "chinese": "我的阿姨住在城市里。"
+    },
+    "exampleRomanizations": {
+      "english": "My aunt lives in the city.",
+      "korean": "imoneun dosie sarayo.",
+      "japanese": "oba wa toshi ni sunde imasu.",
+      "chinese": "wǒ de āyí zhù zài chéngshì lǐ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အဒေါ်က မြို့မှာနေတယ်။",
+      "korean": "ကျွန်တော့်အဒေါ်က မြို့မှာနေတယ်။",
+      "japanese": "ကျွန်တော့်အဒေါ်က မြို့မှာနေတယ်။",
+      "chinese": "ကျွန်တော့်အဒေါ်က မြို့မှာနေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_015",
+    "burmeseWord": "ဝမ်းကွဲ",
+    "romanization": "wan kwe",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Cousin",
+      "korean": "사촌",
+      "japanese": "いとこ",
+      "chinese": "表亲/堂亲"
+    },
+    "romanizations": {
+      "english": "Cousin",
+      "korean": "sachon",
+      "japanese": "itoko",
+      "chinese": "biǎoqīn / tángqīn"
+    },
+    "examples": {
+      "english": "My cousin is my best friend.",
+      "korean": "제 사촌은 제 가장 친한 친구예요.",
+      "japanese": "私のいとこは私の親友です。",
+      "chinese": "我的表亲是我最好的朋友。"
+    },
+    "exampleRomanizations": {
+      "english": "My cousin is my best friend.",
+      "korean": "je sachoneun je gajang chinhan chinguyeyo.",
+      "japanese": "watashi no itoko wa watashi no shinyuu desu.",
+      "chinese": "wǒ de biǎoqīn shì wǒ zuì hǎo de péngyou."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဝမ်းကွဲက ကျွန်တော့်အကောင်းဆုံးသူငယ်ချင်းပါ။",
+      "korean": "ကျွန်တော့်ဝမ်းကွဲက ကျွန်တော့်အကောင်းဆုံးသူငယ်ချင်းပါ။",
+      "japanese": "ကျွန်တော့်ဝမ်းကွဲက ကျွန်တော့်အကောင်းဆုံးသူငယ်ချင်းပါ။",
+      "chinese": "ကျွန်တော့်ဝမ်းကွဲက ကျွန်တော့်အကောင်းဆုံးသူငယ်ချင်းပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_016",
+    "burmeseWord": "အိမ်ထောင်ဖက်",
+    "romanization": "ein htaung phet",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Spouse",
+      "korean": "배우자",
+      "japanese": "配偶者",
+      "chinese": "配偶"
+    },
+    "romanizations": {
+      "english": "Spouse",
+      "korean": "baeuja",
+      "japanese": "haiguusha",
+      "chinese": "pèi'ǒu"
+    },
+    "examples": {
+      "english": "My spouse is very supportive.",
+      "korean": "제 배우자는 매우 지원적이에요.",
+      "japanese": "私の配偶者はとても協力的です。",
+      "chinese": "我的配偶非常支持我。"
+    },
+    "exampleRomanizations": {
+      "english": "My spouse is very supportive.",
+      "korean": "je baeujaneun maeu jiwonjeogieyo.",
+      "japanese": "watashi no haiguusha wa totemo kyouryokuteki desu.",
+      "chinese": "wǒ de pèi'ǒu fēicháng zhīchí wǒ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အိမ်ထောင်ဖက်က အရမ်းအားပေးတယ်။",
+      "korean": "ကျွန်တော့်အိမ်ထောင်ဖက်က အရမ်းအားပေးတယ်။",
+      "japanese": "ကျွန်တော့်အိမ်ထောင်ဖက်က အရမ်းအားပေးတယ်။",
+      "chinese": "ကျွန်တော့်အိမ်ထောင်ဖက်က အရမ်းအားပေးတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationship", "marriage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_017",
+    "burmeseWord": "ခင်ပွန်း",
+    "romanization": "khin pun",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Husband",
+      "korean": "남편",
+      "japanese": "夫",
+      "chinese": "丈夫"
+    },
+    "romanizations": {
+      "english": "Husband",
+      "korean": "nampyeon",
+      "japanese": "otto",
+      "chinese": "zhàngfu"
+    },
+    "examples": {
+      "english": "My husband is a doctor.",
+      "korean": "제 남편은 의사예요.",
+      "japanese": "私の夫は医者です。",
+      "chinese": "我的丈夫是医生。"
+    },
+    "exampleRomanizations": {
+      "english": "My husband is a doctor.",
+      "korean": "je nampyeoneun uisayeyo.",
+      "japanese": "watashi no otto wa isha desu.",
+      "chinese": "wǒ de zhàngfu shì yīshēng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ခင်ပွန်းက ဆရာဝန်ပါ။",
+      "korean": "ကျွန်တော့်ခင်ပွန်းက ဆရာဝန်ပါ။",
+      "japanese": "ကျွန်တော့်ခင်ပွန်းက ဆရာဝန်ပါ။",
+      "chinese": "ကျွန်တော့်ခင်ပွန်းက ဆရာဝန်ပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationship", "marriage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_018",
+    "burmeseWord": "ဇနီး",
+    "romanization": "za nee",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Wife",
+      "korean": "아내",
+      "japanese": "妻",
+      "chinese": "妻子"
+    },
+    "romanizations": {
+      "english": "Wife",
+      "korean": "anae",
+      "japanese": "tsuma",
+      "chinese": "qīzi"
+    },
+    "examples": {
+      "english": "My wife is a teacher.",
+      "korean": "제 아내는 선생님이에요.",
+      "japanese": "私の妻は先生です。",
+      "chinese": "我的妻子是老师。"
+    },
+    "exampleRomanizations": {
+      "english": "My wife is a teacher.",
+      "korean": "je anaeneun seonsaengnimieyo.",
+      "japanese": "watashi no tsuma wa sensei desu.",
+      "chinese": "wǒ de qīzi shì lǎoshī."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဇနီးက ဆရာမပါ။",
+      "korean": "ကျွန်တော့်ဇနီးက ဆရာမပါ။",
+      "japanese": "ကျွန်တော့်ဇနီးက ဆရာမပါ။",
+      "chinese": "ကျွန်တော့်ဇနီးက ဆရာမပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationship", "marriage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_019",
+    "burmeseWord": "သားဖြစ်သူ",
+    "romanization": "tha pyit thu",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Son-in-law",
+      "korean": "사위",
+      "japanese": "婿",
+      "chinese": "女婿"
+    },
+    "romanizations": {
+      "english": "Son-in-law",
+      "korean": "sawi",
+      "japanese": "muko",
+      "chinese": "nǚxu"
+    },
+    "examples": {
+      "english": "My son-in-law is a lawyer.",
+      "korean": "제 사위는 변호사예요.",
+      "japanese": "私の婿は弁護士です。",
+      "chinese": "我的女婿是律师。"
+    },
+    "exampleRomanizations": {
+      "english": "My son-in-law is a lawyer.",
+      "korean": "je sawineun byeonhosayeyo.",
+      "japanese": "watashi no muko wa bengoshi desu.",
+      "chinese": "wǒ de nǚxu shì lǜshī."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်သားဖြစ်သူက ရှေ့နေပါ။",
+      "korean": "ကျွန်တော့်သားဖြစ်သူက ရှေ့နေပါ။",
+      "japanese": "ကျွန်တော့်သားဖြစ်သူက ရှေ့နေပါ။",
+      "chinese": "ကျွန်တော့်သားဖြစ်သူက ရှေ့နေပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationship", "marriage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_020",
+    "burmeseWord": "သမီးဖြစ်သူ",
+    "romanization": "tha mee pyit thu",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Daughter-in-law",
+      "korean": "며느리",
+      "japanese": "嫁",
+      "chinese": "儿媳"
+    },
+    "romanizations": {
+      "english": "Daughter-in-law",
+      "korean": "myeoneuri",
+      "japanese": "yome",
+      "chinese": "érxí"
+    },
+    "examples": {
+      "english": "My daughter-in-law is a nurse.",
+      "korean": "제 며느리는 간호사예요.",
+      "japanese": "私の嫁は看護師です。",
+      "chinese": "我的儿媳是护士。"
+    },
+    "exampleRomanizations": {
+      "english": "My daughter-in-law is a nurse.",
+      "korean": "je myeoneurineun ganhosayeyo.",
+      "japanese": "watashi no yome wa kangoshi desu.",
+      "chinese": "wǒ de érxí shì hùshi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်သမီးဖြစ်သူက သူနာပြုဆရာမပါ။",
+      "korean": "ကျွန်တော့်သမီးဖြစ်သူက သူနာပြုဆရာမပါ။",
+      "japanese": "ကျွန်တော့်သမီးဖြစ်သူက သူနာပြုဆရာမပါ။",
+      "chinese": "ကျွန်တော့်သမီးဖြစ်သူက သူနာပြုဆရာမပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationship", "marriage"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_021",
+    "burmeseWord": "ကလေး",
+    "romanization": "ka lay",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Child",
+      "korean": "아이",
+      "japanese": "子供",
+      "chinese": "孩子"
+    },
+    "romanizations": {
+      "english": "Child",
+      "korean": "ai",
+      "japanese": "kodomo",
+      "chinese": "háizi"
+    },
+    "examples": {
+      "english": "The children are playing.",
+      "korean": "아이들이 놀고 있어요.",
+      "japanese": "子供たちが遊んでいます。",
+      "chinese": "孩子们在玩。"
+    },
+    "exampleRomanizations": {
+      "english": "The children are playing.",
+      "korean": "aideuri nolgo isseoyo.",
+      "japanese": "kodomotachi ga asonde imasu.",
+      "chinese": "háizimen zài wán."
+    },
+    "exampleTranslations": {
+      "english": "ကလေးတွေ ကစားနေတယ်။",
+      "korean": "ကလေးတွေ ကစားနေတယ်။",
+      "japanese": "ကလေးတွေ ကစားနေတယ်။",
+      "chinese": "ကလေးတွေ ကစားနေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["children", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_022",
+    "burmeseWord": "မြေး",
+    "romanization": "myay",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Grandchild",
+      "korean": "손자 / 손녀",
+      "japanese": "孫",
+      "chinese": "孙辈/孙子女"
+    },
+    "romanizations": {
+      "english": "Grandchild",
+      "korean": "sonja / sonnyeo",
+      "japanese": "mago",
+      "chinese": "sūnbèi / sūnzǐnǚ"
+    },
+    "examples": {
+      "english": "My grandparents love their grandchildren.",
+      "korean": "조부모님은 손주들을 사랑하세요.",
+      "japanese": "祖父母は孫を愛しています。",
+      "chinese": "祖父母爱他们的孙辈。"
+    },
+    "exampleRomanizations": {
+      "english": "My grandparents love their grandchildren.",
+      "korean": "jobumonimeun sonjudeureul saranghaseyo.",
+      "japanese": "sofubo wa mago wo aishite imasu.",
+      "chinese": "zǔfùmǔ ài tāmen de sūnbèi."
+    },
+    "exampleTranslations": {
+      "english": "အဘိုးအဘွားတွေက မြေးတွေကို ချစ်တယ်။",
+      "korean": "အဘိုးအဘွားတွေက မြေးတွေကို ချစ်တယ်။",
+      "japanese": "အဘိုးအဘွားတွေက မြေးတွေကို ချစ်တယ်။",
+      "chinese": "အဘိုးအဘွားတွေက မြေးတွေကို ချစ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_023",
+    "burmeseWord": "မိသားစု",
+    "romanization": "mi thar su",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "General",
+    "translations": {
+      "english": "Family",
+      "korean": "가족",
+      "japanese": "家族",
+      "chinese": "家庭"
+    },
+    "romanizations": {
+      "english": "Family",
+      "korean": "gajok",
+      "japanese": "kazoku",
+      "chinese": "jiātíng"
+    },
+    "examples": {
+      "english": "My family is very important to me.",
+      "korean": "제 가족은 저에게 매우 중요해요.",
+      "japanese": "私の家族は私にとってとても大切です。",
+      "chinese": "我的家庭对我来说非常重要。"
+    },
+    "exampleRomanizations": {
+      "english": "My family is very important to me.",
+      "korean": "je gajeogeun jeoege maeu jung'yohaeyo.",
+      "japanese": "watashi no kazoku wa watashi ni totte totemo taisetsu desu.",
+      "chinese": "wǒ de jiātíng duì wǒ lái shuō fēicháng zhòngyào."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်မိသားစုက ကျွန်တော်အတွက် အရမ်းအရေးပါတယ်။",
+      "korean": "ကျွန်တော့်မိသားစုက ကျွန်တော်အတွက် အရမ်းအရေးပါတယ်။",
+      "japanese": "ကျွန်တော့်မိသားစုက ကျွန်တော်အတွက် အရမ်းအရေးပါတယ်။",
+      "chinese": "ကျွန်တော့်မိသားစုက ကျွန်တော်အတွက် အရမ်းအရေးပါတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_024",
+    "burmeseWord": "ဆွေမျိုး",
+    "romanization": "sway myo",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "General",
+    "translations": {
+      "english": "Relative",
+      "korean": "친척",
+      "japanese": "親戚",
+      "chinese": "亲戚"
+    },
+    "romanizations": {
+      "english": "Relative",
+      "korean": "chincheok",
+      "japanese": "shinseki",
+      "chinese": "qīnqi"
+    },
+    "examples": {
+      "english": "I have many relatives.",
+      "korean": "저는 친척이 많아요.",
+      "japanese": "私は親戚がたくさんいます。",
+      "chinese": "我有很多亲戚。"
+    },
+    "exampleRomanizations": {
+      "english": "I have many relatives.",
+      "korean": "jeoneun chincheogi manayo.",
+      "japanese": "watashi wa shinseki ga takusan imasu.",
+      "chinese": "wǒ yǒu hěnduō qīnqi."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်မှာ ဆွေမျိုးတွေအများကြီးရှိတယ်။",
+      "korean": "ကျွန်တော်မှာ ဆွေမျိုးတွေအများကြီးရှိတယ်။",
+      "japanese": "ကျွန်တော်မှာ ဆွေမျိုးတွေအများကြီးရှိတယ်။",
+      "chinese": "ကျွန်တော်မှာ ဆွေမျိုးတွေအများကြီးရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "relative"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_025",
+    "burmeseWord": "သူငယ်ချင်း",
+    "romanization": "thu ngal chin",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Friend",
+      "korean": "친구",
+      "japanese": "友達",
+      "chinese": "朋友"
+    },
+    "romanizations": {
+      "english": "Friend",
+      "korean": "chingu",
+      "japanese": "tomodachi",
+      "chinese": "péngyou"
+    },
+    "examples": {
+      "english": "My friend lives nearby.",
+      "korean": "제 친구는 근처에 살아요.",
+      "japanese": "私の友達は近くに住んでいます。",
+      "chinese": "我的朋友住在附近。"
+    },
+    "exampleRomanizations": {
+      "english": "My friend lives nearby.",
+      "korean": "je chinguneun geuncheoe sarayo.",
+      "japanese": "watashi no tomodachi wa chikaku ni sunde imasu.",
+      "chinese": "wǒ de péngyou zhù zài fùjìn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်သူငယ်ချင်းက အနီးမှာနေတယ်။",
+      "korean": "ကျွန်တော့်သူငယ်ချင်းက အနီးမှာနေတယ်။",
+      "japanese": "ကျွန်တော့်သူငယ်ချင်းက အနီးမှာနေတယ်။",
+      "chinese": "ကျွန်တော့်သူငယ်ချင်းက အနီးမှာနေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["friends", "social"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_026",
+    "burmeseWord": "ရည်းစား",
+    "romanization": "yi sar",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Girlfriend / Boyfriend",
+      "korean": "여자친구 / 남자친구",
+      "japanese": "彼女 / 彼氏",
+      "chinese": "女朋友/男朋友"
+    },
+    "romanizations": {
+      "english": "Girlfriend / Boyfriend",
+      "korean": "yeojachingu / namjachingu",
+      "japanese": "kanojo / kareshi",
+      "chinese": "nǚpéngyou / nánpéngyou"
+    },
+    "examples": {
+      "english": "I have a boyfriend.",
+      "korean": "남자친구가 있어요.",
+      "japanese": "彼氏がいます。",
+      "chinese": "我有男朋友。"
+    },
+    "exampleRomanizations": {
+      "english": "I have a boyfriend.",
+      "korean": "namjachinguga isseoyo.",
+      "japanese": "kareshi ga imasu.",
+      "chinese": "wǒ yǒu nánpéngyou."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်မှာ ရည်းစားရှိတယ်။",
+      "korean": "ကျွန်တော်မှာ ရည်းစားရှိတယ်။",
+      "japanese": "ကျွန်တော်မှာ ရည်းစားရှိတယ်။",
+      "chinese": "ကျွန်တော်မှာ ရည်းစားရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["relationships", "social"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_027",
+    "burmeseWord": "အိမ်နီးချင်း",
+    "romanization": "ein nee chin",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Neighbor",
+      "korean": "이웃",
+      "japanese": "隣人",
+      "chinese": "邻居"
+    },
+    "romanizations": {
+      "english": "Neighbor",
+      "korean": "iut",
+      "japanese": "rinjin",
+      "chinese": "línjū"
+    },
+    "examples": {
+      "english": "My neighbor is very friendly.",
+      "korean": "제 이웃은 매우 친절해요.",
+      "japanese": "私の隣人はとても親切です。",
+      "chinese": "我的邻居非常友好。"
+    },
+    "exampleRomanizations": {
+      "english": "My neighbor is very friendly.",
+      "korean": "je iuseun maeu chinjeolhaeyo.",
+      "japanese": "watashi no rinjin wa totemo shinsetsu desu.",
+      "chinese": "wǒ de línjū fēicháng yǒuhǎo."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အိမ်နီးချင်းက အရမ်းဖော်ရွေတယ်။",
+      "korean": "ကျွန်တော့်အိမ်နီးချင်းက အရမ်းဖော်ရွေတယ်။",
+      "japanese": "ကျွန်တော့်အိမ်နီးချင်းက အရမ်းဖော်ရွေတယ်။",
+      "chinese": "ကျွန်တော့်အိမ်နီးချင်းက အရမ်းဖော်ရွေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["neighbors", "social"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_028",
+    "burmeseWord": "လုပ်ဖော်ကိုင်ဖက်",
+    "romanization": "lote hpaw kaing hphet",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Colleague / Coworker",
+      "korean": "동료",
+      "japanese": "同僚",
+      "chinese": "同事"
+    },
+    "romanizations": {
+      "english": "Colleague / Coworker",
+      "korean": "dongnyo",
+      "japanese": "douryou",
+      "chinese": "tóngshì"
+    },
+    "examples": {
+      "english": "My colleagues are nice.",
+      "korean": "제 동료들은 친절해요.",
+      "japanese": "私の同僚は親切です。",
+      "chinese": "我的同事都很好。"
+    },
+    "exampleRomanizations": {
+      "english": "My colleagues are nice.",
+      "korean": "je dongnyodeureun chinjeolhaeyo.",
+      "japanese": "watashi no douryou wa shinsetsu desu.",
+      "chinese": "wǒ de tóngshì dōu hěn hǎo."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်လုပ်ဖော်ကိုင်ဖက်တွေက ကြင်နာတယ်။",
+      "korean": "ကျွန်တော့်လုပ်ဖော်ကိုင်ဖက်တွေက ကြင်နာတယ်။",
+      "japanese": "ကျွန်တော့်လုပ်ဖော်ကိုင်ဖက်တွေက ကြင်နာတယ်။",
+      "chinese": "ကျွန်တော့်လုပ်ဖော်ကိုင်ဖက်တွေက ကြင်နာတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["work", "colleagues"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_029",
+    "burmeseWord": "ဆရာ",
+    "romanization": "sa ya",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Teacher (male)",
+      "korean": "선생님",
+      "japanese": "先生",
+      "chinese": "老师"
+    },
+    "romanizations": {
+      "english": "Teacher (male)",
+      "korean": "seonsaengnim",
+      "japanese": "sensei",
+      "chinese": "lǎoshī"
+    },
+    "examples": {
+      "english": "My teacher is knowledgeable.",
+      "korean": "제 선생님은 박식하세요.",
+      "japanese": "私の先生は博識です。",
+      "chinese": "我的老师很有学识。"
+    },
+    "exampleRomanizations": {
+      "english": "My teacher is knowledgeable.",
+      "korean": "je seonsaengnimeun baksikhaseyo.",
+      "japanese": "watashi no sensei wa hakushiki desu.",
+      "chinese": "wǒ de lǎoshī hěn yǒu xuéshí."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဆရာက ပညာတတ်တယ်။",
+      "korean": "ကျွန်တော့်ဆရာက ပညာတတ်တယ်။",
+      "japanese": "ကျွန်တော့်ဆရာက ပညာတတ်တယ်။",
+      "chinese": "ကျွန်တော့်ဆရာက ပညာတတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["education", "teacher"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_030",
+    "burmeseWord": "ဆရာမ",
+    "romanization": "sa ya ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Teacher (female)",
+      "korean": "선생님",
+      "japanese": "先生",
+      "chinese": "老师"
+    },
+    "romanizations": {
+      "english": "Teacher (female)",
+      "korean": "seonsaengnim",
+      "japanese": "sensei",
+      "chinese": "lǎoshī"
+    },
+    "examples": {
+      "english": "My teacher is helpful.",
+      "korean": "제 선생님은 도움을 많이 주세요.",
+      "japanese": "私の先生はとても助けてくれます。",
+      "chinese": "我的老师很乐于助人。"
+    },
+    "exampleRomanizations": {
+      "english": "My teacher is helpful.",
+      "korean": "je seonsaengnimeun doumeul mani juseyo.",
+      "japanese": "watashi no sensei wa totemo tasukete kuremasu.",
+      "chinese": "wǒ de lǎoshī hěn lèyú zhùrén."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ဆရာမက ကူညီတတ်တယ်။",
+      "korean": "ကျွန်တော့်ဆရာမက ကူညီတတ်တယ်။",
+      "japanese": "ကျွန်တော့်ဆရာမက ကူညီတတ်တယ်။",
+      "chinese": "ကျွန်တော့်ဆရာမက ကူညီတတ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["education", "teacher"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_031",
+    "burmeseWord": "ကျောင်းသား",
+    "romanization": "kyaung tha",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Student (male)",
+      "korean": "학생",
+      "japanese": "学生",
+      "chinese": "学生"
+    },
+    "romanizations": {
+      "english": "Student (male)",
+      "korean": "haksaeng",
+      "japanese": "gakusei",
+      "chinese": "xuéshēng"
+    },
+    "examples": {
+      "english": "The students study hard.",
+      "korean": "학생들이 열심히 공부해요.",
+      "japanese": "学生たちは一生懸命勉強します。",
+      "chinese": "学生们努力学习。"
+    },
+    "exampleRomanizations": {
+      "english": "The students study hard.",
+      "korean": "haksaengdeuri yeolsimhi gongbuhaeyo.",
+      "japanese": "gakuseitachi wa isshoukenmei benkyou shimasu.",
+      "chinese": "xuéshēngmen nǔlì xuéxí."
+    },
+    "exampleTranslations": {
+      "english": "ကျောင်းသားတွေ ကြိုးစားပြီး စာကျက်တယ်။",
+      "korean": "ကျောင်းသားတွေ ကြိုးစားပြီး စာကျက်တယ်။",
+      "japanese": "ကျောင်းသားတွေ ကြိုးစားပြီး စာကျက်တယ်။",
+      "chinese": "ကျောင်းသားတွေ ကြိုးစားပြီး စာကျက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["education", "student"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_032",
+    "burmeseWord": "ကျောင်းသူ",
+    "romanization": "kyaung thu",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Student (female)",
+      "korean": "여학생",
+      "japanese": "女子学生",
+      "chinese": "女学生"
+    },
+    "romanizations": {
+      "english": "Student (female)",
+      "korean": "yeohaksaeng",
+      "japanese": "joshi gakusei",
+      "chinese": "nǚ xuéshēng"
+    },
+    "examples": {
+      "english": "The female students are studying.",
+      "korean": "여학생들이 공부하고 있어요.",
+      "japanese": "女子学生たちが勉強しています。",
+      "chinese": "女学生们正在学习。"
+    },
+    "exampleRomanizations": {
+      "english": "The female students are studying.",
+      "korean": "yeohaksaengdeuri gongbuhago isseoyo.",
+      "japanese": "joshi gakuseitachi ga benkyou shite imasu.",
+      "chinese": "nǚ xuéshēngmen zhèngzài xuéxí."
+    },
+    "exampleTranslations": {
+      "english": "ကျောင်းသူတွေ စာကျက်နေတယ်။",
+      "korean": "ကျောင်းသူတွေ စာကျက်နေတယ်။",
+      "japanese": "ကျောင်းသူတွေ စာကျက်နေတယ်။",
+      "chinese": "ကျောင်းသူတွေ စာကျက်နေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["education", "student"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_033",
+    "burmeseWord": "အစ်ကိုဝမ်းကွဲ",
+    "romanization": "et ko wan kwe",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Older male cousin",
+      "korean": "사촌 오빠 / 형",
+      "japanese": "いとこの兄",
+      "chinese": "表哥"
+    },
+    "romanizations": {
+      "english": "Older male cousin",
+      "korean": "sachon oppa / hyeong",
+      "japanese": "itoko no ani",
+      "chinese": "biǎogē"
+    },
+    "examples": {
+      "english": "My older cousin is handsome.",
+      "korean": "제 사촌 오빠는 잘생겼어요.",
+      "japanese": "私のいとこの兄はかっこいいです。",
+      "chinese": "我的表哥很帅。"
+    },
+    "exampleRomanizations": {
+      "english": "My older cousin is handsome.",
+      "korean": "je sachon oppaneun jalsaenggyeosseoyo.",
+      "japanese": "watashi no itoko no ani wa kakkoii desu.",
+      "chinese": "wǒ de biǎogē hěn shuài."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အစ်ကိုဝမ်းကွဲက ချောတယ်။",
+      "korean": "ကျွန်တော့်အစ်ကိုဝမ်းကွဲက ချောတယ်။",
+      "japanese": "ကျွန်တော့်အစ်ကိုဝမ်းကွဲက ချောတယ်။",
+      "chinese": "ကျွန်တော့်အစ်ကိုဝမ်းကွဲက ချောတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "cousins"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_034",
+    "burmeseWord": "အစ်မဝမ်းကွဲ",
+    "romanization": "et ma wan kwe",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Older female cousin",
+      "korean": "사촌 언니 / 누나",
+      "japanese": "いとこの姉",
+      "chinese": "表姐"
+    },
+    "romanizations": {
+      "english": "Older female cousin",
+      "korean": "sachon eonni / nuna",
+      "japanese": "itoko no ane",
+      "chinese": "biǎojiě"
+    },
+    "examples": {
+      "english": "My older cousin is beautiful.",
+      "korean": "제 사촌 언니는 아름다워요.",
+      "japanese": "私のいとこの姉は美しいです。",
+      "chinese": "我的表姐很漂亮。"
+    },
+    "exampleRomanizations": {
+      "english": "My older cousin is beautiful.",
+      "korean": "je sachon eonnineun areumdawoyo.",
+      "japanese": "watashi no itoko no ane wa utsukushii desu.",
+      "chinese": "wǒ de biǎojiě hěn piàoliang."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အစ်မဝမ်းကွဲက လှတယ်။",
+      "korean": "ကျွန်တော့်အစ်မဝမ်းကွဲက လှတယ်။",
+      "japanese": "ကျွန်တော့်အစ်မဝမ်းကွဲက လှတယ်။",
+      "chinese": "ကျွန်တော့်အစ်မဝမ်းကွဲက လှတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "cousins"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_035",
+    "burmeseWord": "ညီဝမ်းကွဲ",
+    "romanization": "nyi wan kwe",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Younger male cousin",
+      "korean": "사촌 동생",
+      "japanese": "いとこの弟",
+      "chinese": "表弟"
+    },
+    "romanizations": {
+      "english": "Younger male cousin",
+      "korean": "sachon dongsaeng",
+      "japanese": "itoko no otouto",
+      "chinese": "biǎodì"
+    },
+    "examples": {
+      "english": "My younger cousin is smart.",
+      "korean": "제 사촌 동생은 똑똑해요.",
+      "japanese": "私のいとこの弟は賢いです。",
+      "chinese": "我的表弟很聪明。"
+    },
+    "exampleRomanizations": {
+      "english": "My younger cousin is smart.",
+      "korean": "je sachon dongsaengeun ttokttokhaeyo.",
+      "japanese": "watashi no itoko no otouto wa kashikoi desu.",
+      "chinese": "wǒ de biǎodì hěn cōngming."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ညီဝမ်းကွဲက ထက်မြက်တယ်။",
+      "korean": "ကျွန်တော့်ညီဝမ်းကွဲက ထက်မြက်တယ်။",
+      "japanese": "ကျွန်တော့်ညီဝမ်းကွဲက ထက်မြက်တယ်။",
+      "chinese": "ကျွန်တော့်ညီဝမ်းကွဲက ထက်မြက်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "cousins"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_036",
+    "burmeseWord": "ညီမဝမ်းကွဲ",
+    "romanization": "nyi ma wan kwe",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Younger female cousin",
+      "korean": "사촌 여동생",
+      "japanese": "いとこの妹",
+      "chinese": "表妹"
+    },
+    "romanizations": {
+      "english": "Younger female cousin",
+      "korean": "sachon yeodongsaeng",
+      "japanese": "itoko no imouto",
+      "chinese": "biǎomèi"
+    },
+    "examples": {
+      "english": "My younger cousin is kind.",
+      "korean": "제 사촌 여동생은 착해요.",
+      "japanese": "私のいとこの妹は優しいです。",
+      "chinese": "我的表妹很善良。"
+    },
+    "exampleRomanizations": {
+      "english": "My younger cousin is kind.",
+      "korean": "je sachon yeodongsaengeun chakhaeyo.",
+      "japanese": "watashi no itoko no imouto wa yasashii desu.",
+      "chinese": "wǒ de biǎomèi hěn shànliáng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ညီမဝမ်းကွဲက ကြင်နာတယ်။",
+      "korean": "ကျွန်တော့်ညီမဝမ်းကွဲက ကြင်နာတယ်။",
+      "japanese": "ကျွန်တော့်ညီမဝမ်းကွဲက ကြင်နာတယ်။",
+      "chinese": "ကျွန်တော့်ညီမဝမ်းကွဲက ကြင်နာတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "cousins"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_037",
+    "burmeseWord": "တူ",
+    "romanization": "tu",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Nephew",
+      "korean": "조카 (남)",
+      "japanese": "甥",
+      "chinese": "侄子/外甥"
+    },
+    "romanizations": {
+      "english": "Nephew",
+      "korean": "joka (nam)",
+      "japanese": "oi",
+      "chinese": "zhízi / wàishēng"
+    },
+    "examples": {
+      "english": "My nephew is very active.",
+      "korean": "제 조카는 매우 활발해요.",
+      "japanese": "私の甥はとても活発です。",
+      "chinese": "我的侄子非常活跃。"
+    },
+    "exampleRomanizations": {
+      "english": "My nephew is very active.",
+      "korean": "je jokaneun maeu hwalbalhaeyo.",
+      "japanese": "watashi no oi wa totemo kappatsu desu.",
+      "chinese": "wǒ de zhízi fēicháng huóyuè."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်တူက အရမ်းတက်ကြွတယ်။",
+      "korean": "ကျွန်တော့်တူက အရမ်းတက်ကြွတယ်။",
+      "japanese": "ကျွန်တော့်တူက အရမ်းတက်ကြွတယ်။",
+      "chinese": "ကျွန်တော့်တူက အရမ်းတက်ကြွတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_038",
+    "burmeseWord": "တူမ",
+    "romanization": "tu ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Extended Family",
+    "translations": {
+      "english": "Niece",
+      "korean": "조카 (여)",
+      "japanese": "姪",
+      "chinese": "侄女/外甥女"
+    },
+    "romanizations": {
+      "english": "Niece",
+      "korean": "joka (yeo)",
+      "japanese": "mei",
+      "chinese": "zhínǚ / wàishēngnǚ"
+    },
+    "examples": {
+      "english": "My niece is very cute.",
+      "korean": "제 조카는 매우 귀여워요.",
+      "japanese": "私の姪はとてもかわいいです。",
+      "chinese": "我的侄女非常可爱。"
+    },
+    "exampleRomanizations": {
+      "english": "My niece is very cute.",
+      "korean": "je jokaneun maeu gwiyeowoyo.",
+      "japanese": "watashi no mei wa totemo kawaii desu.",
+      "chinese": "wǒ de zhínǚ fēicháng kě'ài."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်တူမက အရမ်းချစ်စရာကောင်းတယ်။",
+      "korean": "ကျွန်တော့်တူမက အရမ်းချစ်စရာကောင်းတယ်။",
+      "japanese": "ကျွန်တော့်တူမက အရမ်းချစ်စရာကောင်းတယ်။",
+      "chinese": "ကျွန်တော့်တူမက အရမ်းချစ်စရာကောင်းတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "extended"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_039",
+    "burmeseWord": "ဆွေမျိုးအသိုင်းအဝိုင်း",
+    "romanization": "sway myo a thine a pwine",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "General",
+    "translations": {
+      "english": "Relatives / Kinship circle",
+      "korean": "친척 관계",
+      "japanese": "親族",
+      "chinese": "亲属关系"
+    },
+    "romanizations": {
+      "english": "Relatives / Kinship circle",
+      "korean": "chincheok gwangye",
+      "japanese": "shinzoku",
+      "chinese": "qīnshǔ guānxì"
+    },
+    "examples": {
+      "english": "We have a big circle of relatives.",
+      "korean": "우리는 친척이 많아요.",
+      "japanese": "私たちは親族がたくさんいます。",
+      "chinese": "我们有很多亲属。"
+    },
+    "exampleRomanizations": {
+      "english": "We have a big circle of relatives.",
+      "korean": "urineun chincheogi manayo.",
+      "japanese": "watashitachi wa shinzoku ga takusan imasu.",
+      "chinese": "wǒmen yǒu hěnduō qīnshǔ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော်တို့မှာ ဆွေမျိုးအသိုင်းအဝိုင်းကြီးရှိတယ်။",
+      "korean": "ကျွန်တော်တို့မှာ ဆွေမျိုးအသိုင်းအဝိုင်းကြီးရှိတယ်။",
+      "japanese": "ကျွန်တော်တို့မှာ ဆွေမျိုးအသိုင်းအဝိုင်းကြီးရှိတယ်။",
+      "chinese": "ကျွန်တော်တို့မှာ ဆွေမျိုးအသိုင်းအဝိုင်းကြီးရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "kinship"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_040",
+    "burmeseWord": "ယောက္ခမ",
+    "romanization": "yaw kha ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "In-laws",
+    "translations": {
+      "english": "In-laws",
+      "korean": "사돈",
+      "japanese": "姻戚",
+      "chinese": "姻亲/公婆/岳父母"
+    },
+    "romanizations": {
+      "english": "In-laws",
+      "korean": "sadon",
+      "japanese": "inseki",
+      "chinese": "yīnqīn / gōngpó / yuèfùmǔ"
+    },
+    "examples": {
+      "english": "My in-laws are very kind.",
+      "korean": "제 사돈은 매우 친절해요.",
+      "japanese": "私の姻戚はとても親切です。",
+      "chinese": "我的姻亲很善良。"
+    },
+    "exampleRomanizations": {
+      "english": "My in-laws are very kind.",
+      "korean": "je sadoneun maeu chinjeolhaeyo.",
+      "japanese": "watashi no inseki wa totemo shinsetsu desu.",
+      "chinese": "wǒ de yīnqīn hěn shànliáng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ယောက္ခမတွေက အရမ်းကြင်နာတယ်။",
+      "korean": "ကျွန်တော့်ယောက္ခမတွေက အရမ်းကြင်နာတယ်။",
+      "japanese": "ကျွန်တော့်ယောက္ခမတွေက အရမ်းကြင်နာတယ်။",
+      "chinese": "ကျွန်တော့်ယောက္ခမတွေက အရမ်းကြင်နာတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "in-laws"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_041",
+    "burmeseWord": "ချွေးမ",
+    "romanization": "chway ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "In-laws",
+    "translations": {
+      "english": "Daughter-in-law",
+      "korean": "며느리",
+      "japanese": "嫁",
+      "chinese": "儿媳妇"
+    },
+    "romanizations": {
+      "english": "Daughter-in-law",
+      "korean": "myeoneuri",
+      "japanese": "yome",
+      "chinese": "érxífù"
+    },
+    "examples": {
+      "english": "My daughter-in-law is a doctor.",
+      "korean": "제 며느리는 의사예요.",
+      "japanese": "私の嫁は医者です。",
+      "chinese": "我的儿媳妇是医生。"
+    },
+    "exampleRomanizations": {
+      "english": "My daughter-in-law is a doctor.",
+      "korean": "je myeoneurineun uisayeyo.",
+      "japanese": "watashi no yome wa isha desu.",
+      "chinese": "wǒ de érxífù shì yīshēng."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်ချွေးမက ဆရာဝန်ပါ။",
+      "korean": "ကျွန်တော့်ချွေးမက ဆရာဝန်ပါ။",
+      "japanese": "ကျွန်တော့်ချွေးမက ဆရာဝန်ပါ။",
+      "chinese": "ကျွန်တော့်ချွေးမက ဆရာဝန်ပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "in-laws"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_042",
+    "burmeseWord": "သူငယ်ချင်းကောင်း",
+    "romanization": "thu ngal chin kaung",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Social Relationships",
+    "translations": {
+      "english": "Best friend",
+      "korean": "절친",
+      "japanese": "親友",
+      "chinese": "最好的朋友"
+    },
+    "romanizations": {
+      "english": "Best friend",
+      "korean": "jeolchin",
+      "japanese": "shinyuu",
+      "chinese": "zuì hǎo de péngyou"
+    },
+    "examples": {
+      "english": "She is my best friend.",
+      "korean": "그녀는 제 절친이에요.",
+      "japanese": "彼女は私の親友です。",
+      "chinese": "她是我最好的朋友。"
+    },
+    "exampleRomanizations": {
+      "english": "She is my best friend.",
+      "korean": "geunyeoneun je jeolchinieyo.",
+      "japanese": "kanojo wa watashi no shinyuu desu.",
+      "chinese": "tā shì wǒ zuì hǎo de péngyou."
+    },
+    "exampleTranslations": {
+      "english": "သူမက ကျွန်တော့်သူငယ်ချင်းကောင်းပါ။",
+      "korean": "သူမက ကျွန်တော့်သူငယ်ချင်းကောင်းပါ။",
+      "japanese": "သူမက ကျွန်တော့်သူငယ်ချင်းကောင်းပါ။",
+      "chinese": "သူမက ကျွန်တော့်သူငယ်ချင်းကောင်းပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["friends", "best friend"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_043",
+    "burmeseWord": "အိမ်ထောင်သည်",
+    "romanization": "ein htaung thi",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Married person",
+      "korean": "기혼자",
+      "japanese": "既婚者",
+      "chinese": "已婚人士"
+    },
+    "romanizations": {
+      "english": "Married person",
+      "korean": "gihonja",
+      "japanese": "kikonsha",
+      "chinese": "yǐhūn rénshì"
+    },
+    "examples": {
+      "english": "He is a married person.",
+      "korean": "그는 기혼자예요.",
+      "japanese": "彼は既婚者です。",
+      "chinese": "他是已婚人士。"
+    },
+    "exampleRomanizations": {
+      "english": "He is a married person.",
+      "korean": "geuneun gihonjayeyo.",
+      "japanese": "kare wa kikonsha desu.",
+      "chinese": "tā shì yǐhūn rénshì."
+    },
+    "exampleTranslations": {
+      "english": "သူက အိမ်ထောင်သည်ပါ။",
+      "korean": "သူက အိမ်ထောင်သည်ပါ။",
+      "japanese": "သူက အိမ်ထောင်သည်ပါ။",
+      "chinese": "သူက အိမ်ထောင်သည်ပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["marriage", "status"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_044",
+    "burmeseWord": "တစ်ကိုယ်ရေ",
+    "romanization": "ta ko yay",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Single person",
+      "korean": "미혼자",
+      "japanese": "独身者",
+      "chinese": "单身人士"
+    },
+    "romanizations": {
+      "english": "Single person",
+      "korean": "mihonja",
+      "japanese": "dokushinsha",
+      "chinese": "dānshēn rénshì"
+    },
+    "examples": {
+      "english": "She is still single.",
+      "korean": "그녀는 아직 미혼이에요.",
+      "japanese": "彼女はまだ独身です。",
+      "chinese": "她还是单身。"
+    },
+    "exampleRomanizations": {
+      "english": "She is still single.",
+      "korean": "geunyeoneun ajik mihonieyo.",
+      "japanese": "kanojo wa mada dokushin desu.",
+      "chinese": "tā háishì dānshēn."
+    },
+    "exampleTranslations": {
+      "english": "သူမက တစ်ကိုယ်ရေပါ။",
+      "korean": "သူမက တစ်ကိုယ်ရေပါ။",
+      "japanese": "သူမက တစ်ကိုယ်ရေပါ။",
+      "chinese": "သူမက တစ်ကိုယ်ရေပါ။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["marriage", "status"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_045",
+    "burmeseWord": "မိဘများ",
+    "romanization": "mi ba myar",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Parents",
+      "korean": "부모님",
+      "japanese": "両親",
+      "chinese": "父母"
+    },
+    "romanizations": {
+      "english": "Parents",
+      "korean": "bumonim",
+      "japanese": "ryoushin",
+      "chinese": "fùmǔ"
+    },
+    "examples": {
+      "english": "I love my parents.",
+      "korean": "저는 부모님을 사랑해요.",
+      "japanese": "私は両親を愛しています。",
+      "chinese": "我爱我的父母。"
+    },
+    "exampleRomanizations": {
+      "english": "I love my parents.",
+      "korean": "jeoneun bumonimeul saranghaeyo.",
+      "japanese": "watashi wa ryoushin wo aishite imasu.",
+      "chinese": "wǒ ài wǒ de fùmǔ."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော် မိဘတွေကိုချစ်တယ်။",
+      "korean": "ကျွန်တော် မိဘတွေကိုချစ်တယ်။",
+      "japanese": "ကျွန်တော် မိဘတွေကိုချစ်တယ်။",
+      "chinese": "ကျွန်တော် မိဘတွေကိုချစ်တယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "immediate", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_046",
+    "burmeseWord": "သားသမီး",
+    "romanization": "tha tha mee",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Immediate Family",
+    "translations": {
+      "english": "Children (offspring)",
+      "korean": "자녀",
+      "japanese": "子供たち",
+      "chinese": "子女"
+    },
+    "romanizations": {
+      "english": "Children (offspring)",
+      "korean": "janyeo",
+      "japanese": "kodomotachi",
+      "chinese": "zǐnǚ"
+    },
+    "examples": {
+      "english": "They have two children.",
+      "korean": "그들은 자녀가 두 명 있어요.",
+      "japanese": "彼らには子供が二人います。",
+      "chinese": "他们有两个孩子。"
+    },
+    "exampleRomanizations": {
+      "english": "They have two children.",
+      "korean": "geudeureun janyeoga du myeong isseoyo.",
+      "japanese": "karera ni wa kodomo ga futari imasu.",
+      "chinese": "tāmen yǒu liǎng gè háizi."
+    },
+    "exampleTranslations": {
+      "english": "သူတို့မှာ သားသမီးနှစ်ယောက်ရှိတယ်။",
+      "korean": "သူတို့မှာ သားသမီးနှစ်ယောက်ရှိတယ်။",
+      "japanese": "သူတို့မှာ သားသမီးနှစ်ယောက်ရှိတယ်။",
+      "chinese": "သူတို့မှာ သားသမီးနှစ်ယောက်ရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "children"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_047",
+    "burmeseWord": "နှမ",
+    "romanization": "hna ma",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Sister (younger - informal)",
+      "korean": "여동생",
+      "japanese": "妹",
+      "chinese": "妹妹"
+    },
+    "romanizations": {
+      "english": "Sister (younger - informal)",
+      "korean": "yeodongsaeng",
+      "japanese": "imouto",
+      "chinese": "mèimei"
+    },
+    "examples": {
+      "english": "My sister is in school.",
+      "korean": "제 여동생은 학교에 있어요.",
+      "japanese": "私の妹は学校にいます。",
+      "chinese": "我妹妹在学校。"
+    },
+    "exampleRomanizations": {
+      "english": "My sister is in school.",
+      "korean": "je yeodongsaengeun hakgyoe isseoyo.",
+      "japanese": "watashi no imouto wa gakkou ni imasu.",
+      "chinese": "wǒ mèimei zài xuéxiào."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်နှမက ကျောင်းမှာရှိတယ်။",
+      "korean": "ကျွန်တော့်နှမက ကျောင်းမှာရှိတယ်။",
+      "japanese": "ကျွန်တော့်နှမက ကျောင်းမှာရှိတယ်။",
+      "chinese": "ကျွန်တော့်နှမက ကျောင်းမှာရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings", "informal"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_048",
+    "burmeseWord": "မောင်",
+    "romanization": "maung",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Siblings",
+    "translations": {
+      "english": "Brother (younger - informal)",
+      "korean": "남동생",
+      "japanese": "弟",
+      "chinese": "弟弟"
+    },
+    "romanizations": {
+      "english": "Brother (younger - informal)",
+      "korean": "namdongsaeng",
+      "japanese": "otouto",
+      "chinese": "dìdi"
+    },
+    "examples": {
+      "english": "My brother is playing.",
+      "korean": "제 남동생이 놀고 있어요.",
+      "japanese": "私の弟が遊んでいます。",
+      "chinese": "我弟弟在玩。"
+    },
+    "exampleRomanizations": {
+      "english": "My brother is playing.",
+      "korean": "je namdongsaengi nolgo isseoyo.",
+      "japanese": "watashi no otouto ga asonde imasu.",
+      "chinese": "wǒ dìdi zài wán."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်မောင်က ကစားနေတယ်။",
+      "korean": "ကျွန်တော့်မောင်က ကစားနေတယ်။",
+      "japanese": "ကျွန်တော့်မောင်က ကစားနေတယ်။",
+      "chinese": "ကျွန်တော့်မောင်က ကစားနေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "siblings", "informal"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_049",
+    "burmeseWord": "အနီးကပ်ဆုံးမိသားစု",
+    "romanization": "a nee kat sone mi thar su",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "General",
+    "translations": {
+      "english": "Immediate family",
+      "korean": "직계 가족",
+      "japanese": "近い家族",
+      "chinese": "直系亲属"
+    },
+    "romanizations": {
+      "english": "Immediate family",
+      "korean": "jikgye gajok",
+      "japanese": "chikai kazoku",
+      "chinese": "zhíxì qīnshǔ"
+    },
+    "examples": {
+      "english": "My immediate family lives nearby.",
+      "korean": "직계 가족이 근처에 살아요.",
+      "japanese": "近い家族が近くに住んでいます。",
+      "chinese": "我的直系亲属住在附近。"
+    },
+    "exampleRomanizations": {
+      "english": "My immediate family lives nearby.",
+      "korean": "jikgye gajogi geuncheoe sarayo.",
+      "japanese": "chikai kazoku ga chikaku ni sunde imasu.",
+      "chinese": "wǒ de zhíxì qīnshǔ zhù zài fùjìn."
+    },
+    "exampleTranslations": {
+      "english": "ကျွန်တော့်အနီးကပ်ဆုံးမိသားစုက အနီးမှာနေတယ်။",
+      "korean": "ကျွန်တော့်အနီးကပ်ဆုံးမိသားစုက အနီးမှာနေတယ်။",
+      "japanese": "ကျွန်တော့်အနီးကပ်ဆုံးမိသားစုက အနီးမှာနေတယ်။",
+      "chinese": "ကျွန်တော့်အနီးကပ်ဆုံးမိသားစုက အနီးမှာနေတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "basic"],
+    "isFavourite": false
+  },
+  {
+    "id": "vocab_family_050",
+    "burmeseWord": "မွေးစားမိဘ",
+    "romanization": "mway sar mi ba",
+    "partOfSpeech": "noun",
+    "category": "family",
+    "subCategory": "Relationships",
+    "translations": {
+      "english": "Adoptive parent",
+      "korean": "양부모",
+      "japanese": "養親",
+      "chinese": "养父母"
+    },
+    "romanizations": {
+      "english": "Adoptive parent",
+      "korean": "yangbumo",
+      "japanese": "youfu / youbo",
+      "chinese": "yǎng fùmǔ"
+    },
+    "examples": {
+      "english": "She has loving adoptive parents.",
+      "korean": "그녀는 사랑하는 양부모가 있어요.",
+      "japanese": "彼女には愛情深い養親がいます。",
+      "chinese": "她有慈爱的养父母。"
+    },
+    "exampleRomanizations": {
+      "english": "She has loving adoptive parents.",
+      "korean": "geunyeoneun saranghaneun yangbumoga isseoyo.",
+      "japanese": "kanojo ni wa aijou fukai youfu / youbo ga imasu.",
+      "chinese": "tā yǒu cí'ài de yǎng fùmǔ."
+    },
+    "exampleTranslations": {
+      "english": "သူမမှာ ချစ်တတ်တဲ့ မွေးစားမိဘတွေရှိတယ်။",
+      "korean": "သူမမှာ ချစ်တတ်တဲ့ မွေးစားမိဘတွေရှိတယ်။",
+      "japanese": "သူမမှာ ချစ်တတ်တဲ့ မွေးစားမိဘတွေရှိတယ်။",
+      "chinese": "သူမမှာ ချစ်တတ်တဲ့ မွေးစားမိဘတွေရှိတယ်။"
+    },
+    "audioUrl": "",
+    "difficulty": 1,
+    "tags": ["family", "adoption", "relationships"],
+    "isFavourite": false
+  }
+
+
+]

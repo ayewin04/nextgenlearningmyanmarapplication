@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "641642050064",
+    "project_id": "polyglot-exam-app",
+    "storage_bucket": "polyglot-exam-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641642050064:android:7452a8abbf514fbde69095",
+        "android_client_info": {
+          "package_name": "com.nextgenlearningmyanmar.polyglot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641642050064-cnd88q5co7hjc8r7gsd2l4umd5thhpeg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTsBXWDE5wUtnDeW-U5Ei_ustxUNQHFYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641642050064-cnd88q5co7hjc8r7gsd2l4umd5thhpeg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "641642050064-8tphmouj7p0050vjnjj62co905npme63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nextgenlearningmyanmar.polyglotApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641642050064:android:950d0a9cff234e80e69095",
+        "android_client_info": {
+          "package_name": "com.nextgenlearningmyanmar.polyglot_app_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641642050064-cnd88q5co7hjc8r7gsd2l4umd5thhpeg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTsBXWDE5wUtnDeW-U5Ei_ustxUNQHFYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641642050064-cnd88q5co7hjc8r7gsd2l4umd5thhpeg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "641642050064-8tphmouj7p0050vjnjj62co905npme63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nextgenlearningmyanmar.polyglotApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

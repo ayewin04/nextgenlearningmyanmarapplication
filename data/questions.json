@@ -1,0 +1,114 @@
+[
+  {
+    "exam": "ielts",
+    "level": "Band 6",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "What is the main purpose of the passage?",
+    "options": [
+      "To describe a historical event",
+      "To explain a scientific concept",
+      "To persuade the reader",
+      "To entertain the audience"
+    ],
+    "correctAnswer": "To explain a scientific concept",
+    "aiExplanation": "The passage focuses on explaining a scientific concept with evidence and examples.",
+    "points": 10
+  },
+  {
+    "exam": "ielts",
+    "level": "Band 6",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "According to the passage, what is the main cause of climate change?",
+    "options": [
+      "Natural cycles",
+      "Human activities",
+      "Solar radiation",
+      "Volcanic eruptions"
+    ],
+    "correctAnswer": "Human activities",
+    "aiExplanation": "The passage clearly states that human activities are the primary cause.",
+    "points": 10
+  },
+  {
+    "exam": "hsk",
+    "level": "HSK 4",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "这段话的主要意思是什么？",
+    "options": [
+      "经济发展很重要",
+      "环境保护很重要",
+      "教育很重要",
+      "科技很重要"
+    ],
+    "correctAnswer": "环境保护很重要",
+    "aiExplanation": "这段文字强调了环境保护的重要性。",
+    "points": 10
+  },
+  {
+    "exam": "hsk",
+    "level": "HSK 4",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "以下哪个选项符合文章的意思？",
+    "options": [
+      "政府应该多建学校",
+      "政府应该少花钱",
+      "政府应该重视环保",
+      "政府应该发展科技"
+    ],
+    "correctAnswer": "政府应该重视环保",
+    "aiExplanation": "文章认为政府应该把环保放在重要位置。",
+    "points": 10
+  },
+  {
+    "exam": "jlpt",
+    "level": "N4",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "この文章のテーマは何ですか？",
+    "options": [
+      "日本の文化",
+      "日本の経済",
+      "日本の観光",
+      "日本の教育"
+    ],
+    "correctAnswer": "日本の文化",
+    "aiExplanation": "この文章は日本の伝統文化について説明しています。",
+    "points": 10
+  },
+  {
+    "exam": "topik",
+    "level": "TOPIK I",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "이 글의 주제는 무엇입니까?",
+    "options": [
+      "한국의 역사",
+      "한국의 음식",
+      "한국의 문화",
+      "한국의 경제"
+    ],
+    "correctAnswer": "한국의 문화",
+    "aiExplanation": "이 글은 한국의 전통 문화에 대해 설명하고 있습니다.",
+    "points": 10
+  },
+  {
+    "exam": "thai",
+    "level": "Beginner",
+    "category": "Reading",
+    "type": "multiple_choice",
+    "questionText": "ข้อความนี้เกี่ยวกับอะไร?",
+    "options": [
+      "วัฒนธรรมไทย",
+      "อาหารไทย",
+      "ประวัติศาสตร์ไทย",
+      "เศรษฐกิจไทย"
+    ],
+    "correctAnswer": "วัฒนธรรมไทย",
+    "aiExplanation": "ข้อความนี้กล่าวถึงวัฒนธรรมไทย",
+    "points": 10
+  }
+]

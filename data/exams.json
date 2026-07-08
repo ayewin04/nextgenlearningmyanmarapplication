@@ -1,0 +1,67 @@
+[
+  {
+    "id": "ielts",
+    "name": "IELTS",
+    "icon": "📘",
+    "flag": "🇬🇧",
+    "description": "International English Language Testing System",
+    "levels": ["Band 4", "Band 5", "Band 6", "Band 7", "Band 8", "Band 9"],
+    "categories": ["Reading", "Listening", "Writing", "Speaking"],
+    "totalQuestions": 100,
+    "estimatedDuration": 165,
+    "color": "#E53935",
+    "isPremium": false
+  },
+  {
+    "id": "hsk",
+    "name": "HSK",
+    "icon": "📕",
+    "flag": "🇨🇳",
+    "description": "Hanyu Shuiping Kaoshi - Chinese Proficiency Test",
+    "levels": ["HSK 1", "HSK 2", "HSK 3", "HSK 4", "HSK 5", "HSK 6"],
+    "categories": ["Reading", "Listening", "Writing"],
+    "totalQuestions": 100,
+    "estimatedDuration": 120,
+    "color": "#D32F2F",
+    "isPremium": false
+  },
+  {
+    "id": "jlpt",
+    "name": "JLPT",
+    "icon": "📗",
+    "flag": "🇯🇵",
+    "description": "Japanese-Language Proficiency Test",
+    "levels": ["N5", "N4", "N3", "N2", "N1"],
+    "categories": ["Reading", "Listening"],
+    "totalQuestions": 80,
+    "estimatedDuration": 120,
+    "color": "#C62828",
+    "isPremium": false
+  },
+  {
+    "id": "topik",
+    "name": "TOPIK",
+    "icon": "📙",
+    "flag": "🇰🇷",
+    "description": "Test of Proficiency in Korean",
+    "levels": ["TOPIK I", "TOPIK II"],
+    "categories": ["Reading", "Listening", "Writing"],
+    "totalQuestions": 100,
+    "estimatedDuration": 180,
+    "color": "#1565C0",
+    "isPremium": false
+  },
+  {
+    "id": "thai",
+    "name": "Thai",
+    "icon": "📒",
+    "flag": "🇹🇭",
+    "description": "Thai Language Proficiency",
+    "levels": ["Beginner", "Intermediate", "Advanced"],
+    "categories": ["Reading", "Listening", "Speaking"],
+    "totalQuestions": 60,
+    "estimatedDuration": 90,
+    "color": "#2E7D32",
+    "isPremium": false
+  }
+]
