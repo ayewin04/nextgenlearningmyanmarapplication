@@ -138,7 +138,7 @@ class UserModel {
     );
   }
 
-  // Helper method to check if word is learned
+  // ✅ Helper method to check if word is learned
   bool isWordLearned(String wordId) {
     final learnedWords = Map<String, bool>.from(
       dailyTasks['learnedWords'] as Map? ?? {}
@@ -146,11 +146,70 @@ class UserModel {
     return learnedWords[wordId] == true;
   }
 
-  // Helper method to get total learned words
+  // ✅ Helper method to get total learned words
   int getTotalLearnedWords() {
     final learnedWords = Map<String, bool>.from(
       dailyTasks['learnedWords'] as Map? ?? {}
     );
     return learnedWords.length;
+  }
+
+  // ✅ Helper method to mark a word as learned
+  Map<String, dynamic> markWordLearned(String wordId) {
+    final learnedWords = Map<String, bool>.from(
+      dailyTasks['learnedWords'] as Map? ?? {}
+    );
+    learnedWords[wordId] = true;
+    final updatedDailyTasks = Map<String, dynamic>.from(dailyTasks);
+    updatedDailyTasks['learnedWords'] = learnedWords;
+    return updatedDailyTasks;
+  }
+
+  // ✅ Helper method to get words learned today
+  int getWordsLearnedToday() {
+    final today = DateTime.now();
+    final todayKey = '${today.year}-${today.month}-${today.day}';
+    return dailyTasks[todayKey] == true ? 1 : 0;
+  }
+
+  // ✅ Helper method to get XP progress to next level
+  int getXPToNextLevel() {
+    final xpForCurrentLevel = (level - 1) * 200;
+    final xpForNextLevel = level * 200;
+    return xpForNextLevel - totalXP;
+  }
+
+  // ✅ Helper method to get XP progress percentage
+  double getLevelProgress() {
+    final xpForCurrentLevel = (level - 1) * 200;
+    final xpForNextLevel = level * 200;
+    final progress = (totalXP - xpForCurrentLevel) / 
+        (xpForNextLevel - xpForCurrentLevel);
+    return progress.clamp(0.0, 1.0);
+  }
+
+  // ✅ Helper method to check if user has any language selected
+  bool hasLanguages() {
+    return targetLanguages.isNotEmpty;
+  }
+
+  // ✅ Helper method to get user's rank tier
+  String getRankTier() {
+    if (level >= 50) return 'Legendary';
+    if (level >= 25) return 'Master';
+    if (level >= 15) return 'Expert';
+    if (level >= 10) return 'Advanced';
+    if (level >= 5) return 'Intermediate';
+    return 'Beginner';
+  }
+
+  // ✅ Helper method to get user's rank emoji
+  String getRankEmoji() {
+    if (level >= 50) return '👑';
+    if (level >= 25) return '💎';
+    if (level >= 15) return '🌟';
+    if (level >= 10) return '⭐';
+    if (level >= 5) return '📚';
+    return '🌱';
   }
 }

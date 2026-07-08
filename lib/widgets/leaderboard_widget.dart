@@ -18,27 +18,26 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   @override
   void initState() {
     super.initState();
-    _loadLeaderboard();
+    _listenToLeaderboard();
   }
 
-  Future<void> _loadLeaderboard() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
+  // ✅ REAL-TIME UPDATES
+  void _listenToLeaderboard() {
+    _gamificationService.streamTop10Learners().listen((data) {
+      if (mounted) {
+        setState(() {
+          _leaderboard = data;
+          _isLoading = false;
+        });
+      }
+    }, onError: (error) {
+      if (mounted) {
+        setState(() {
+          _error = 'Failed to load leaderboard: $error';
+          _isLoading = false;
+        });
+      }
     });
-
-    try {
-      final data = await _gamificationService.getTop10Learners();
-      setState(() {
-        _leaderboard = data;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = 'Failed to load leaderboard: $e';
-        _isLoading = false;
-      });
-    }
   }
 
   @override
@@ -73,9 +72,9 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Text(
-                    'Global',
+                    'Live',
                     style: TextStyle(
-                      color: Color(0xFF42A5F5),
+                      color: Colors.green,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
@@ -85,7 +84,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Top 10 language learners worldwide',
+              'Top 10 language learners worldwide (updates in real-time)',
               style: TextStyle(
                 color: Colors.grey.shade400,
                 fontSize: 12,
@@ -118,7 +117,13 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                       ),
                       const SizedBox(height: 8),
                       ElevatedButton(
-                        onPressed: _loadLeaderboard,
+                        onPressed: () {
+                          setState(() {
+                            _isLoading = true;
+                            _error = null;
+                          });
+                          _listenToLeaderboard();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF42A5F5),
                         ),
@@ -141,11 +146,9 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             else
               Column(
                 children: [
-                  // Top 3 with special styling
                   ..._leaderboard.take(3).map((user) => _buildTop3Item(user)),
                   const Divider(color: Colors.grey, thickness: 0.5),
                   const SizedBox(height: 8),
-                  // Remaining 4-10
                   ..._leaderboard.skip(3).map((user) => _buildNormalItem(user)),
                 ],
               ),
@@ -155,7 +158,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
     );
   }
 
-  // ✅ Top 3 with special styling
   Widget _buildTop3Item(Map<String, dynamic> user) {
     final rank = user['rank'];
     final rankColor = rank == 1 
@@ -184,7 +186,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
       ),
       child: Row(
         children: [
-          // Rank Badge
           Container(
             width: 36,
             height: 36,
@@ -200,7 +201,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
           ),
           const SizedBox(width: 12),
-          // Avatar
           Container(
             width: 40,
             height: 40,
@@ -220,7 +220,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
           ),
           const SizedBox(width: 12),
-          // Name and Stats
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +258,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
               ],
             ),
           ),
-          // Level Badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
@@ -280,7 +278,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
     );
   }
 
-  // ✅ Normal items (4-10)
   Widget _buildNormalItem(Map<String, dynamic> user) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
@@ -293,7 +290,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
       ),
       child: Row(
         children: [
-          // Rank Number
           Container(
             width: 28,
             height: 28,
@@ -313,7 +309,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
           ),
           const SizedBox(width: 10),
-          // Avatar
           Container(
             width: 32,
             height: 32,
@@ -333,7 +328,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
           ),
           const SizedBox(width: 10),
-          // Name
           Expanded(
             child: Text(
               user['name'],
@@ -344,7 +338,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
               ),
             ),
           ),
-          // XP
           Text(
             '${user['totalXP']} XP',
             style: TextStyle(
@@ -354,7 +347,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
           ),
           const SizedBox(width: 8),
-          // Level
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(

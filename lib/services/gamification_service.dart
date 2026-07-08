@@ -15,6 +15,8 @@ class GamificationService {
     required String category,
     required String wordId,
   }) async {
+    print('🚀 [Gamification] updateProgress called for word: $wordId');
+    
     final userRef = _firestore.collection('users').doc(userId);
     final userDoc = await userRef.get();
     
@@ -24,29 +26,37 @@ class GamificationService {
 
     final user = UserModel.fromFirestore(userDoc);
     
-    final learnedWordsKey = 'learnedWords';
-    final learnedWords = Map<String, bool>.from(
-      user.dailyTasks[learnedWordsKey] as Map? ?? {}
-    );
+    // ✅ Get learned words from dailyTasks
+    Map<String, bool> learnedWords = {};
+    if (user.dailyTasks.containsKey('learnedWords')) {
+      learnedWords = Map<String, bool>.from(user.dailyTasks['learnedWords'] as Map);
+    }
     
+    // ✅ Check if word was already learned
     if (learnedWords[wordId] == true) {
-      print('⚠️ Word already learned, no XP awarded: $wordId');
+      print('⚠️ Word already learned: $wordId - No XP awarded');
       return user;
     }
 
+    print('✅ New word detected! Awarding 10 XP...');
+    
+    // ✅ Mark word as learned
     learnedWords[wordId] = true;
     
+    // ✅ Calculate new XP
     final newXP = user.totalXP + XP_PER_WORD;
     final newLevel = _calculateLevel(newXP);
     final streakData = await _updateStreak(user);
     final newWeeklyXP = user.weeklyXP + XP_PER_WORD;
     
+    // ✅ Update daily tasks
     final today = DateTime.now();
     final todayKey = '${today.year}-${today.month}-${today.day}';
     final updatedDailyTasks = Map<String, dynamic>.from(user.dailyTasks);
     updatedDailyTasks[todayKey] = true;
-    updatedDailyTasks[learnedWordsKey] = learnedWords;
+    updatedDailyTasks['learnedWords'] = learnedWords; // ✅ Store as Map
 
+    // ✅ Update Firestore
     await userRef.update({
       'totalXP': newXP,
       'level': newLevel,
@@ -59,6 +69,7 @@ class GamificationService {
       'wordsPerCategory.${category.toLowerCase()}': FieldValue.increment(1),
     });
 
+    // ✅ Return updated user
     final updatedUser = user.copyWith(
       totalXP: newXP,
       level: newLevel,
@@ -70,6 +81,7 @@ class GamificationService {
 
     await _checkAchievements(userId, updatedUser);
 
+    print('✅ XP awarded! New total: $newXP');
     return updatedUser;
   }
 
@@ -129,6 +141,79 @@ class GamificationService {
     }
   }
 
+  // ✅ Get learned words for a user
+  Future<Map<String, bool>> getLearnedWords(String userId) async {
+    try {
+      final userDoc = await _firestore.collection('users').doc(userId).get();
+      if (!userDoc.exists) return {};
+      
+      final data = userDoc.data()!;
+      final dailyTasks = data['dailyTasks'] ?? {};
+      return Map<String, bool>.from(dailyTasks['learnedWords'] as Map? ?? {});
+    } catch (e) {
+      return {};
+    }
+  }
+
+  // ✅ Get top 10 learners with real-time updates
+  Stream<List<Map<String, dynamic>>> streamTop10Learners() {
+    return _firestore
+        .collection('users')
+        .orderBy('totalXP', descending: true)
+        .limit(10)
+        .snapshots()
+        .map((snapshot) {
+          final List<Map<String, dynamic>> topLearners = [];
+          int rank = 1;
+          for (final doc in snapshot.docs) {
+            final data = doc.data() as Map<String, dynamic>;
+            topLearners.add({
+              'userId': doc.id,
+              'name': data['name'] ?? 'User',
+              'totalXP': data['totalXP'] ?? 0,
+              'weeklyXP': data['weeklyXP'] ?? 0,
+              'level': data['level'] ?? 1,
+              'streak': data['streak'] ?? 0,
+              'wordsLearned': data['wordsLearned'] ?? 0,
+              'rank': rank,
+            });
+            rank++;
+          }
+          return topLearners;
+        });
+  }
+
+  // ✅ Get user rank with real-time updates
+  Stream<int> streamUserRank(String userId) {
+    return _firestore
+        .collection('users')
+        .snapshots()
+        .map((snapshot) {
+          // Find user's XP
+          String? userXP;
+          for (final doc in snapshot.docs) {
+            if (doc.id == userId) {
+              final data = doc.data() as Map<String, dynamic>;
+              userXP = data['totalXP']?.toString();
+              break;
+            }
+          }
+          
+          if (userXP == null) return 0;
+          
+          // Count users with more XP
+          int rank = 1;
+          for (final doc in snapshot.docs) {
+            final data = doc.data() as Map<String, dynamic>;
+            final xp = data['totalXP']?.toString() ?? '0';
+            if (int.parse(xp) > int.parse(userXP)) {
+              rank++;
+            }
+          }
+          return rank;
+        });
+  }
+
   Future<List<Map<String, dynamic>>> getLeaderboard({
     int limit = 20,
     String period = 'all',
@@ -172,7 +257,6 @@ class GamificationService {
     }
   }
 
-  // ✅ Get top 10 learners
   Future<List<Map<String, dynamic>>> getTop10Learners() async {
     try {
       final snapshot = await _firestore
@@ -263,10 +347,9 @@ class GamificationService {
       final userDoc = await _firestore.collection('users').doc(userId).get();
       if (!userDoc.exists) return false;
 
-      final user = UserModel.fromFirestore(userDoc);
-      final learnedWords = Map<String, bool>.from(
-        user.dailyTasks['learnedWords'] as Map? ?? {}
-      );
+      final data = userDoc.data()!;
+      final dailyTasks = data['dailyTasks'] ?? {};
+      final learnedWords = Map<String, bool>.from(dailyTasks['learnedWords'] as Map? ?? {});
       
       return learnedWords[wordId] == true;
     } catch (e) {
@@ -291,5 +374,14 @@ class GamificationService {
     } catch (e) {
       throw Exception('Failed to reset weekly XP: $e');
     }
+  }
+
+  // Real-time user progress stream
+  Stream<UserModel> streamUserProgress(String userId) {
+    return _firestore
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) => UserModel.fromFirestore(snapshot));
   }
 }

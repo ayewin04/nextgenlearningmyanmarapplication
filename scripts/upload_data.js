@@ -91,6 +91,27 @@ function checkForDuplicates(data, collectionName) {
         existing: d.existingItem.id || d.existingItem.burmeseWord || 'Unknown'
       }))
     };
+
+    // scripts/upload_data.js - Add exam_vocabulary
+
+const DATA_FILES = {
+  exams: path.join(DATA_DIR, 'exams.json'),
+  exam_questions: path.join(DATA_DIR, 'exam_questions.json'),
+  exam_vocabulary: path.join(DATA_DIR, 'exam_vocabulary.json'),  // ✅ NEW
+  grammar: path.join(DATA_DIR, 'grammar.json'),
+  vocabulary: path.join(DATA_DIR, 'vocabulary.json'),  // Learning vocabulary
+};
+
+// In uploadAllData():
+if (fs.existsSync(DATA_FILES.exam_vocabulary)) {
+  console.log('📄 Reading exam_vocabulary.json...');
+  const vocabData = JSON.parse(fs.readFileSync(DATA_FILES.exam_vocabulary, 'utf8'));
+  console.log(`   Found ${vocabData.length} exam vocabulary entries`);
+  const validVocab = validateData(vocabData, 'exam_vocabulary');
+  await uploadCollection('exam_vocabulary', validVocab);
+} else {
+  console.log('⚠️ Skipping exam_vocabulary.json - file not found');
+}
     
     const reportPath = path.join(DATA_DIR, `duplicates_report_${collectionName}.json`);
     fs.writeFileSync(

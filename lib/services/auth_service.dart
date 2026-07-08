@@ -284,4 +284,10 @@ class AuthService extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
   }
+
+  // ✅ Update user model from external source (for real-time updates)
+  void updateUserModel(UserModel updatedUser) {
+    _userModel = updatedUser;
+    notifyListeners();
+  }
 }

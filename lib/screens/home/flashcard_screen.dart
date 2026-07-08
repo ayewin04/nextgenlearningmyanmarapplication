@@ -179,34 +179,60 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     );
   }
 
-  Future<void> _saveProgress() async {
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      final user = authService.user;
-      if (user == null) return;
+  // ✅ UPDATED: Save progress with immediate XP update
+ // In flashcard_screen.dart - Update _saveProgress method
 
-      final vocab = _filteredVocabularies[_currentIndex];
-      
-      final gamificationService = GamificationService();
-      await gamificationService.updateProgress(
-        userId: user.uid,
-        language: widget.language,
-        category: widget.category,
-        wordId: vocab.id,
+Future<void> _saveProgress() async {
+  try {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = authService.user;
+    if (user == null) return;
+
+    final vocab = _filteredVocabularies[_currentIndex];
+    
+    final gamificationService = GamificationService();
+    
+    // ✅ This will only award XP if word is NOT already learned
+    final updatedUser = await gamificationService.updateProgress(
+      userId: user.uid,
+      language: widget.language,
+      category: widget.category,
+      wordId: vocab.id,
+    );
+    
+    // ✅ Update the user model with new data
+    authService.updateUserModel(updatedUser);
+    
+    await _firestoreService.saveUserProgress(
+      userId: user.uid,
+      exam: widget.language,
+      questionId: 'word_$_currentIndex',
+      isCorrect: true,
+      points: 10,
+    );
+    
+    // ✅ Only show XP snackbar if XP was actually awarded
+    // The updateProgress method returns the updated user, so we can check if XP changed
+    if (updatedUser.totalXP > (authService.userModel?.totalXP ?? 0)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.star, color: Color(0xFFFFD700), size: 18),
+              SizedBox(width: 8),
+              Text('+10 XP earned! 🎉'),
+            ],
+          ),
+          duration: Duration(seconds: 1),
+          backgroundColor: Colors.green,
+        ),
       );
-      
-      await _firestoreService.saveUserProgress(
-        userId: user.uid,
-        exam: widget.language,
-        questionId: 'word_$_currentIndex',
-        isCorrect: true,
-        points: 10,
-      );
-      
-    } catch (e) {
-      print('Error saving progress: $e');
     }
+    
+  } catch (e) {
+    print('Error saving progress: $e');
   }
+}
 
   Future<void> _toggleFavourite() async {
     final vocab = _filteredVocabularies[_currentIndex];

@@ -1,13 +1,14 @@
-// lib/screens/languages/grammar_screen.dart
+// lib/screens/languages/exam_questions_screen.dart
 import 'package:flutter/material.dart';
 import '../../services/firestore_service.dart';
+import '../../models/question_model.dart';
 
-class GrammarScreen extends StatefulWidget {
+class ExamQuestionsScreen extends StatefulWidget {
   final String language;
   final String exam;
   final String level;  // ✅ ADD THIS
 
-  const GrammarScreen({
+  const ExamQuestionsScreen({
     super.key,
     required this.language,
     required this.exam,
@@ -15,41 +16,39 @@ class GrammarScreen extends StatefulWidget {
   });
 
   @override
-  State<GrammarScreen> createState() => _GrammarScreenState();
+  State<ExamQuestionsScreen> createState() => _ExamQuestionsScreenState();
 }
 
-// ... rest of the code remains the same
-
-class _GrammarScreenState extends State<GrammarScreen> {
+class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  List<Map<String, dynamic>> _grammar = [];
+  List<QuestionModel> _questions = [];
   bool _isLoading = true;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadGrammar();
+    _loadQuestions();
   }
 
-  Future<void> _loadGrammar() async {
+  Future<void> _loadQuestions() async {
     setState(() {
       _isLoading = true;
       _error = null;
     });
 
     try {
-      final grammar = await _firestoreService.getGrammarByLevel(
+      final questions = await _firestoreService.getQuestionsByLevel(
         exam: widget.exam,
         level: widget.level,
       );
       setState(() {
-        _grammar = grammar;
+        _questions = questions;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _error = 'Failed to load grammar: $e';
+        _error = 'Failed to load questions: $e';
         _isLoading = false;
       });
     }
@@ -85,7 +84,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '📝 ${widget.exam} Grammar',
+                      '📖 ${widget.exam} Practice',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -139,7 +138,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
                                   ),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
-                                    onPressed: _loadGrammar,
+                                    onPressed: _loadQuestions,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFF42A5F5),
                                     ),
@@ -149,19 +148,19 @@ class _GrammarScreenState extends State<GrammarScreen> {
                               ),
                             ),
                           )
-                        : _grammar.isEmpty
+                        : _questions.isEmpty
                             ? const Center(
                                 child: Text(
-                                  'No grammar lessons available for this level',
+                                  'No practice questions available for this level',
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               )
                             : ListView.builder(
                                 padding: const EdgeInsets.all(16),
-                                itemCount: _grammar.length,
+                                itemCount: _questions.length,
                                 itemBuilder: (context, index) {
-                                  final lesson = _grammar[index];
-                                  return _buildGrammarCard(lesson);
+                                  final question = _questions[index];
+                                  return _buildQuestionCard(question);
                                 },
                               ),
               ),
@@ -172,7 +171,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
     );
   }
 
-  Widget _buildGrammarCard(Map<String, dynamic> lesson) {
+  Widget _buildQuestionCard(QuestionModel question) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -186,55 +185,70 @@ class _GrammarScreenState extends State<GrammarScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF42A5F5).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  question.category,
+                  style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.orange.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${question.points ?? 10} pts',
+                  style: TextStyle(
+                    color: Colors.orange.shade300,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // ✅ FIXED: Removed const from this Text
           Text(
-            lesson['title'] ?? '',
+            question.questionText,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            lesson['description'] ?? '',
-            style: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade900.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              lesson['rule'] ?? '',
-              style: const TextStyle(
-                color: Color(0xFF42A5F5),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          ...List.generate(
-            (lesson['examples'] as List? ?? []).length,
-            (index) {
-              final example = (lesson['examples'] as List)[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+          const SizedBox(height: 12),
+          if (question.options != null)
+            ...question.options!.map((option) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Text(
-                  '• $example',
-                  style: const TextStyle(
-                    color: Colors.white70,
+                  option,
+                  style: TextStyle(
+                    color: Colors.grey.shade300,
                     fontSize: 14,
                   ),
                 ),
               );
-            },
-          ),
+            }),
         ],
       ),
     );

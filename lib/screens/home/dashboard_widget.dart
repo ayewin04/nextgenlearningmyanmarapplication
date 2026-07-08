@@ -20,11 +20,18 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   bool _isLoading = true;
   String? _error;
   int _userRank = 0;
+  Stream? _userProgressStream;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _listenToUserProgress();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<void> _loadData() async {
@@ -39,6 +46,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
       
       if (userModel != null) {
         _userRank = await _gamificationService.getUserRank(userModel.uid);
+        
+        _userProgressStream = _gamificationService.streamUserProgress(userModel.uid);
       }
       
       setState(() {
@@ -48,6 +57,27 @@ class _DashboardWidgetState extends State<DashboardWidget> {
       setState(() {
         _error = 'Failed to load data: $e';
         _isLoading = false;
+      });
+    }
+  }
+
+  void _listenToUserProgress() {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = authService.user;
+    
+    if (user != null) {
+      _gamificationService.streamUserProgress(user.uid).listen((updatedUser) {
+        if (mounted) {
+          authService.updateUserModel(updatedUser);
+          
+          _gamificationService.getUserRank(user.uid).then((rank) {
+            if (mounted) {
+              setState(() {
+                _userRank = rank;
+              });
+            }
+          });
+        }
       });
     }
   }
