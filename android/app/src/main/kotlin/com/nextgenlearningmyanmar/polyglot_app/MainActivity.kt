@@ -1,4 +1,4 @@
-package com.example.polyglot_app_new
+package com.nextgenlearningmyanmar.polyglot_app
 
 import io.flutter.embedding.android.FlutterActivity
 

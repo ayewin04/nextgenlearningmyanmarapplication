@@ -4,7 +4,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:html' as html;
 import '../../services/firestore_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/gamification_service.dart';
@@ -286,95 +285,81 @@ Future<void> _saveProgress() async {
     }
   }
 
-  void _playAudio() async {
-    final vocab = _filteredVocabularies[_currentIndex];
-    final wordInLanguage = vocab.getTranslation(widget.language);
+void _playAudio() async {
+  final vocab = _filteredVocabularies[_currentIndex];
+  final wordInLanguage = vocab.getTranslation(widget.language);
 
-    if (wordInLanguage.isEmpty) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('🔊 No audio available for this word'),
-            duration: Duration(seconds: 1),
-          ),
-        );
-      }
-      return;
+  if (wordInLanguage.isEmpty) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔊 No audio available for this word'),
+          duration: Duration(seconds: 1),
+        ),
+      );
     }
-
-    final bool isWeb = identical(0, 0.0) ? false : true;
-
-    if (isWeb) {
-      try {
-        final synth = html.window.speechSynthesis;
-        if (synth == null) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('🔊 Speech synthesis not supported on this browser.'),
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
-          return;
-        }
-
-        if (synth.speaking == true) {
-          synth.cancel();
-        }
-        
-        final utterance = html.SpeechSynthesisUtterance(wordInLanguage);
-        
-        final langMap = {
-          'english': 'en-US',
-          'korean': 'ko-KR',
-          'japanese': 'ja-JP',
-          'chinese': 'zh-CN',
-        };
-        utterance.lang = langMap[widget.language] ?? 'en-US';
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-        
-        synth.speak(utterance);
-        
-      } catch (e) {
-        print('❌ [Web] Audio error: $e');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('🔊 Audio not available on this browser.'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
-      }
-    } else {
-      try {
-        final url =
-            'https://api.voicerss.org/'
-            '?key=58cd10774f4c4322a6dd8c114650d8a3'
-            '&hl=${_getVoiceRssLanguageCode(widget.language)}'
-            '&src=${Uri.encodeComponent(wordInLanguage)}'
-            '&c=MP3';
-
-        await _audioPlayer.play(UrlSource(url));
-
-      } catch (e) {
-        print('❌ [Android] Audio error: $e');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('🔊 Audio not available. Please try again.'),
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.orange,
-            ),
-          );
-        }
-      }
-    }
+    return;
   }
 
+  final langMap = {
+    'english': 'en-us',
+    'korean': 'ko-kr',
+    'japanese': 'ja-jp',
+    'chinese': 'zh-cn',
+  };
+
+  try {
+    final url =
+        'https://api.voicerss.org/'
+        '?key=58cd10774f4c4322a6dd8c114650d8a3'
+        '&hl=${langMap[widget.language] ?? 'en-us'}'
+        '&src=${Uri.encodeComponent(wordInLanguage)}'
+        '&c=MP3';
+
+    await _audioPlayer.play(UrlSource(url));
+  } catch (e) {
+    print('❌ Audio error: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔊 Audio not available. Please try again.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+}
+
+void _playAudioMobile(String text) async {
+  try {
+    final langMap = {
+      'english': 'en-us',
+      'korean': 'ko-kr',
+      'japanese': 'ja-jp',
+      'chinese': 'zh-cn',
+    };
+    final url =
+        'https://api.voicerss.org/'
+        '?key=58cd10774f4c4322a6dd8c114650d8a3'
+        '&hl=${langMap[widget.language] ?? 'en-us'}'
+        '&src=${Uri.encodeComponent(text)}'
+        '&c=MP3';
+
+    await _audioPlayer.play(UrlSource(url));
+  } catch (e) {
+    print('❌ Mobile audio error: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔊 Audio not available. Please try again.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+}
   String _getVoiceRssLanguageCode(String language) {
     const codes = {
       'english': 'en-us',

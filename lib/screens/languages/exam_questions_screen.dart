@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:html' as html;
 import '../../services/firestore_service.dart';
 import '../../models/question_model.dart';
 
@@ -231,83 +230,75 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
       ),
     );
   }
+void _playAudio(String text) async {
+  if (text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('🔊 No audio available'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+    return;
+  }
 
-  void _playAudio(String text, {String language = 'en-US'}) async {
-    if (text.isEmpty) {
+  final langMap = {
+    'english': 'en-us',
+    'korean': 'ko-kr',
+    'japanese': 'ja-jp',
+    'chinese': 'zh-cn',
+  };
+
+  try {
+    final url =
+        'https://api.voicerss.org/'
+        '?key=58cd10774f4c4322a6dd8c114650d8a3'
+        '&hl=${langMap[widget.language] ?? 'en-us'}'
+        '&src=${Uri.encodeComponent(text)}'
+        '&c=MP3';
+
+    await _audioPlayer.play(UrlSource(url));
+  } catch (e) {
+    print('❌ Audio error: $e');
+    if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('🔊 No audio available'),
-          duration: Duration(seconds: 1),
+          content: Text('🔊 Audio not available. Please try again.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.orange,
         ),
       );
-      return;
-    }
-
-    final bool isWeb = identical(0, 0.0) ? false : true;
-
-    if (isWeb) {
-      try {
-        final synth = html.window.speechSynthesis;
-        if (synth == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('🔊 Speech synthesis not supported on this browser.'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-          return;
-        }
-
-        if (synth.speaking == true) {
-          synth.cancel();
-        }
-        
-        final utterance = html.SpeechSynthesisUtterance(text);
-        utterance.lang = language;
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-        
-        synth.speak(utterance);
-        
-      } catch (e) {
-        print('❌ [Web] Audio error: $e');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('🔊 Audio not available on this browser.'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
-    } else {
-      try {
-        final langMap = {
-          'english': 'en-us',
-          'korean': 'ko-kr',
-          'japanese': 'ja-jp',
-          'chinese': 'zh-cn',
-        };
-        final url =
-            'https://api.voicerss.org/'
-            '?key=58cd10774f4c4322a6dd8c114650d8a3'
-            '&hl=${langMap[widget.language] ?? 'en-us'}'
-            '&src=${Uri.encodeComponent(text)}'
-            '&c=MP3';
-
-        await _audioPlayer.play(UrlSource(url));
-
-      } catch (e) {
-        print('❌ [Android] Audio error: $e');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('🔊 Audio not available. Please try again.'),
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
     }
   }
+}
+void _playAudioMobile(String text) async {
+  try {
+    final langMap = {
+      'english': 'en-us',
+      'korean': 'ko-kr',
+      'japanese': 'ja-jp',
+      'chinese': 'zh-cn',
+    };
+    final url =
+        'https://api.voicerss.org/'
+        '?key=58cd10774f4c4322a6dd8c114650d8a3'
+        '&hl=${langMap[widget.language] ?? 'en-us'}'
+        '&src=${Uri.encodeComponent(text)}'
+        '&c=MP3';
+
+    await _audioPlayer.play(UrlSource(url));
+  } catch (e) {
+    print('❌ Mobile audio error: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔊 Audio not available. Please try again.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+}
 
   void _filterQuestions(String query) {
     setState(() {

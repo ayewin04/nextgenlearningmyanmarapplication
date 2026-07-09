@@ -18,6 +18,7 @@ dependencies:
   lottie: ^3.3.2
 
   flutter_local_notifications: ^17.0.0
+  
   # Firebase
   firebase_core: ^4.0.0
   firebase_auth: ^6.0.1
@@ -26,22 +27,16 @@ dependencies:
   http: ^1.1.0
   
   flutter_edge_tts: ^0.0.2
-  
 
   # State Management
   provider: ^6.1.5
 
- # Audio - ✅ ADD THESE
-  # ✅ CORRECT AUDIO PLAYER VERSION
+  # Audio - Use audioplayers (no record package needed)
   audioplayers: ^5.2.1
-  record: ^5.0.4
-  
 
   # Local Storage
   shared_preferences: ^2.5.3
   hive: ^2.2.3
-
-
 
   # Utilities
   intl: ^0.20.2
@@ -57,7 +52,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Assets
   assets:
     - assets/images/
     - assets/icons/
