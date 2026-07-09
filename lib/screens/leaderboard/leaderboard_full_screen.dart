@@ -37,12 +37,12 @@ class LeaderboardFullScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: const SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 '🌟 Top Language Learners',
                 style: TextStyle(
                   color: Colors.white,
@@ -50,44 +50,56 @@ class LeaderboardFullScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 4),
-              Text(
+              const SizedBox(height: 4),
+              const Text(
                 'The most dedicated learners on Wedawon',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 13,
                 ),
               ),
-              SizedBox(height: 16),
-              LeaderboardWidget(),
-              SizedBox(height: 20),
+              const SizedBox(height: 16),
+              // ✅ LeaderboardWidget
+              const LeaderboardWidget(),
+              const SizedBox(height: 20),
               
-              // Stats info
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              // Stats info - Fixed overflow by using Wrap
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 16,
+                runSpacing: 8,
                 children: [
-                  Icon(Icons.star, color: Color(0xFFFFD700), size: 14),
-                  SizedBox(width: 4),
-                  Text(
-                    'XP = Experience Points',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.star, color: Color(0xFFFFD700), size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        'XP = Experience Points',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 16),
-                  Icon(Icons.local_fire_department, color: Colors.orange, size: 14),
-                  SizedBox(width: 4),
-                  Text(
-                    'Streak = Days in a row',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.local_fire_department, color: Colors.orange, size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Streak = Days in a row',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),

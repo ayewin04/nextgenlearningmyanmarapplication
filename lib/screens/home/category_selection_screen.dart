@@ -1,8 +1,8 @@
-// lib/screens/home/category_selection_screen.dart - Add MainScaffold wrapper
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/vocabulary_model.dart';
-import '../../widgets/main_scaffold.dart';  // ✅ ADD THIS
+import '../../services/firestore_service.dart';
+import '../../services/auth_service.dart';
 import 'flashcard_screen.dart';
 
 class CategorySelectionScreen extends StatefulWidget {
@@ -20,11 +20,14 @@ class CategorySelectionScreen extends StatefulWidget {
 }
 
 class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
+  final FirestoreService _firestoreService = FirestoreService();
   String? _selectedCategory;
   String _searchQuery = '';
   String _selectedGroup = 'All';
   List<CategoryModel> _filteredCategories = [];
   List<String> _groups = [];
+  int _lastIndex = 0;
+  bool _isLoadingIndex = false;
   
   final ScrollController _scrollController = ScrollController();
   bool _showScrollToTop = false;
@@ -46,6 +49,72 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  // ✅ Load the last index for a category
+  Future<int> _getLastIndex(String categoryId) async {
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final user = authService.user;
+      
+      if (user == null) return 0;
+
+      final lastIndex = await _firestoreService.getLastWordIndex(
+        userId: user.uid,
+        language: widget.selectedLanguage,
+        category: categoryId,
+      );
+      
+      return lastIndex ?? 0;
+    } catch (e) {
+      print('Error loading last index: $e');
+      return 0;
+    }
+  }
+
+  // ✅ Navigate to flashcards with the saved index
+  void _navigateToFlashcards(String categoryId) async {
+    // Show loading indicator
+    setState(() {
+      _isLoadingIndex = true;
+    });
+
+    try {
+      final lastIndex = await _getLastIndex(categoryId);
+      
+      if (!mounted) return;
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FlashcardsScreen(
+            language: widget.selectedLanguage,
+            category: categoryId,
+            startIndex: lastIndex,  // ✅ Pass the saved index
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error navigating: $e');
+      // Fallback - start from beginning
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FlashcardsScreen(
+            language: widget.selectedLanguage,
+            category: categoryId,
+            startIndex: 0,
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingIndex = false;
+        });
+      }
+    }
   }
 
   void _filterCategories(String query) {
@@ -89,9 +158,9 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(  // ✅ WRAP WITH MAINSCAFFOLD
-      currentIndex: 1,  // ✅ Learning tab
-      child: Container(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -320,17 +389,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: _selectedCategory != null
-                              ? () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FlashcardsScreen(
-                                        language: widget.selectedLanguage,
-                                        category: _selectedCategory!,
-                                      ),
-                                    ),
-                                  );
-                                }
+                              ? () => _navigateToFlashcards(_selectedCategory!)  // ✅ Use the new method
                               : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF42A5F5),
@@ -341,13 +400,22 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                             ),
                             disabledBackgroundColor: Colors.grey.shade700,
                           ),
-                          child: const Text(
-                            'Continue',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: _isLoadingIndex
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text(
+                                  'Continue',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                       ),
                     ),

@@ -21,7 +21,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
     _listenToLeaderboard();
   }
 
-  // ✅ REAL-TIME UPDATES
   void _listenToLeaderboard() {
     _gamificationService.streamTop10Learners().listen((data) {
       if (mounted) {
@@ -57,12 +56,15 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  '🏆 Top 10 Learners',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                const Flexible(
+                  child: Text(
+                    '🏆 Top 10 Learners',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
@@ -92,7 +94,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             ),
             const SizedBox(height: 16),
 
-            // Content
             if (_isLoading)
               const Center(
                 child: Padding(
@@ -168,7 +169,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -186,9 +187,10 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
       ),
       child: Row(
         children: [
+          // Rank icon
           Container(
-            width: 36,
-            height: 36,
+            width: 32,
+            height: 32,
             decoration: BoxDecoration(
               color: rankColor.withOpacity(0.2),
               shape: BoxShape.circle,
@@ -196,14 +198,15 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             child: Center(
               child: Text(
                 rank == 1 ? '👑' : rank == 2 ? '🥈' : '🥉',
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
+          // Avatar
           Container(
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: const Color(0xFF42A5F5).withOpacity(0.2),
               shape: BoxShape.circle,
@@ -214,43 +217,55 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 14,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
+          // Name and details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   user['name'],
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
                 ),
+                // XP and Streak - wrap in a Row with Flexible children
                 Row(
                   children: [
-                    const Icon(Icons.star, color: Color(0xFFFFD700), size: 12),
+                    const Icon(Icons.star, color: Color(0xFFFFD700), size: 10),
                     const SizedBox(width: 2),
-                    Text(
-                      '${user['totalXP']} XP',
-                      style: TextStyle(
-                        color: Colors.grey.shade400,
-                        fontSize: 11,
+                    Flexible(
+                      child: Text(
+                        '${user['totalXP']} XP',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 10,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const Icon(Icons.local_fire_department, color: Colors.orange, size: 12),
+                    const SizedBox(width: 6),
+                    const Icon(Icons.local_fire_department, color: Colors.orange, size: 10),
                     const SizedBox(width: 2),
-                    Text(
-                      '${user['streak']} days',
-                      style: TextStyle(
-                        color: Colors.grey.shade400,
-                        fontSize: 11,
+                    Flexible(
+                      child: Text(
+                        '${user['streak']}d',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 10,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
@@ -258,17 +273,18 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
               ],
             ),
           ),
+          // Level badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
               color: const Color(0xFF42A5F5).withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               'Lv ${user['level']}',
               style: const TextStyle(
                 color: Color(0xFF42A5F5),
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -281,7 +297,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   Widget _buildNormalItem(Map<String, dynamic> user) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: user['rank'] % 2 == 0 
             ? Colors.grey.shade800.withOpacity(0.1) 
@@ -290,9 +306,10 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
       ),
       child: Row(
         children: [
+          // Rank number
           Container(
-            width: 28,
-            height: 28,
+            width: 24,
+            height: 24,
             decoration: BoxDecoration(
               color: Colors.grey.shade800.withOpacity(0.3),
               shape: BoxShape.circle,
@@ -302,16 +319,17 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                 '${user['rank']}',
                 style: TextStyle(
                   color: Colors.grey.shade400,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 6),
+          // Avatar
           Container(
-            width: 32,
-            height: 32,
+            width: 28,
+            height: 28,
             decoration: BoxDecoration(
               color: const Color(0xFF42A5F5).withOpacity(0.15),
               shape: BoxShape.circle,
@@ -322,42 +340,50 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 6),
+          // Name
           Expanded(
             child: Text(
               user['name'],
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
             ),
           ),
+          const SizedBox(width: 4),
+          // XP
           Text(
             '${user['totalXP']} XP',
             style: TextStyle(
               color: Color(0xFFFFD700),
-              fontSize: 12,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
+          // Level
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             decoration: BoxDecoration(
               color: const Color(0xFF42A5F5).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               'Lv ${user['level']}',
               style: TextStyle(
                 color: Colors.grey.shade400,
-                fontSize: 10,
+                fontSize: 8,
               ),
             ),
           ),

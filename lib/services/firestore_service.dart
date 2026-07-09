@@ -1,4 +1,3 @@
-// lib/services/firestore_service.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/exam_model.dart';
 import '../models/question_model.dart';
@@ -197,7 +196,6 @@ class FirestoreService {
 
   // ============ EXAM VOCABULARY ============
   
-  // ✅ Get exam vocabulary (returns Map, not ExamVocabularyModel)
   Future<List<Map<String, dynamic>>> getExamVocabulary({
     required String exam,
     String? level,
@@ -224,9 +222,6 @@ class FirestoreService {
     }
   }
 
-  
-
-  // ✅ Get exam vocabulary by level
   Future<List<Map<String, dynamic>>> getExamVocabularyByLevel({
     required String exam,
     required String level,
@@ -297,7 +292,7 @@ class FirestoreService {
     }
   }
 
-    // ============ KANJI ============
+  // ============ KANJI ============
   
   Future<List<Map<String, dynamic>>> getKanji() async {
     try {
@@ -314,7 +309,7 @@ class FirestoreService {
   }
 
   Future<List<Map<String, dynamic>>> getKanjiByLevel({
-    required String level, // JLPT N5, N4, N3, N2, N1
+    required String level,
     int limit = 50,
   }) async {
     try {
@@ -553,21 +548,24 @@ class FirestoreService {
 
   // ============ FAVOURITES ============
 
+  // ✅ UPDATED: Store favourites per language
   Future<void> toggleFavourite({
     required String userId,
     required String wordId,
+    required String language,  // ✅ NEW: language parameter
     required bool isFavourite,
   }) async {
     try {
       final userRef = _firestore.collection('users').doc(userId);
+      final String fieldName = 'favourites_$language';  // ✅ Separate field per language
       
       if (isFavourite) {
         await userRef.update({
-          'favourites': FieldValue.arrayUnion([wordId]),
+          fieldName: FieldValue.arrayUnion([wordId]),
         });
       } else {
         await userRef.update({
-          'favourites': FieldValue.arrayRemove([wordId]),
+          fieldName: FieldValue.arrayRemove([wordId]),
         });
       }
     } catch (e) {
@@ -575,24 +573,27 @@ class FirestoreService {
     }
   }
 
-  Future<List<String>> getFavouriteIds(String userId) async {
+  // ✅ UPDATED: Get favourite IDs for a specific language
+  Future<List<String>> getFavouriteIds(String userId, String language) async {
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
       if (!doc.exists) return [];
       
       final data = doc.data()!;
-      return List<String>.from(data['favourites'] ?? []);
+      final String fieldName = 'favourites_$language';
+      return List<String>.from(data[fieldName] ?? []);
     } catch (e) {
       throw Exception('Failed to get favourites: $e');
     }
   }
 
+  // ✅ UPDATED: Get favourite vocabulary for a specific language
   Future<List<VocabularyModel>> getFavouriteVocabulary({
     required String userId,
     required String language,
   }) async {
     try {
-      final favouriteIds = await getFavouriteIds(userId);
+      final favouriteIds = await getFavouriteIds(userId, language);
       
       if (favouriteIds.isEmpty) return [];
       

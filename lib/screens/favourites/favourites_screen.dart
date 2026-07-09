@@ -1,4 +1,3 @@
-// lib/screens/favourites/favourites_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +22,12 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   @override
   void initState() {
     super.initState();
+    _loadFavourites();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loadFavourites();
   }
 
@@ -71,6 +76,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
       await _firestoreService.toggleFavourite(
         userId: user.uid,
         wordId: wordId,
+        language: _selectedLanguage,
         isFavourite: false,
       );
 
@@ -133,17 +139,16 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Language filter
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Row(
-                  children: [
-                    _buildLanguageChip('english', '🇬🇧'),
-                    _buildLanguageChip('korean', '🇰🇷'),
-                    _buildLanguageChip('japanese', '🇯🇵'),
-                    _buildLanguageChip('chinese', '🇨🇳'),
-                  ],
-                ),
+              // ✅ Language filter - Responsive with Wrap
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildLanguageChip('english', '🇬🇧'),
+                  _buildLanguageChip('korean', '🇰🇷'),
+                  _buildLanguageChip('japanese', '🇯🇵'),
+                  _buildLanguageChip('chinese', '🇨🇳'),
+                ],
               ),
               const SizedBox(height: 16),
 
@@ -213,12 +218,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                   ],
                                 ),
                               )
-                            : ListView.builder(
-                                itemCount: _favourites.length,
-                                itemBuilder: (context, index) {
-                                  final vocab = _favourites[index];
-                                  return _buildFavouriteCard(vocab);
-                                },
+                            : RefreshIndicator(
+                                onRefresh: _loadFavourites,
+                                child: ListView.builder(
+                                  itemCount: _favourites.length,
+                                  itemBuilder: (context, index) {
+                                    final vocab = _favourites[index];
+                                    return _buildFavouriteCard(vocab);
+                                  },
+                                ),
                               ),
               ),
             ],
@@ -238,8 +246,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         _loadFavourites();
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: isSelected
               ? const Color(0xFF42A5F5).withOpacity(0.2)
@@ -255,13 +262,13 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(flag, style: const TextStyle(fontSize: 16)),
-            const SizedBox(width: 4),
+            Text(flag, style: const TextStyle(fontSize: 14)),
+            const SizedBox(width: 3),
             Text(
               language.toUpperCase(),
               style: TextStyle(
                 color: isSelected ? Colors.white : Colors.grey.shade400,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
@@ -277,7 +284,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.grey.shade800.withOpacity(0.3),
         borderRadius: BorderRadius.circular(16),
@@ -286,57 +293,75 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Burmese word
+          // Burmese word - Expanded to take available space
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   vocab.burmeseWord,
                   style: GoogleFonts.notoSansMyanmar(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   vocab.romanization,
                   style: TextStyle(
                     color: Colors.grey.shade400,
-                    fontSize: 12,
+                    fontSize: 11,
                     fontStyle: FontStyle.italic,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  translation,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-                if (romanization.isNotEmpty)
+                if (translation.isNotEmpty) ...[
+                  const SizedBox(height: 4),
                   Text(
-                    romanization,
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 11,
-                      fontStyle: FontStyle.italic,
+                    translation,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
+                  if (romanization.isNotEmpty)
+                    Text(
+                      romanization,
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 10,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
               ],
             ),
           ),
-          // Remove button
-          IconButton(
-            icon: const Icon(
-              Icons.favorite,
-              color: Colors.red,
+          // Remove button - Fixed size, not flex
+          SizedBox(
+            width: 40,
+            child: IconButton(
+              icon: const Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: 22,
+              ),
+              onPressed: () => _removeFavourite(vocab.id),
+              tooltip: 'Remove from favourites',
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
             ),
-            onPressed: () => _removeFavourite(vocab.id),
-            tooltip: 'Remove from favourites',
           ),
         ],
       ),

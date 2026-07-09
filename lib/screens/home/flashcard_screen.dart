@@ -1,4 +1,3 @@
-// lib/screens/home/flashcard_screen.dart
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
@@ -141,6 +140,25 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     });
   }
 
+  // ✅ Save current index to Firestore
+  Future<void> _saveCurrentIndex() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = authService.user;
+    
+    if (user == null) return;
+
+    try {
+      await _firestoreService.saveLastWordIndex(
+        userId: user.uid,
+        language: widget.language,
+        category: widget.category,
+        index: _currentIndex,
+      );
+    } catch (e) {
+      print('Error saving current index: $e');
+    }
+  }
+
   void _nextCard() {
     if (!mounted) return;
     
@@ -149,6 +167,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
         _currentIndex++;
         _learnedCount++;
         _saveProgress();
+        _saveCurrentIndex();  // ✅ Save index when moving forward
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -166,6 +185,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     if (_currentIndex > 0) {
       setState(() {
         _currentIndex--;
+        _saveCurrentIndex();  // ✅ Save index when going back
       });
     }
   }
@@ -178,60 +198,53 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     );
   }
 
-  // ✅ UPDATED: Save progress with immediate XP update
- // In flashcard_screen.dart - Update _saveProgress method
+  Future<void> _saveProgress() async {
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final user = authService.user;
+      if (user == null) return;
 
-Future<void> _saveProgress() async {
-  try {
-    final authService = Provider.of<AuthService>(context, listen: false);
-    final user = authService.user;
-    if (user == null) return;
-
-    final vocab = _filteredVocabularies[_currentIndex];
-    
-    final gamificationService = GamificationService();
-    
-    // ✅ This will only award XP if word is NOT already learned
-    final updatedUser = await gamificationService.updateProgress(
-      userId: user.uid,
-      language: widget.language,
-      category: widget.category,
-      wordId: vocab.id,
-    );
-    
-    // ✅ Update the user model with new data
-    authService.updateUserModel(updatedUser);
-    
-    await _firestoreService.saveUserProgress(
-      userId: user.uid,
-      exam: widget.language,
-      questionId: 'word_$_currentIndex',
-      isCorrect: true,
-      points: 10,
-    );
-    
-    // ✅ Only show XP snackbar if XP was actually awarded
-    // The updateProgress method returns the updated user, so we can check if XP changed
-    if (updatedUser.totalXP > (authService.userModel?.totalXP ?? 0)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.star, color: Color(0xFFFFD700), size: 18),
-              SizedBox(width: 8),
-              Text('+10 XP earned! 🎉'),
-            ],
-          ),
-          duration: Duration(seconds: 1),
-          backgroundColor: Colors.green,
-        ),
+      final vocab = _filteredVocabularies[_currentIndex];
+      
+      final gamificationService = GamificationService();
+      
+      final updatedUser = await gamificationService.updateProgress(
+        userId: user.uid,
+        language: widget.language,
+        category: widget.category,
+        wordId: vocab.id,
       );
+      
+      authService.updateUserModel(updatedUser);
+      
+      await _firestoreService.saveUserProgress(
+        userId: user.uid,
+        exam: widget.language,
+        questionId: 'word_$_currentIndex',
+        isCorrect: true,
+        points: 10,
+      );
+      
+      if (updatedUser.totalXP > (authService.userModel?.totalXP ?? 0)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.star, color: Color(0xFFFFD700), size: 18),
+                SizedBox(width: 8),
+                Text('+10 XP earned! 🎉'),
+              ],
+            ),
+            duration: Duration(seconds: 1),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+      
+    } catch (e) {
+      print('Error saving progress: $e');
     }
-    
-  } catch (e) {
-    print('Error saving progress: $e');
   }
-}
 
   Future<void> _toggleFavourite() async {
     final vocab = _filteredVocabularies[_currentIndex];
@@ -254,6 +267,7 @@ Future<void> _saveProgress() async {
       await _firestoreService.toggleFavourite(
         userId: user.uid,
         wordId: vocab.id,
+        language: widget.language,
         isFavourite: newFavouriteStatus,
       );
 
@@ -285,89 +299,61 @@ Future<void> _saveProgress() async {
     }
   }
 
-void _playAudio() async {
-  final vocab = _filteredVocabularies[_currentIndex];
-  final wordInLanguage = vocab.getTranslation(widget.language);
+  void _playAudio() async {
+    final vocab = _filteredVocabularies[_currentIndex];
+    final wordInLanguage = vocab.getTranslation(widget.language);
 
-  if (wordInLanguage.isEmpty) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('🔊 No audio available for this word'),
-          duration: Duration(seconds: 1),
-        ),
-      );
+    if (wordInLanguage.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('🔊 No audio available for this word'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+      return;
     }
-    return;
-  }
 
-  final langMap = {
-    'english': 'en-us',
-    'korean': 'ko-kr',
-    'japanese': 'ja-jp',
-    'chinese': 'zh-cn',
-  };
-
-  try {
-    final url =
-        'https://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(wordInLanguage)}'
-        '&c=MP3';
-
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Audio error: $e');
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
-        ),
-      );
-    }
-  }
-}
-
-void _playAudioMobile(String text) async {
-  try {
     final langMap = {
       'english': 'en-us',
       'korean': 'ko-kr',
       'japanese': 'ja-jp',
       'chinese': 'zh-cn',
     };
-    final url =
-        'https://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(text)}'
-        '&c=MP3';
 
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Mobile audio error: $e');
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
-        ),
-      );
+    try {
+      final url =
+          'http://api.voicerss.org/'
+          '?key=58cd10774f4c4322a6dd8c114650d8a3'
+          '&hl=${langMap[widget.language] ?? 'en-us'}'
+          '&src=${Uri.encodeComponent(wordInLanguage)}'
+          '&c=MP3';
+
+      await _audioPlayer.play(UrlSource(url));
+      print('✅ Audio played successfully');
+    } catch (e) {
+      print('❌ Audio error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('🔊 Audio not available. Please try again.'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
     }
   }
-}
-  String _getVoiceRssLanguageCode(String language) {
-    const codes = {
-      'english': 'en-us',
-      'korean': 'ko-kr',
-      'japanese': 'ja-jp',
-      'chinese': 'zh-cn',
+
+  String _getLanguageFlag(String language) {
+    const flags = {
+      'english': '🇬🇧',
+      'korean': '🇰🇷',
+      'japanese': '🇯🇵',
+      'chinese': '🇨🇳',
     };
-    return codes[language] ?? 'en-us';
+    return flags[language] ?? '🌍';
   }
 
   @override
@@ -376,258 +362,224 @@ void _playAudioMobile(String text) async {
         ? _filteredVocabularies[_currentIndex] 
         : null;
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF0A0E27),
-              Color(0xFF0D47A1),
-              Color(0xFF1A237E),
-            ],
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF0A0E27),
+            Color(0xFF0D47A1),
+            Color(0xFF1A237E),
+          ],
         ),
-        child: Stack(
+      ),
+      child: SafeArea(
+        child: Column(
           children: [
-            SafeArea(
-              child: Column(
+            // Header
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Header
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back, color: Colors.white),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            const SizedBox(width: 4),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${_getLanguageFlag(widget.language)} ${widget.language.toUpperCase()}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  '📚 $_learnedCount words learned',
-                                  style: TextStyle(
-                                    color: Colors.green.shade300,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.volume_up, color: Colors.white),
-                              onPressed: _playAudio,
-                            ),
-                            if (vocab != null)
-                              IconButton(
-                                icon: Icon(
-                                  vocab.isFavourite ? Icons.favorite : Icons.favorite_border,
-                                  color: vocab.isFavourite ? Colors.red : Colors.white,
-                                ),
-                                onPressed: _toggleFavourite,
-                              ),
-                            Text(
-                              '${_currentIndex + 1}/${_filteredVocabularies.length}',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Search Bar
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.shade700),
-                    ),
-                    child: TextField(
-                      onChanged: _filterVocabulary,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: '🔍 Search words...',
-                        hintStyle: TextStyle(color: Colors.grey.shade500),
-                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          // Save index before leaving
+                          _saveCurrentIndex();
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Flashcard
-                  Expanded(
-                    child: _isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFF42A5F5),
-                            ),
-                          )
-                        : _error != null
-                            ? Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(32),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.error_outline, color: Colors.red, size: 48),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        _error!,
-                                        style: const TextStyle(color: Colors.white),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 16),
-                                      ElevatedButton(
-                                        onPressed: _loadVocabulary,
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color(0xFF42A5F5),
-                                        ),
-                                        child: const Text('Retry'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : _filteredVocabularies.isEmpty
-                                ? Center(
-                                    child: Text(
-                                      _searchQuery.isEmpty
-                                          ? 'No vocabulary available'
-                                          : 'No results found',
-                                      style: TextStyle(color: Colors.grey.shade400),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: SingleChildScrollView(
-                                      controller: _scrollController,
-                                      child: _buildVocabularyCard(),
-                                    ),
-                                  ),
-                  ),
-
-                  // Navigation Buttons
-                  if (!_isLoading && _filteredVocabularies.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      const SizedBox(width: 4),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          IconButton(
-                            onPressed: _currentIndex > 0 ? _previousCard : null,
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: _currentIndex > 0 ? Colors.white : Colors.grey.shade600,
+                          Text(
+                            '${_getLanguageFlag(widget.language)} ${widget.language.toUpperCase()}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF42A5F5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              '${_currentIndex + 1}/${_filteredVocabularies.length}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: _currentIndex < _filteredVocabularies.length - 1
-                                ? _nextCard
-                                : null,
-                            icon: Icon(
-                              Icons.arrow_forward_ios,
-                              color: _currentIndex < _filteredVocabularies.length - 1
-                                  ? Colors.white
-                                  : Colors.grey.shade600,
+                          Text(
+                            '📚 $_learnedCount words learned',
+                            style: TextStyle(
+                              color: Colors.green.shade300,
+                              fontSize: 11,
                             ),
                           ),
                         ],
                       ),
-                    ),
-
-                  // Progress Bar
-                  if (!_isLoading && _filteredVocabularies.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: LinearProgressIndicator(
-                        value: (_currentIndex + 1) / _filteredVocabularies.length,
-                        backgroundColor: Colors.grey.shade800,
-                        color: const Color(0xFF42A5F5),
-                        minHeight: 4,
-                        borderRadius: BorderRadius.circular(2),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.volume_up, color: Colors.white),
+                        onPressed: _playAudio,
                       ),
-                    ),
-                  const SizedBox(height: 16),
+                      if (vocab != null)
+                        IconButton(
+                          icon: Icon(
+                            vocab.isFavourite ? Icons.favorite : Icons.favorite_border,
+                            color: vocab.isFavourite ? Colors.red : Colors.white,
+                          ),
+                          onPressed: _toggleFavourite,
+                        ),
+                      Text(
+                        '${_currentIndex + 1}/${_filteredVocabularies.length}',
+                        style: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-            
-            // Scroll to Top Button
-            if (_showScrollToTop)
-              Positioned(
-                bottom: 100,
-                right: 20,
-                child: GestureDetector(
-                  onTap: _scrollToTop,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF42A5F5), Color(0xFF1A237E)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF42A5F5).withOpacity(0.4),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.arrow_upward,
-                      color: Colors.white,
-                      size: 28,
+
+            // Search Bar
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade700),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: TextField(
+                  onChanged: _filterVocabulary,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: '🔍 Search words...',
+                    hintStyle: TextStyle(color: Colors.grey.shade500),
+                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 12),
+
+            // Flashcard
+            Expanded(
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF42A5F5),
+                      ),
+                    )
+                  : _error != null
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.error_outline, color: Colors.red, size: 48),
+                                const SizedBox(height: 8),
+                                Text(
+                                  _error!,
+                                  style: const TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: _loadVocabulary,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF42A5F5),
+                                  ),
+                                  child: const Text('Retry'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : _filteredVocabularies.isEmpty
+                          ? Center(
+                              child: Text(
+                                _searchQuery.isEmpty
+                                    ? 'No vocabulary available'
+                                    : 'No results found',
+                                style: TextStyle(color: Colors.grey.shade400),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: SingleChildScrollView(
+                                controller: _scrollController,
+                                child: _buildVocabularyCard(),
+                              ),
+                            ),
+            ),
+
+            // Navigation Buttons
+            if (!_isLoading && _filteredVocabularies.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: _currentIndex > 0 ? _previousCard : null,
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: _currentIndex > 0 ? Colors.white : Colors.grey.shade600,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF42A5F5),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '${_currentIndex + 1}/${_filteredVocabularies.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: _currentIndex < _filteredVocabularies.length - 1
+                          ? _nextCard
+                          : null,
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: _currentIndex < _filteredVocabularies.length - 1
+                            ? Colors.white
+                            : Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Progress Bar
+            if (!_isLoading && _filteredVocabularies.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: LinearProgressIndicator(
+                  value: (_currentIndex + 1) / _filteredVocabularies.length,
+                  backgroundColor: Colors.grey.shade800,
+                  color: const Color(0xFF42A5F5),
+                  minHeight: 4,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -907,15 +859,5 @@ void _playAudioMobile(String text) async {
       'work': Color(0xFF4CAF50),
     };
     return colors[category] ?? Colors.grey;
-  }
-
-  String _getLanguageFlag(String language) {
-    const flags = {
-      'english': '🇬🇧',
-      'korean': '🇰🇷',
-      'japanese': '🇯🇵',
-      'chinese': '🇨🇳',
-    };
-    return flags[language] ?? '🌍';
   }
 }

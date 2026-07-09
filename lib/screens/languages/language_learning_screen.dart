@@ -1,4 +1,3 @@
-// lib/screens/languages/language_learning_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -21,6 +20,7 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isInitialized = false;
 
   static const Map<String, Map<String, String>> examInfo = {
     'english': {
@@ -108,8 +108,10 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     {'letter': 'U', 'burmese': 'ယူ', 'romanization': 'yoo'},
   ];
 
-  // ===== KOREAN HANGUL =====
-  static const List<Map<String, dynamic>> koreanAlphabet = [
+  // ===== KOREAN HANGUL - COMPLETE =====
+
+  // 1. Basic Consonants (14)
+  static const List<Map<String, dynamic>> koreanConsonants = [
     {'letter': 'ㄱ', 'burmese': 'ဂီယော့', 'romanization': 'giyeok'},
     {'letter': 'ㄴ', 'burmese': 'နီယွန်', 'romanization': 'nieun'},
     {'letter': 'ㄷ', 'burmese': 'ဒီဂုတ်', 'romanization': 'digeut'},
@@ -126,7 +128,16 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     {'letter': 'ㅎ', 'burmese': 'ဟီအူတ်', 'romanization': 'hieut'},
   ];
 
-  // ===== KOREAN VOWELS =====
+  // 2. Double Consonants (5)
+  static const List<Map<String, dynamic>> koreanDoubleConsonants = [
+    {'letter': 'ㄲ', 'burmese': 'ဆန်းဂီယော့', 'romanization': 'ssang giyeok'},
+    {'letter': 'ㄸ', 'burmese': 'ဆန်းဒီဂုတ်', 'romanization': 'ssang digeut'},
+    {'letter': 'ㅃ', 'burmese': 'ဆန်းဘီအူပ်', 'romanization': 'ssang bieup'},
+    {'letter': 'ㅆ', 'burmese': 'ဆန်းစီအုတ်', 'romanization': 'ssang siot'},
+    {'letter': 'ㅉ', 'burmese': 'ဆန်းဂျီအူတ်', 'romanization': 'ssang jieut'},
+  ];
+
+  // 3. Basic Vowels (10)
   static const List<Map<String, dynamic>> koreanVowels = [
     {'letter': 'ㅏ', 'burmese': 'အ', 'romanization': 'a'},
     {'letter': 'ㅑ', 'burmese': 'ယ', 'romanization': 'ya'},
@@ -138,6 +149,47 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     {'letter': 'ㅠ', 'burmese': 'ယူ', 'romanization': 'yu'},
     {'letter': 'ㅡ', 'burmese': 'အွ', 'romanization': 'eu'},
     {'letter': 'ㅣ', 'burmese': 'အီ', 'romanization': 'i'},
+  ];
+
+  // 4. Compound Vowels (11) - Diphthongs
+  static const List<Map<String, dynamic>> koreanCompoundVowels = [
+    {'letter': 'ㅐ', 'burmese': 'အဲ', 'romanization': 'ae'},
+    {'letter': 'ㅒ', 'burmese': 'ယဲ', 'romanization': 'yae'},
+    {'letter': 'ㅔ', 'burmese': 'အေ', 'romanization': 'e'},
+    {'letter': 'ㅖ', 'burmese': 'ယေ', 'romanization': 'ye'},
+    {'letter': 'ㅘ', 'burmese': 'ဝါ', 'romanization': 'wa'},
+    {'letter': 'ㅙ', 'burmese': 'ဝဲ', 'romanization': 'wae'},
+    {'letter': 'ㅚ', 'burmese': 'အိုအေ', 'romanization': 'oe'},
+    {'letter': 'ㅝ', 'burmese': 'ဝေါ', 'romanization': 'wo'},
+    {'letter': 'ㅞ', 'burmese': 'ဝေ', 'romanization': 'we'},
+    {'letter': 'ㅟ', 'burmese': 'ဝီ', 'romanization': 'wi'},
+    {'letter': 'ㅢ', 'burmese': 'အီ', 'romanization': 'ui'},
+  ];
+
+  // 5. Batchim (Final Consonants) - 7 Representative Sounds
+  static const List<Map<String, dynamic>> koreanBatchim = [
+    {'letter': 'ㄱ', 'burmese': 'ခ', 'romanization': 'k'},
+    {'letter': 'ㄴ', 'burmese': 'န်', 'romanization': 'n'},
+    {'letter': 'ㄷ', 'burmese': 'တ်', 'romanization': 't'},
+    {'letter': 'ㄹ', 'burmese': 'လ်', 'romanization': 'l'},
+    {'letter': 'ㅁ', 'burmese': 'မ်', 'romanization': 'm'},
+    {'letter': 'ㅂ', 'burmese': 'ပ်', 'romanization': 'p'},
+    {'letter': 'ㅇ', 'burmese': 'င်', 'romanization': 'ng'},
+  ];
+
+  // 6. Complex Batchim (11)
+  static const List<Map<String, dynamic>> koreanComplexBatchim = [
+    {'letter': 'ㄳ', 'burmese': 'ဂ်စ်', 'romanization': 'gs'},
+    {'letter': 'ㄵ', 'burmese': 'န်ဇ်', 'romanization': 'nj'},
+    {'letter': 'ㄶ', 'burmese': 'န်ဟ်', 'romanization': 'nh'},
+    {'letter': 'ㄺ', 'burmese': 'လ်ဂ်', 'romanization': 'lg'},
+    {'letter': 'ㄻ', 'burmese': 'လ်မ်', 'romanization': 'lm'},
+    {'letter': 'ㄼ', 'burmese': 'လ်ဘ်', 'romanization': 'lb'},
+    {'letter': 'ㄽ', 'burmese': 'လ်စ်', 'romanization': 'ls'},
+    {'letter': 'ㄾ', 'burmese': 'လ်ထ်', 'romanization': 'lt'},
+    {'letter': 'ㄿ', 'burmese': 'လ်ဖ်', 'romanization': 'lp'},
+    {'letter': 'ㅀ', 'burmese': 'လ်ဟ်', 'romanization': 'lh'},
+    {'letter': 'ㅄ', 'burmese': 'ဗ်စ်', 'romanization': 'bs'},
   ];
 
   // ===== JAPANESE HIRAGANA (Full) =====
@@ -243,7 +295,8 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
   @override
   void initState() {
     super.initState();
-    _loadSelectedLanguage();
+    
+    // ✅ Initialize animation controller first
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -252,6 +305,11 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
       parent: _animationController,
       curve: Curves.easeIn,
     );
+    _isInitialized = true;
+    
+    // ✅ Load language after animation is initialized
+    _loadSelectedLanguage();
+    
     _animationController.forward();
   }
 
@@ -262,20 +320,41 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // ✅ Only reload if initialized
+    if (_isInitialized) {
+      _loadSelectedLanguage();
+    }
+  }
+
   void _loadSelectedLanguage() {
-    final authService = Provider.of<AuthService>(context, listen: false);
-    final user = authService.userModel;
-    if (user != null && user.targetLanguages.isNotEmpty) {
-      setState(() {
-        _selectedLanguage = user.targetLanguages.first;
-      });
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final user = authService.userModel;
+      if (user != null && user.targetLanguages.isNotEmpty) {
+        final newLanguage = user.targetLanguages.first;
+        if (_selectedLanguage != newLanguage) {
+          setState(() {
+            _selectedLanguage = newLanguage;
+          });
+          // ✅ Only animate if controller is initialized
+          if (_isInitialized) {
+            _animationController.reset();
+            _animationController.forward();
+          }
+        }
+      }
+    } catch (e) {
+      print('Error loading selected language: $e');
     }
   }
 
   List<Map<String, dynamic>> _getAlphabetData() {
     switch (_selectedLanguage) {
       case 'english': return englishAlphabet;
-      case 'korean': return koreanAlphabet;
+      case 'korean': return koreanConsonants;
       case 'japanese': return japaneseAlphabet;
       case 'chinese': return chineseAlphabet;
       default: return [];
@@ -289,6 +368,20 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
       case 'japanese': return japaneseVowels;
       case 'chinese': return chineseVowels;
       default: return [];
+    }
+  }
+
+  List<Map<String, dynamic>> _getAdditionalKoreanData() {
+    switch (_selectedLanguage) {
+      case 'korean':
+        return [
+          ...koreanDoubleConsonants,
+          ...koreanCompoundVowels,
+          ...koreanBatchim,
+          ...koreanComplexBatchim,
+        ];
+      default:
+        return [];
     }
   }
 
@@ -425,13 +518,20 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     );
   }
 
-  // ✅ Alphabet Section - No Sound
   Widget _buildAlphabetSection() {
     final alphabet = _getAlphabetData();
     final vowels = _getVowelData();
+    final additionalKorean = _getAdditionalKoreanData();
     final exam = examInfo[_selectedLanguage]?['exam'] ?? '';
 
+    final isKorean = _selectedLanguage == 'korean';
+    final allLetters = isKorean ? [...alphabet, ...vowels, ...additionalKorean] : [...alphabet, ...vowels];
+    final totalLetters = allLetters.length;
+
     return Container(
+      constraints: BoxConstraints(
+        maxHeight: 220,
+      ),
       decoration: BoxDecoration(
         color: Colors.grey.shade800.withOpacity(0.2),
         borderRadius: BorderRadius.circular(16),
@@ -443,7 +543,7 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -453,13 +553,13 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
                       '🔤 Alphabet & Vowels',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: const Color(0xFF42A5F5).withOpacity(0.2),
                         borderRadius: BorderRadius.circular(8),
@@ -468,12 +568,12 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
                         exam,
                         style: const TextStyle(
                           color: Color(0xFF42A5F5),
-                          fontSize: 10,
+                          fontSize: 9,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
@@ -481,10 +581,10 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '${alphabet.length + vowels.length} letters',
+                        '$totalLetters letters',
                         style: const TextStyle(
                           color: Colors.green,
-                          fontSize: 9,
+                          fontSize: 8,
                         ),
                       ),
                     ),
@@ -501,11 +601,11 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
                       style: TextButton.styleFrom(
                         foregroundColor: const Color(0xFF42A5F5),
                         minimumSize: Size.zero,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
                       ),
                       child: Text(
                         _showAlphabet ? 'Hide' : 'Show',
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 11),
                       ),
                     ),
                   ],
@@ -515,24 +615,111 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
           ),
 
           if (_showAlphabet)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Vowels Section
-                  if (vowels.isNotEmpty) ...[
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Consonants Section (for Korean, show basic + double consonants)
+                    if (_selectedLanguage == 'korean') ...[
+                      Text(
+                        '📖 Basic Consonants',
+                        style: TextStyle(
+                          color: Colors.blue.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: koreanConsonants.length,
+                          itemBuilder: (context, index) {
+                            final letter = koreanConsonants[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'consonant',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      Text(
+                        '📖 Double Consonants',
+                        style: TextStyle(
+                          color: Colors.blue.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: koreanDoubleConsonants.length,
+                          itemBuilder: (context, index) {
+                            final letter = koreanDoubleConsonants[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'consonant',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+
+                    // Alphabet Section (for non-Korean, show all)
+                    if (_selectedLanguage != 'korean') ...[
+                      Text(
+                        '🔤 Alphabet',
+                        style: TextStyle(
+                          color: Colors.blue.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: alphabet.length,
+                          itemBuilder: (context, index) {
+                            final letter = alphabet[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'alphabet',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+
+                    // Vowels Section
                     Text(
                       '📖 Vowels',
                       style: TextStyle(
                         color: Colors.purple.shade300,
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
                     SizedBox(
-                      height: 60,
+                      height: 48,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: vowels.length,
@@ -547,37 +734,95 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
                         },
                       ),
                     ),
-                    const SizedBox(height: 12),
-                  ],
+                    const SizedBox(height: 6),
 
-                  // Alphabet Section
-                  Text(
-                    '🔤 Alphabet',
-                    style: TextStyle(
-                      color: Colors.blue.shade300,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  SizedBox(
-                    height: 60,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: alphabet.length,
-                      itemBuilder: (context, index) {
-                        final letter = alphabet[index];
-                        return _buildAlphabetCard(
-                          letter: letter['letter'],
-                          burmese: letter['burmese'],
-                          romanization: letter['romanization'],
-                          type: 'alphabet',
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
+                    // Korean Compound Vowels
+                    if (_selectedLanguage == 'korean') ...[
+                      Text(
+                        '📖 Compound Vowels',
+                        style: TextStyle(
+                          color: Colors.purple.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: koreanCompoundVowels.length,
+                          itemBuilder: (context, index) {
+                            final letter = koreanCompoundVowels[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'vowel',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      // Korean Batchim (Final Consonants)
+                      Text(
+                        '📖 Batchim (Final Consonants)',
+                        style: TextStyle(
+                          color: Colors.orange.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: koreanBatchim.length,
+                          itemBuilder: (context, index) {
+                            final letter = koreanBatchim[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'batchim',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      // Korean Complex Batchim
+                      Text(
+                        '📖 Complex Batchim',
+                        style: TextStyle(
+                          color: Colors.orange.shade300,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: koreanComplexBatchim.length,
+                          itemBuilder: (context, index) {
+                            final letter = koreanComplexBatchim[index];
+                            return _buildAlphabetCard(
+                              letter: letter['letter'],
+                              burmese: letter['burmese'],
+                              romanization: letter['romanization'],
+                              type: 'batchim',
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+                  ],
+                ),
               ),
             ),
         ],
@@ -585,28 +830,38 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     );
   }
 
-  // ✅ No Sound Button
   Widget _buildAlphabetCard({
     required String letter,
     required String burmese,
     required String romanization,
     required String type,
   }) {
-    final isVowel = type == 'vowel';
+    Color? color;
+    if (type == 'vowel') {
+      color = Colors.purple.shade300;
+    } else if (type == 'batchim') {
+      color = Colors.orange.shade300;
+    } else {
+      color = Colors.blue.shade300;
+    }
 
     return Container(
-      width: 65,
-      margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+      width: 50,
+      margin: const EdgeInsets.only(right: 3),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
       decoration: BoxDecoration(
-        color: isVowel
+        color: type == 'vowel'
             ? Colors.purple.withOpacity(0.15)
-            : Colors.blue.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
+            : type == 'batchim'
+                ? Colors.orange.withOpacity(0.15)
+                : Colors.blue.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: isVowel
+          color: type == 'vowel'
               ? Colors.purple.withOpacity(0.3)
-              : Colors.blue.withOpacity(0.2),
+              : type == 'batchim'
+                  ? Colors.orange.withOpacity(0.3)
+                  : Colors.blue.withOpacity(0.2),
           width: 1,
         ),
       ),
@@ -616,8 +871,8 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
           Text(
             letter,
             style: TextStyle(
-              color: isVowel ? Colors.purple.shade300 : Colors.blue.shade300,
-              fontSize: 16,
+              color: color,
+              fontSize: 13,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -625,14 +880,14 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
             burmese,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 9,
+              fontSize: 7,
             ),
           ),
           Text(
             romanization,
             style: TextStyle(
               color: Colors.grey.shade400,
-              fontSize: 8,
+              fontSize: 6,
               fontStyle: FontStyle.italic,
             ),
           ),

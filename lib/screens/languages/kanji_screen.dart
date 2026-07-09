@@ -68,7 +68,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
 
     try {
       final url =
-          'https://api.voicerss.org/'
+          'http://api.voicerss.org/'
           '?key=58cd10774f4c4322a6dd8c114650d8a3'
           '&hl=ja-jp'
           '&src=${Uri.encodeComponent(text)}'

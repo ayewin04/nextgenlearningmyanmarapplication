@@ -98,7 +98,7 @@ void _playAudio(String word) async {
 
   try {
     final url =
-        'https://api.voicerss.org/'
+        'http://api.voicerss.org/'
         '?key=58cd10774f4c4322a6dd8c114650d8a3'
         '&hl=${langMap[widget.language] ?? 'en-us'}'
         '&src=${Uri.encodeComponent(word)}'
@@ -128,7 +128,7 @@ void _playAudioMobile(String text) async {
       'chinese': 'zh-cn',
     };
     final url =
-        'https://api.voicerss.org/'
+        'http://api.voicerss.org/'
         '?key=58cd10774f4c4322a6dd8c114650d8a3'
         '&hl=${langMap[widget.language] ?? 'en-us'}'
         '&src=${Uri.encodeComponent(text)}'
