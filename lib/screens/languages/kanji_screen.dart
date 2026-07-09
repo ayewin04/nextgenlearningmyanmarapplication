@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
+import '../../services/audio_service.dart';  // ✅ Use AudioService
 
 class KanjiScreen extends StatefulWidget {
   const KanjiScreen({super.key});
@@ -12,7 +12,7 @@ class KanjiScreen extends StatefulWidget {
 
 class _KanjiScreenState extends State<KanjiScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<Map<String, dynamic>> _kanji = [];
   bool _isLoading = true;
   String? _error;
@@ -26,7 +26,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -37,7 +37,6 @@ class _KanjiScreenState extends State<KanjiScreen> {
     });
 
     try {
-      // Get kanji from Firestore
       final snapshot = await _firestoreService.getKanji();
       
       setState(() {
@@ -55,6 +54,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
     }
   }
 
+  // ✅ Updated to use AudioService
   void _playAudio(String text) async {
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -67,14 +67,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
     }
 
     try {
-      final url =
-          'http://api.voicerss.org/'
-          '?key=58cd10774f4c4322a6dd8c114650d8a3'
-          '&hl=ja-jp'
-          '&src=${Uri.encodeComponent(text)}'
-          '&c=MP3';
-
-      await _audioPlayer.play(UrlSource(url));
+      await AudioService.speak(text, language: 'ja-JP');
     } catch (e) {
       print('❌ Audio error: $e');
       if (mounted) {

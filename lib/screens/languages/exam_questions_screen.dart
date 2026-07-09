@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
+import '../../services/audio_service.dart';  // ✅ Use AudioService
 import '../../models/question_model.dart';
 
 class ExamQuestionsScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class ExamQuestionsScreen extends StatefulWidget {
 
 class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<QuestionModel> _questions = [];
   bool _isLoading = true;
   String? _error;
@@ -44,7 +44,7 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -123,7 +123,6 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
         _showAnswer = false;
       });
     } else {
-      // Quiz complete
       _showQuizResults();
     }
   }
@@ -230,75 +229,34 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
       ),
     );
   }
-void _playAudio(String text) async {
-  if (text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('🔊 No audio available'),
-        duration: Duration(seconds: 1),
-      ),
-    );
-    return;
-  }
 
-  final langMap = {
-    'english': 'en-us',
-    'korean': 'ko-kr',
-    'japanese': 'ja-jp',
-    'chinese': 'zh-cn',
-  };
-
-  try {
-    final url =
-        'http://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(text)}'
-        '&c=MP3';
-
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Audio error: $e');
-    if (mounted) {
+  // ✅ Updated to use AudioService
+  void _playAudio(String text) async {
+    if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
+          content: Text('🔊 No audio available'),
+          duration: Duration(seconds: 1),
         ),
       );
+      return;
     }
-  }
-}
-void _playAudioMobile(String text) async {
-  try {
-    final langMap = {
-      'english': 'en-us',
-      'korean': 'ko-kr',
-      'japanese': 'ja-jp',
-      'chinese': 'zh-cn',
-    };
-    final url =
-        'http://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(text)}'
-        '&c=MP3';
 
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Mobile audio error: $e');
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
-        ),
-      );
+    try {
+      await AudioService.speak(text, language: widget.language);
+    } catch (e) {
+      print('❌ Audio error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('🔊 Audio not available. Please try again.'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
     }
   }
-}
 
   void _filterQuestions(String query) {
     setState(() {
@@ -470,7 +428,6 @@ void _playAudioMobile(String text) async {
   Widget _buildListWidget(List<QuestionModel> questions) {
     return Column(
       children: [
-        // Start Quiz Button
         if (questions.isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(16),
@@ -524,7 +481,6 @@ void _playAudioMobile(String text) async {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Progress
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -577,7 +533,6 @@ void _playAudioMobile(String text) async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Category and Points
                 Row(
                   children: [
                     Container(
@@ -637,7 +592,6 @@ void _playAudioMobile(String text) async {
                   ),
                 ),
                 
-                // Burmese translation of question
                 if (question.burmeseQuestion != null && question.burmeseQuestion!.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Text(
@@ -851,7 +805,6 @@ void _playAudioMobile(String text) async {
             ),
           ),
           
-          // Burmese translation
           if (question.burmeseQuestion != null && question.burmeseQuestion!.isNotEmpty) ...[
             const SizedBox(height: 4),
             Text(
@@ -896,7 +849,6 @@ void _playAudioMobile(String text) async {
               );
             }),
           
-          // Show correct answer
           if (question.correctAnswer != null) ...[
             const SizedBox(height: 8),
             Container(

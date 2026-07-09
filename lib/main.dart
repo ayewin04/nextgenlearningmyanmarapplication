@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +5,7 @@ import 'firebase_options.dart';
 import 'config/constants.dart';
 import 'services/auth_service.dart';
 import 'services/theme_service.dart';
+import 'services/audio_service.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/home/home_screen.dart';
@@ -22,8 +22,16 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     print('✅ Firebase initialized successfully!');
+    
+    // ✅ Initialize audio service
+    try {
+      await AudioService.initialize();
+      print('✅ Audio service initialized!');
+    } catch (e) {
+      print('⚠️ Audio service initialization failed: $e');
+    }
   } catch (e) {
-    print('❌ Firebase initialization error: $e');
+    print('❌ Initialization error: $e');
   }
   
   runApp(const MyApp());

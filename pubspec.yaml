@@ -28,8 +28,12 @@ dependencies:
   
   flutter_edge_tts: ^0.0.2
 
+  flutter_tts: ^3.8.3 
+
   # State Management
   provider: ^6.1.5
+
+
 
   # Audio - Use audioplayers (no record package needed)
   audioplayers: ^5.2.1

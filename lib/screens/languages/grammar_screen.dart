@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
+import '../../services/audio_service.dart';  // ✅ Use AudioService
 
 class GrammarScreen extends StatefulWidget {
   final String language;
@@ -21,7 +21,7 @@ class GrammarScreen extends StatefulWidget {
 
 class _GrammarScreenState extends State<GrammarScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<Map<String, dynamic>> _grammar = [];
   bool _isLoading = true;
   String? _error;
@@ -35,7 +35,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -66,84 +66,32 @@ class _GrammarScreenState extends State<GrammarScreen> {
     }
   }
 
-void _playAudio(String text) async {
-  if (text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('🔊 No audio available for this text'),
-        duration: Duration(seconds: 1),
-      ),
-    );
-    return;
-  }
-
-  final langMap = {
-    'english': 'en-us',
-    'korean': 'ko-kr',
-    'japanese': 'ja-jp',
-    'chinese': 'zh-cn',
-  };
-
-  try {
-    final url =
-        'http://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(text)}'
-        '&c=MP3';
-
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Audio error: $e');
-    if (mounted) {
+  // ✅ Updated to use AudioService
+  void _playAudio(String text) async {
+    if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
+          content: Text('🔊 No audio available for this text'),
+          duration: Duration(seconds: 1),
         ),
       );
+      return;
     }
-  }
-}
 
-void _playAudioMobile(String text) async {
-  try {
-    final langMap = {
-      'english': 'en-us',
-      'korean': 'ko-kr',
-      'japanese': 'ja-jp',
-      'chinese': 'zh-cn',
-    };
-    final url =
-        'http://api.voicerss.org/'
-        '?key=58cd10774f4c4322a6dd8c114650d8a3'
-        '&hl=${langMap[widget.language] ?? 'en-us'}'
-        '&src=${Uri.encodeComponent(text)}'
-        '&c=MP3';
-
-    await _audioPlayer.play(UrlSource(url));
-  } catch (e) {
-    print('❌ Mobile audio error: $e');
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('🔊 Audio not available. Please try again.'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.orange,
-        ),
-      );
+    try {
+      await AudioService.speak(text, language: widget.language);
+    } catch (e) {
+      print('❌ Audio error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('🔊 Audio not available. Please try again.'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
     }
-  }
-}
-  String _getVoiceRssLanguageCode(String language) {
-    const codes = {
-      'english': 'en-us',
-      'korean': 'ko-kr',
-      'japanese': 'ja-jp',
-      'chinese': 'zh-cn',
-    };
-    return codes[language] ?? 'en-us';
   }
 
   void _filterGrammar(String query) {
@@ -326,300 +274,300 @@ void _playAudioMobile(String text) async {
     );
   }
 
-Widget _buildGrammarCard(Map<String, dynamic> lesson) {
-  final title = lesson['title'] ?? '';
-  final titleRomanization = lesson['titleRomanization'] ?? '';
-  final description = lesson['description'] ?? '';
-  final rule = lesson['rule'] ?? '';
-  final ruleRomanization = lesson['ruleRomanization'] ?? '';
-  final examples = lesson['examples'] as List? ?? [];
-  final burmeseTitle = lesson['burmeseTitle'] ?? '';
-  final burmeseDescription = lesson['burmeseDescription'] ?? '';
-  final burmeseRule = lesson['burmeseRule'] ?? '';
-  final burmeseExamples = lesson['burmeseExamples'] as List? ?? [];
-  final exampleRomanizations = lesson['exampleRomanizations'] as List? ?? [];
+  Widget _buildGrammarCard(Map<String, dynamic> lesson) {
+    final title = lesson['title'] ?? '';
+    final titleRomanization = lesson['titleRomanization'] ?? '';
+    final description = lesson['description'] ?? '';
+    final rule = lesson['rule'] ?? '';
+    final ruleRomanization = lesson['ruleRomanization'] ?? '';
+    final examples = lesson['examples'] as List? ?? [];
+    final burmeseTitle = lesson['burmeseTitle'] ?? '';
+    final burmeseDescription = lesson['burmeseDescription'] ?? '';
+    final burmeseRule = lesson['burmeseRule'] ?? '';
+    final burmeseExamples = lesson['burmeseExamples'] as List? ?? [];
+    final exampleRomanizations = lesson['exampleRomanizations'] as List? ?? [];
 
-  return Container(
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: Colors.grey.shade800.withOpacity(0.3),
-      borderRadius: BorderRadius.circular(16),
-      border: Border.all(
-        color: Colors.grey.shade700.withOpacity(0.3),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.grey.shade700.withOpacity(0.3),
+        ),
       ),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Title with Audio Button
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title with Romanization
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  if (titleRomanization.isNotEmpty)
-                    Text(
-                      titleRomanization,
-                      style: TextStyle(
-                        color: Colors.grey.shade400,
-                        fontSize: 13,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  if (burmeseTitle.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        '🇲🇲 $burmeseTitle',
-                        style: GoogleFonts.notoSansMyanmar(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            IconButton(
-              onPressed: () => _playAudio(title),
-              icon: const Icon(
-                Icons.volume_up,
-                color: Color(0xFF42A5F5),
-                size: 20,
-              ),
-              constraints: const BoxConstraints(
-                minWidth: 30,
-                minHeight: 30,
-              ),
-              padding: EdgeInsets.zero,
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        
-        // Description
-        Text(
-          description,
-          style: TextStyle(
-            color: Colors.grey.shade400,
-            fontSize: 13,
-          ),
-        ),
-        if (burmeseDescription.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text(
-              '🇲🇲 $burmeseDescription',
-              style: GoogleFonts.notoSansMyanmar(
-                color: Colors.grey.shade500,
-                fontSize: 12,
-              ),
-            ),
-          ),
-        const SizedBox(height: 8),
-        
-        // Rule
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade900.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title with Audio Button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                rule,
-                style: const TextStyle(
-                  color: Color(0xFF42A5F5),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              if (ruleRomanization.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Text(
-                    ruleRomanization,
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 12,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ),
-              if (burmeseRule.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    '🇲🇲 $burmeseRule',
-                    style: GoogleFonts.notoSansMyanmar(
-                      color: Colors.grey.shade400,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-        
-        // Examples
-        if (examples.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          const Text(
-            '📖 Examples',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          ...examples.asMap().entries.map((entry) {
-            final index = entry.key;
-            final example = entry.value;
-            final burmeseExample = burmeseExamples.length > index 
-                ? burmeseExamples[index] 
-                : '';
-            final romanization = exampleRomanizations.length > index 
-                ? exampleRomanizations[index] 
-                : '';
-
-            return Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade900.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Colors.grey.shade700.withOpacity(0.2),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Example text with audio
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF42A5F5).withOpacity(0.15),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '${index + 1}',
-                                  style: TextStyle(
-                                    color: const Color(0xFF42A5F5),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                example,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title with Romanization
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                      IconButton(
-                        onPressed: () => _playAudio(example),
-                        icon: const Icon(
-                          Icons.volume_up,
-                          color: Color(0xFF42A5F5),
-                          size: 16,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 30,
-                          minHeight: 30,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                    ],
-                  ),
-                  
-                  // Example Romanization
-                  if (romanization.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 32),
-                      child: Text(
-                        romanization,
+                    ),
+                    if (titleRomanization.isNotEmpty)
+                      Text(
+                        titleRomanization,
                         style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 12,
+                          color: Colors.grey.shade400,
+                          fontSize: 13,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                    ),
-                  ],
-                  
-                  // Burmese Example Translation
-                  if (burmeseExample.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 32),
-                      child: Text(
-                        '🇲🇲 $burmeseExample',
-                        style: GoogleFonts.notoSansMyanmar(
-                          color: Colors.grey.shade400,
-                          fontSize: 13,
+                    if (burmeseTitle.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          '🇲🇲 $burmeseTitle',
+                          style: GoogleFonts.notoSansMyanmar(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ),
                   ],
-                ],
+                ),
               ),
-            );
-          }),
-        ],
-        
-        // Audio hint
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Icon(
-              Icons.volume_up,
-              color: Colors.grey.shade600,
-              size: 14,
+              IconButton(
+                onPressed: () => _playAudio(title),
+                icon: const Icon(
+                  Icons.volume_up,
+                  color: Color(0xFF42A5F5),
+                  size: 20,
+                ),
+                constraints: const BoxConstraints(
+                  minWidth: 30,
+                  minHeight: 30,
+                ),
+                padding: EdgeInsets.zero,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          
+          // Description
+          Text(
+            description,
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 13,
             ),
-            const SizedBox(width: 4),
-            Text(
-              'Tap speaker to hear pronunciation',
+          ),
+          if (burmeseDescription.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '🇲🇲 $burmeseDescription',
+                style: GoogleFonts.notoSansMyanmar(
+                  color: Colors.grey.shade500,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          const SizedBox(height: 8),
+          
+          // Rule
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade900.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  rule,
+                  style: const TextStyle(
+                    color: Color(0xFF42A5F5),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (ruleRomanization.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      ruleRomanization,
+                      style: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                if (burmeseRule.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      '🇲🇲 $burmeseRule',
+                      style: GoogleFonts.notoSansMyanmar(
+                        color: Colors.grey.shade400,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          
+          // Examples
+          if (examples.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            const Text(
+              '📖 Examples',
               style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 10,
+                color: Colors.grey,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 8),
+            ...examples.asMap().entries.map((entry) {
+              final index = entry.key;
+              final example = entry.value;
+              final burmeseExample = burmeseExamples.length > index 
+                  ? burmeseExamples[index] 
+                  : '';
+              final romanization = exampleRomanizations.length > index 
+                  ? exampleRomanizations[index] 
+                  : '';
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.grey.shade700.withOpacity(0.2),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Example text with audio
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF42A5F5).withOpacity(0.15),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${index + 1}',
+                                    style: TextStyle(
+                                      color: const Color(0xFF42A5F5),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  example,
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => _playAudio(example),
+                          icon: const Icon(
+                            Icons.volume_up,
+                            color: Color(0xFF42A5F5),
+                            size: 16,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 30,
+                            minHeight: 30,
+                          ),
+                          padding: EdgeInsets.zero,
+                        ),
+                      ],
+                    ),
+                    
+                    // Example Romanization
+                    if (romanization.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32),
+                        child: Text(
+                          romanization,
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                    ],
+                    
+                    // Burmese Example Translation
+                    if (burmeseExample.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32),
+                        child: Text(
+                          '🇲🇲 $burmeseExample',
+                          style: GoogleFonts.notoSansMyanmar(
+                            color: Colors.grey.shade400,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            }),
           ],
-        ),
-      ],
-    ),
-  );
-}
+          
+          // Audio hint
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(
+                Icons.volume_up,
+                color: Colors.grey.shade600,
+                size: 14,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Tap speaker to hear pronunciation',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

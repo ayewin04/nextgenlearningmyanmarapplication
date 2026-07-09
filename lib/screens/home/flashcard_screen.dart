@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/gamification_service.dart';
+import '../../services/audio_service.dart';  // ✅ Use AudioService
 import '../../models/vocabulary_model.dart';
 
 class FlashcardsScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class FlashcardsScreen extends StatefulWidget {
 
 class _FlashcardsScreenState extends State<FlashcardsScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<VocabularyModel> _vocabularies = [];
   List<VocabularyModel> _filteredVocabularies = [];
   int _currentIndex = 0;
@@ -57,7 +57,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _audioPlayer.dispose();
+    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -140,7 +140,6 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     });
   }
 
-  // ✅ Save current index to Firestore
   Future<void> _saveCurrentIndex() async {
     final authService = Provider.of<AuthService>(context, listen: false);
     final user = authService.user;
@@ -167,7 +166,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
         _currentIndex++;
         _learnedCount++;
         _saveProgress();
-        _saveCurrentIndex();  // ✅ Save index when moving forward
+        _saveCurrentIndex();
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -185,7 +184,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     if (_currentIndex > 0) {
       setState(() {
         _currentIndex--;
-        _saveCurrentIndex();  // ✅ Save index when going back
+        _saveCurrentIndex();
       });
     }
   }
@@ -299,6 +298,7 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     }
   }
 
+  // ✅ Updated to use AudioService
   void _playAudio() async {
     final vocab = _filteredVocabularies[_currentIndex];
     final wordInLanguage = vocab.getTranslation(widget.language);
@@ -315,22 +315,11 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
       return;
     }
 
-    final langMap = {
-      'english': 'en-us',
-      'korean': 'ko-kr',
-      'japanese': 'ja-jp',
-      'chinese': 'zh-cn',
-    };
-
     try {
-      final url =
-          'http://api.voicerss.org/'
-          '?key=58cd10774f4c4322a6dd8c114650d8a3'
-          '&hl=${langMap[widget.language] ?? 'en-us'}'
-          '&src=${Uri.encodeComponent(wordInLanguage)}'
-          '&c=MP3';
-
-      await _audioPlayer.play(UrlSource(url));
+      await AudioService.speak(
+        wordInLanguage,
+        language: widget.language,
+      );
       print('✅ Audio played successfully');
     } catch (e) {
       print('❌ Audio error: $e');
@@ -388,7 +377,6 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                       IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () {
-                          // Save index before leaving
                           _saveCurrentIndex();
                           Navigator.pop(context);
                         },
