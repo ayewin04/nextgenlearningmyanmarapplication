@@ -1,0 +1,206 @@
+{
+  "totalDuplicates": 50,
+  "collection": "vocabulary",
+  "duplicates": [
+    {
+      "duplicate": "vocab_shopping_001",
+      "existing": "vocab_shopping_001"
+    },
+    {
+      "duplicate": "vocab_shopping_002",
+      "existing": "vocab_shopping_002"
+    },
+    {
+      "duplicate": "vocab_shopping_003",
+      "existing": "vocab_shopping_003"
+    },
+    {
+      "duplicate": "vocab_shopping_004",
+      "existing": "vocab_shopping_004"
+    },
+    {
+      "duplicate": "vocab_shopping_005",
+      "existing": "vocab_shopping_005"
+    },
+    {
+      "duplicate": "vocab_shopping_006",
+      "existing": "vocab_shopping_006"
+    },
+    {
+      "duplicate": "vocab_shopping_007",
+      "existing": "vocab_shopping_007"
+    },
+    {
+      "duplicate": "vocab_shopping_008",
+      "existing": "vocab_shopping_008"
+    },
+    {
+      "duplicate": "vocab_shopping_009",
+      "existing": "vocab_shopping_009"
+    },
+    {
+      "duplicate": "vocab_shopping_010",
+      "existing": "vocab_shopping_010"
+    },
+    {
+      "duplicate": "vocab_shopping_011",
+      "existing": "vocab_shopping_011"
+    },
+    {
+      "duplicate": "vocab_shopping_012",
+      "existing": "vocab_shopping_012"
+    },
+    {
+      "duplicate": "vocab_shopping_013",
+      "existing": "vocab_shopping_013"
+    },
+    {
+      "duplicate": "vocab_shopping_014",
+      "existing": "vocab_shopping_014"
+    },
+    {
+      "duplicate": "vocab_shopping_015",
+      "existing": "vocab_shopping_015"
+    },
+    {
+      "duplicate": "vocab_shopping_016",
+      "existing": "vocab_shopping_016"
+    },
+    {
+      "duplicate": "vocab_shopping_017",
+      "existing": "vocab_shopping_017"
+    },
+    {
+      "duplicate": "vocab_shopping_018",
+      "existing": "vocab_shopping_018"
+    },
+    {
+      "duplicate": "vocab_shopping_019",
+      "existing": "vocab_shopping_019"
+    },
+    {
+      "duplicate": "vocab_shopping_020",
+      "existing": "vocab_shopping_020"
+    },
+    {
+      "duplicate": "vocab_shopping_021",
+      "existing": "vocab_shopping_021"
+    },
+    {
+      "duplicate": "vocab_shopping_022",
+      "existing": "vocab_shopping_022"
+    },
+    {
+      "duplicate": "vocab_shopping_023",
+      "existing": "vocab_shopping_023"
+    },
+    {
+      "duplicate": "vocab_shopping_024",
+      "existing": "vocab_shopping_024"
+    },
+    {
+      "duplicate": "vocab_shopping_025",
+      "existing": "vocab_shopping_025"
+    },
+    {
+      "duplicate": "vocab_shopping_026",
+      "existing": "vocab_shopping_026"
+    },
+    {
+      "duplicate": "vocab_shopping_027",
+      "existing": "vocab_shopping_027"
+    },
+    {
+      "duplicate": "vocab_shopping_028",
+      "existing": "vocab_shopping_028"
+    },
+    {
+      "duplicate": "vocab_shopping_029",
+      "existing": "vocab_shopping_029"
+    },
+    {
+      "duplicate": "vocab_shopping_030",
+      "existing": "vocab_shopping_030"
+    },
+    {
+      "duplicate": "vocab_shopping_031",
+      "existing": "vocab_shopping_031"
+    },
+    {
+      "duplicate": "vocab_shopping_032",
+      "existing": "vocab_shopping_032"
+    },
+    {
+      "duplicate": "vocab_shopping_033",
+      "existing": "vocab_shopping_033"
+    },
+    {
+      "duplicate": "vocab_shopping_034",
+      "existing": "vocab_shopping_034"
+    },
+    {
+      "duplicate": "vocab_shopping_035",
+      "existing": "vocab_shopping_035"
+    },
+    {
+      "duplicate": "vocab_shopping_036",
+      "existing": "vocab_shopping_036"
+    },
+    {
+      "duplicate": "vocab_shopping_037",
+      "existing": "vocab_shopping_037"
+    },
+    {
+      "duplicate": "vocab_shopping_038",
+      "existing": "vocab_shopping_038"
+    },
+    {
+      "duplicate": "vocab_shopping_039",
+      "existing": "vocab_shopping_039"
+    },
+    {
+      "duplicate": "vocab_shopping_040",
+      "existing": "vocab_shopping_040"
+    },
+    {
+      "duplicate": "vocab_shopping_041",
+      "existing": "vocab_shopping_041"
+    },
+    {
+      "duplicate": "vocab_shopping_042",
+      "existing": "vocab_shopping_042"
+    },
+    {
+      "duplicate": "vocab_shopping_043",
+      "existing": "vocab_shopping_043"
+    },
+    {
+      "duplicate": "vocab_shopping_044",
+      "existing": "vocab_shopping_044"
+    },
+    {
+      "duplicate": "vocab_shopping_045",
+      "existing": "vocab_shopping_045"
+    },
+    {
+      "duplicate": "vocab_shopping_046",
+      "existing": "vocab_shopping_046"
+    },
+    {
+      "duplicate": "vocab_shopping_047",
+      "existing": "vocab_shopping_047"
+    },
+    {
+      "duplicate": "vocab_shopping_048",
+      "existing": "vocab_shopping_048"
+    },
+    {
+      "duplicate": "vocab_shopping_049",
+      "existing": "vocab_shopping_049"
+    },
+    {
+      "duplicate": "vocab_shopping_050",
+      "existing": "vocab_shopping_050"
+    }
+  ]
+}

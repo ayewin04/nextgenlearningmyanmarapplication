@@ -38,12 +38,12 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
         ];
       case 'HSK':
         return [
-          {'id': 'HSK 1', 'name': 'HSK 1', 'description': 'Beginner (150 words)'},
-          {'id': 'HSK 2', 'name': 'HSK 2', 'description': 'Elementary (300 words)'},
-          {'id': 'HSK 3', 'name': 'HSK 3', 'description': 'Intermediate (600 words)'},
-          {'id': 'HSK 4', 'name': 'HSK 4', 'description': 'Upper Intermediate (1200 words)'},
-          {'id': 'HSK 5', 'name': 'HSK 5', 'description': 'Advanced (2500 words)'},
-          {'id': 'HSK 6', 'name': 'HSK 6', 'description': 'Proficient (5000+ words)'},
+          {'id': 'HSK 1', 'name': 'HSK 1', 'description': 'Beginner '},
+          {'id': 'HSK 2', 'name': 'HSK 2', 'description': 'Elementary '},
+          {'id': 'HSK 3', 'name': 'HSK 3', 'description': 'Intermediate '},
+          {'id': 'HSK 4', 'name': 'HSK 4', 'description': 'Upper Intermediate '},
+          {'id': 'HSK 5', 'name': 'HSK 5', 'description': 'Advanced '},
+          {'id': 'HSK 6', 'name': 'HSK 6', 'description': 'Proficient '},
         ];
       case 'JLPT':
         return [

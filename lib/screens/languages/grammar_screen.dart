@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../services/firestore_service.dart';
-import '../../services/audio_service.dart';  // ✅ Use AudioService
+import '../../services/audio_service.dart';
 
 class GrammarScreen extends StatefulWidget {
   final String language;
@@ -21,11 +22,15 @@ class GrammarScreen extends StatefulWidget {
 
 class _GrammarScreenState extends State<GrammarScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<Map<String, dynamic>> _grammar = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
   String? _error;
   String _searchQuery = '';
+  
+  // Pagination
+  final int _pageSize = 20;
 
   @override
   void initState() {
@@ -35,38 +40,89 @@ class _GrammarScreenState extends State<GrammarScreen> {
 
   @override
   void dispose() {
-    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
-  Future<void> _loadGrammar() async {
+  Future<void> _loadGrammar({bool loadMore = false}) async {
+    if (loadMore && (_isLoadingMore || !_hasMore)) return;
+
     setState(() {
-      _isLoading = true;
-      _error = null;
+      if (loadMore) {
+        _isLoadingMore = true;
+      } else {
+        _isLoading = true;
+        _error = null;
+        _grammar = [];
+        _hasMore = true;
+        _firestoreService.resetGrammarPagination(); // Reset pagination on new load
+      }
     });
 
     try {
-      final grammar = await _firestoreService.getGrammarByLevel(
+      // Get the last document reference for pagination
+      DocumentSnapshot? startAfter;
+      if (loadMore) {
+        startAfter = _firestoreService.getLastGrammarDoc();
+        print('🔍 Loading more after: ${startAfter?.id}');
+      }
+      
+      final grammar = await _firestoreService.getGrammarByLevelWithPagination(
         exam: widget.exam.toLowerCase(),
         level: widget.level,
+        limit: _pageSize,
+        startAfter: startAfter,
       );
       
       print('✅ Loaded ${grammar.length} grammar lessons for ${widget.exam} - ${widget.level}');
       
       setState(() {
-        _grammar = grammar;
+        if (loadMore) {
+          _grammar.addAll(grammar);
+        } else {
+          _grammar = grammar;
+        }
+        
+        // If we got fewer than pageSize, no more data
+        _hasMore = grammar.length == _pageSize;
         _isLoading = false;
+        _isLoadingMore = false;
       });
+      
+      // Debug: Show what we loaded
+      if (grammar.isNotEmpty) {
+        print('📄 First: ${grammar.first['title']}');
+        print('📄 Last: ${grammar.last['title']}');
+        print('📄 Total so far: ${_grammar.length}');
+      }
     } catch (e) {
       print('❌ Error loading grammar: $e');
       setState(() {
         _error = 'Failed to load grammar: $e';
         _isLoading = false;
+        _isLoadingMore = false;
       });
     }
   }
 
-  // ✅ Updated to use AudioService
+  void _filterGrammar(String query) {
+    setState(() {
+      _searchQuery = query;
+    });
+  }
+
+  List<Map<String, dynamic>> get _filteredGrammar {
+    if (_searchQuery.isEmpty) return _grammar;
+    return _grammar.where((lesson) {
+      final title = (lesson['title'] ?? '').toLowerCase();
+      final description = (lesson['description'] ?? '').toLowerCase();
+      final rule = (lesson['rule'] ?? '').toLowerCase();
+      final search = _searchQuery.toLowerCase();
+      return title.contains(search) ||
+          description.contains(search) ||
+          rule.contains(search);
+    }).toList();
+  }
+
   void _playAudio(String text) async {
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -92,25 +148,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
         );
       }
     }
-  }
-
-  void _filterGrammar(String query) {
-    setState(() {
-      _searchQuery = query;
-    });
-  }
-
-  List<Map<String, dynamic>> get _filteredGrammar {
-    if (_searchQuery.isEmpty) return _grammar;
-    return _grammar.where((lesson) {
-      final title = (lesson['title'] ?? '').toLowerCase();
-      final description = (lesson['description'] ?? '').toLowerCase();
-      final rule = (lesson['rule'] ?? '').toLowerCase();
-      final search = _searchQuery.toLowerCase();
-      return title.contains(search) ||
-          description.contains(search) ||
-          rule.contains(search);
-    }).toList();
   }
 
   @override
@@ -196,24 +233,110 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 ? _buildErrorWidget()
                 : _grammar.isEmpty
                     ? _buildEmptyWidget()
-                    : filteredList.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No results found for "$_searchQuery"',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 16,
-                              ),
+                    : Column(
+                        children: [
+                          // Show count
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '📚 ${_grammar.length} lessons',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade400,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                if (_isLoadingMore)
+                                  const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Color(0xFF42A5F5),
+                                    ),
+                                  ),
+                              ],
                             ),
-                          )
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: filteredList.length,
-                            itemBuilder: (context, index) {
-                              final lesson = filteredList[index];
-                              return _buildGrammarCard(lesson);
-                            },
                           ),
+                          Expanded(
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: filteredList.length + (_hasMore ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (index == filteredList.length) {
+                                  return _buildLoadMoreButton();
+                                }
+                                final lesson = filteredList[index];
+                                return _buildGrammarCard(lesson);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+      ),
+    );
+  }
+
+  Widget _buildLoadMoreButton() {
+    if (_isLoadingMore) {
+      return const Padding(
+        padding: EdgeInsets.all(16),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFF42A5F5),
+          ),
+        ),
+      );
+    }
+
+    if (!_hasMore && _grammar.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: Text(
+            '✅ All ${_grammar.length} lessons loaded',
+            style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () => _loadGrammar(loadMore: true),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF1A237E),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(
+                color: const Color(0xFF42A5F5).withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.expand_more, size: 18),
+              const SizedBox(width: 8),
+              Text(
+                'Load More (${_grammar.length}+)',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -234,7 +357,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _loadGrammar,
+              onPressed: () => _loadGrammar(loadMore: false),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF42A5F5),
               ),
@@ -308,7 +431,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title with Romanization
                     Text(
                       title,
                       style: const TextStyle(

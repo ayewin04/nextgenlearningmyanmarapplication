@@ -5,6 +5,9 @@ import '../models/vocabulary_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  // Store the last document reference for pagination
+  DocumentSnapshot? _lastGrammarDoc;
 
   // ============ EXAMS ============
   
@@ -271,6 +274,7 @@ class FirestoreService {
     }
   }
 
+  // ✅ UPDATED: Grammar with Pagination
   Future<List<Map<String, dynamic>>> getGrammarByLevel({
     required String exam,
     required String level,
@@ -290,6 +294,54 @@ class FirestoreService {
     } catch (e) {
       throw Exception('Failed to load grammar: $e');
     }
+  }
+
+  // ✅ NEW: Grammar with Pagination Support
+  Future<List<Map<String, dynamic>>> getGrammarByLevelWithPagination({
+    required String exam,
+    required String level,
+    int limit = 20,
+    DocumentSnapshot? startAfter,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('grammar')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          
+          .limit(limit);
+      
+      if (startAfter != null) {
+        query = query.startAfterDocument(startAfter);
+      }
+      
+      QuerySnapshot snapshot = await query.get();
+      
+      // Store the last document for pagination
+      if (snapshot.docs.isNotEmpty) {
+        _lastGrammarDoc = snapshot.docs.last;
+      }
+      
+      return snapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            data['documentId'] = doc.id;
+            return data;
+          })
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load grammar: $e');
+    }
+  }
+
+  // ✅ Get the last document reference for pagination
+  DocumentSnapshot? getLastGrammarDoc() {
+    return _lastGrammarDoc;
+  }
+
+  // ✅ Reset pagination
+  void resetGrammarPagination() {
+    _lastGrammarDoc = null;
   }
 
   // ============ KANJI ============
@@ -552,12 +604,12 @@ class FirestoreService {
   Future<void> toggleFavourite({
     required String userId,
     required String wordId,
-    required String language,  // ✅ NEW: language parameter
+    required String language,
     required bool isFavourite,
   }) async {
     try {
       final userRef = _firestore.collection('users').doc(userId);
-      final String fieldName = 'favourites_$language';  // ✅ Separate field per language
+      final String fieldName = 'favourites_$language';
       
       if (isFavourite) {
         await userRef.update({
