@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/exam_model.dart';
 import '../models/question_model.dart';
 import '../models/vocabulary_model.dart';
@@ -8,6 +9,43 @@ class FirestoreService {
   
   // Store the last document reference for pagination
   DocumentSnapshot? _lastGrammarDoc;
+  DocumentSnapshot? _lastVocabDoc;
+
+   Future<List<VocabularyModel>> getVocabularyByLevelPaginated({
+    required String exam,
+    required String level,
+    required String language,
+    int limit = 50,
+    DocumentSnapshot? startAfter,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('vocabulary')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          .limit(limit);
+      
+      if (startAfter != null) {
+        query = query.startAfterDocument(startAfter);
+      }
+      
+      QuerySnapshot snapshot = await query.get();
+      
+      if (snapshot.docs.isNotEmpty) {
+        _lastVocabDoc = snapshot.docs.last;
+      }
+      
+      return snapshot.docs
+          .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .where((vocab) => vocab.translations.containsKey(language))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load vocabulary: $e');
+    }
+  }
+
+  DocumentSnapshot? getLastVocabDoc() => _lastVocabDoc;
+  void resetVocabPagination() => _lastVocabDoc = null;
 
   // ============ EXAMS ============
   
@@ -137,7 +175,7 @@ class FirestoreService {
     required String exam,
     required String level,
     required String language,
-    int limit = 50,
+    int limit = 5000,
   }) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -159,7 +197,7 @@ class FirestoreService {
   Future<List<VocabularyModel>> getVocabularyByCategory({
     required String category,
     required String language,
-    int limit = 50,
+    int limit = 5000,
   }) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -202,7 +240,7 @@ class FirestoreService {
   Future<List<Map<String, dynamic>>> getExamVocabulary({
     required String exam,
     String? level,
-    int limit = 50,
+    int limit = 5000,
   }) async {
     try {
       Query query = _firestore
@@ -228,7 +266,7 @@ class FirestoreService {
   Future<List<Map<String, dynamic>>> getExamVocabularyByLevel({
     required String exam,
     required String level,
-    int limit = 50,
+    int limit = 5000,
   }) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -274,7 +312,6 @@ class FirestoreService {
     }
   }
 
-  // ✅ UPDATED: Grammar with Pagination
   Future<List<Map<String, dynamic>>> getGrammarByLevel({
     required String exam,
     required String level,
@@ -296,7 +333,6 @@ class FirestoreService {
     }
   }
 
-  // ✅ NEW: Grammar with Pagination Support
   Future<List<Map<String, dynamic>>> getGrammarByLevelWithPagination({
     required String exam,
     required String level,
@@ -308,7 +344,6 @@ class FirestoreService {
           .collection('grammar')
           .where('exam', isEqualTo: exam)
           .where('level', isEqualTo: level)
-          
           .limit(limit);
       
       if (startAfter != null) {
@@ -334,12 +369,10 @@ class FirestoreService {
     }
   }
 
-  // ✅ Get the last document reference for pagination
   DocumentSnapshot? getLastGrammarDoc() {
     return _lastGrammarDoc;
   }
 
-  // ✅ Reset pagination
   void resetGrammarPagination() {
     _lastGrammarDoc = null;
   }
@@ -465,6 +498,19 @@ class FirestoreService {
     required bool isCorrect,
     required int points,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot save progress.");
+      throw Exception('User not authenticated');
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      throw Exception('User ID mismatch');
+    }
+    print("✅ User authenticated: ${user.uid}");
+    
     try {
       DocumentReference progressRef = _firestore
           .collection('user_progress')
@@ -488,6 +534,19 @@ class FirestoreService {
     required String userId,
     required String exam,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get progress.");
+      return null;
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return null;
+    }
+    print("✅ Getting progress for user: ${user.uid}");
+    
     try {
       DocumentSnapshot doc = await _firestore
           .collection('user_progress')
@@ -500,13 +559,25 @@ class FirestoreService {
     }
   }
 
-  // ✅ Save last word index
   Future<void> saveLastWordIndex({
     required String userId,
     required String language,
     required String category,
     required int index,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot save last word index.");
+      throw Exception('User not authenticated');
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      throw Exception('User ID mismatch');
+    }
+    print("✅ Saving last word index for user: ${user.uid}");
+    
     try {
       final userRef = _firestore.collection('users').doc(userId);
       final String key = '${language}_$category';
@@ -530,12 +601,24 @@ class FirestoreService {
     }
   }
 
-  // ✅ Get last word index
   Future<int?> getLastWordIndex({
     required String userId,
     required String language,
     required String category,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get last word index.");
+      return null;
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return null;
+    }
+    print("✅ Getting last word index for user: ${user.uid}");
+    
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
       if (!doc.exists) return null;
@@ -550,12 +633,24 @@ class FirestoreService {
     }
   }
 
-  // ✅ Update words learned
   Future<void> updateWordsLearned({
     required String userId,
     required String language,
     required String category,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot update words learned.");
+      throw Exception('User not authenticated');
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      throw Exception('User ID mismatch');
+    }
+    print("✅ Updating words learned for user: ${user.uid}");
+    
     try {
       final userRef = _firestore.collection('users').doc(userId);
       final userDoc = await userRef.get();
@@ -582,6 +677,19 @@ class FirestoreService {
   }
 
   Future<Map<String, dynamic>> getUserLearningProgress(String userId) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get learning progress.");
+      return {};
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return {};
+    }
+    print("✅ Getting learning progress for user: ${user.uid}");
+    
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
       if (!doc.exists) return {};
@@ -600,13 +708,25 @@ class FirestoreService {
 
   // ============ FAVOURITES ============
 
-  // ✅ UPDATED: Store favourites per language
   Future<void> toggleFavourite({
     required String userId,
     required String wordId,
     required String language,
     required bool isFavourite,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot toggle favourite.");
+      throw Exception('User not authenticated');
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      throw Exception('User ID mismatch');
+    }
+    print("✅ Toggling favourite for user: ${user.uid}");
+    
     try {
       final userRef = _firestore.collection('users').doc(userId);
       final String fieldName = 'favourites_$language';
@@ -625,8 +745,20 @@ class FirestoreService {
     }
   }
 
-  // ✅ UPDATED: Get favourite IDs for a specific language
   Future<List<String>> getFavouriteIds(String userId, String language) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get favourites.");
+      return [];
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return [];
+    }
+    print("✅ Getting favourites for user: ${user.uid}");
+    
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
       if (!doc.exists) return [];
@@ -639,11 +771,23 @@ class FirestoreService {
     }
   }
 
-  // ✅ UPDATED: Get favourite vocabulary for a specific language
   Future<List<VocabularyModel>> getFavouriteVocabulary({
     required String userId,
     required String language,
   }) async {
+    // ✅ AUTHENTICATION CHECK
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get favourite vocabulary.");
+      return [];
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return [];
+    }
+    print("✅ Getting favourite vocabulary for user: ${user.uid}");
+    
     try {
       final favouriteIds = await getFavouriteIds(userId, language);
       
@@ -662,6 +806,49 @@ class FirestoreService {
       throw Exception('Failed to get favourite vocabulary: $e');
     }
   }
+
+  // Add this method to your FirestoreService class
+Future<Map<String, dynamic>> getExamVocabularyByLevelPaginated({
+  required String exam,
+  required String level,
+  int limit = 50,
+  DocumentSnapshot? startAfter,
+}) async {
+  try {
+    Query query = _firestore
+        .collection('exam_vocabulary')
+        .where('exam', isEqualTo: exam)
+        .where('level', isEqualTo: level)
+        .limit(limit);
+    
+    if (startAfter != null) {
+      query = query.startAfterDocument(startAfter);
+    }
+    
+    QuerySnapshot snapshot = await query.get();
+    
+    final List<Map<String, dynamic>> data = snapshot.docs
+        .map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          return data;
+        })
+        .toList();
+    
+    final bool hasMore = snapshot.docs.length == limit;
+    final DocumentSnapshot? lastDocument = snapshot.docs.isNotEmpty 
+        ? snapshot.docs.last 
+        : null;
+    
+    return {
+      'data': data,
+      'lastDocument': lastDocument,
+      'hasMore': hasMore,
+    };
+  } catch (e) {
+    throw Exception('Failed to load exam vocabulary: $e');
+  }
+}
 
   Future<List<Map<String, dynamic>>> getLeaderboard({
     required String exam,

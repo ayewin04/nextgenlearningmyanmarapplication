@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../services/firestore_service.dart';
-import '../../services/audio_service.dart';  // ✅ Use AudioService
+import '../../services/audio_service.dart';
 import '../../models/vocabulary_model.dart';
 
 class VocabularyScreen extends StatefulWidget {
@@ -22,11 +23,16 @@ class VocabularyScreen extends StatefulWidget {
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<ExamVocabularyModel> _vocabularies = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMoreData = true;
   String? _error;
   String _searchQuery = '';
+  
+  // Pagination variables
+  DocumentSnapshot? _lastDocument;
+  static const int _pageSize = 50;
 
   @override
   void initState() {
@@ -36,47 +42,76 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   @override
   void dispose() {
-    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
-  Future<void> _loadVocabulary() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
+  Future<void> _loadVocabulary({bool refresh = false}) async {
+    if (refresh) {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+        _vocabularies = [];
+        _lastDocument = null;
+        _hasMoreData = true;
+        _isLoadingMore = false;
+      });
+    }
 
     try {
       print('🔍 Loading exam vocabulary for: ${widget.exam}, level: ${widget.level}');
       
-      final vocabData = await _firestoreService.getExamVocabularyByLevel(
+      // Get vocab with pagination
+      final result = await _firestoreService.getExamVocabularyByLevelPaginated(
         exam: widget.exam.toLowerCase(),
         level: widget.level,
-        limit: 100,
+        limit: _pageSize,
+        startAfter: refresh ? null : _lastDocument,
       );
       
-      _vocabularies = vocabData.map((data) {
+      final newVocabularies = result['data'] as List<Map<String, dynamic>>;
+      _lastDocument = result['lastDocument'] as DocumentSnapshot?;
+      _hasMoreData = result['hasMore'] as bool;
+      
+      final vocabList = newVocabularies.map((data) {
         return ExamVocabularyModel.fromMap(
           data['id'] ?? data['word'] ?? '',
           data,
         );
       }).toList();
       
+      if (refresh) {
+        _vocabularies = vocabList;
+      } else {
+        _vocabularies.addAll(vocabList);
+      }
+      
       print('✅ Loaded ${_vocabularies.length} vocabulary words');
       
       setState(() {
         _isLoading = false;
+        _isLoadingMore = false;
       });
     } catch (e) {
       print('❌ Error loading vocabulary: $e');
       setState(() {
         _error = 'Failed to load vocabulary: $e';
         _isLoading = false;
+        _isLoadingMore = false;
       });
     }
   }
 
-  // ✅ Updated to use AudioService
+  Future<void> _loadMore() async {
+    if (_isLoadingMore || !_hasMoreData || _searchQuery.isNotEmpty) return;
+    
+    setState(() {
+      _isLoadingMore = true;
+    });
+    
+    await _loadVocabulary(refresh: false);
+  }
+
+  // Updated to use AudioService
   void _playAudio(String word) async {
     if (word.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -110,7 +145,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     });
   }
 
-  List<ExamVocabularyModel> get _filteredVocabularies {
+  List<ExamVocabularyModel> _getFilteredVocabularies() {
     if (_searchQuery.isEmpty) return _vocabularies;
     return _vocabularies.where((vocab) {
       final word = vocab.word.toLowerCase();
@@ -123,9 +158,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }).toList();
   }
 
+  String _getExamDisplayName() {
+    switch (widget.exam.toLowerCase()) {
+      case 'ielts': return 'IELTS';
+      case 'hsk': return 'HSK';
+      case 'jlpt': return 'JLPT';
+      case 'topik': return 'TOPIK';
+      default: return widget.exam.toUpperCase();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final filteredList = _filteredVocabularies;
+    final filteredList = _getFilteredVocabularies();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -138,6 +183,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
+          // Refresh button
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.white),
+            onPressed: () => _loadVocabulary(refresh: true),
+            tooltip: 'Refresh vocabulary',
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             margin: const EdgeInsets.only(right: 12),
@@ -216,14 +267,52 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               ),
                             ),
                           )
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: filteredList.length,
-                            itemBuilder: (context, index) {
-                              final vocab = filteredList[index];
-                              return _buildVocabularyCard(vocab);
+                        : NotificationListener<ScrollNotification>(
+                            onNotification: (scrollInfo) {
+                              if (!_isLoadingMore &&
+                                  _hasMoreData &&
+                                  _searchQuery.isEmpty &&
+                                  scrollInfo.metrics.pixels >=
+                                      scrollInfo.metrics.maxScrollExtent - 100) {
+                                _loadMore();
+                              }
+                              return true;
                             },
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: filteredList.length + (_hasMoreData && _searchQuery.isEmpty ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (index == filteredList.length && _hasMoreData && _searchQuery.isEmpty) {
+                                  return _buildLoadingMoreIndicator();
+                                }
+                                final vocab = filteredList[index];
+                                return _buildVocabularyCard(vocab);
+                              },
+                            ),
                           ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingMoreIndicator() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: Column(
+          children: [
+            CircularProgressIndicator(
+              color: Color(0xFF42A5F5),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Loading more words...',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -244,7 +333,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _loadVocabulary,
+              onPressed: () => _loadVocabulary(refresh: true),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF42A5F5),
               ),
@@ -283,19 +372,17 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               fontSize: 12,
             ),
           ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => _loadVocabulary(refresh: true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF42A5F5),
+            ),
+            child: const Text('Refresh'),
+          ),
         ],
       ),
     );
-  }
-
-  String _getExamDisplayName() {
-    switch (widget.exam.toLowerCase()) {
-      case 'ielts': return 'IELTS';
-      case 'hsk': return 'HSK';
-      case 'jlpt': return 'JLPT';
-      case 'topik': return 'TOPIK';
-      default: return widget.exam.toUpperCase();
-    }
   }
 
   Widget _buildVocabularyCard(ExamVocabularyModel vocab) {
