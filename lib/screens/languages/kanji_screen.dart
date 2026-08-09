@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../services/firestore_service.dart';
-import '../../services/audio_service.dart';  // ✅ Use AudioService
+import '../../services/audio_service.dart';
 
 class KanjiScreen extends StatefulWidget {
   const KanjiScreen({super.key});
@@ -12,11 +13,16 @@ class KanjiScreen extends StatefulWidget {
 
 class _KanjiScreenState extends State<KanjiScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<Map<String, dynamic>> _kanji = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMoreData = true;
   String? _error;
   String _searchQuery = '';
+  
+  // Pagination variables
+  DocumentSnapshot? _lastDocument;
+  static const int _pageSize = 50;
 
   @override
   void initState() {
@@ -26,35 +32,66 @@ class _KanjiScreenState extends State<KanjiScreen> {
 
   @override
   void dispose() {
-    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
-  Future<void> _loadKanji() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
+  Future<void> _loadKanji({bool refresh = false}) async {
+    if (refresh) {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+        _kanji = [];
+        _lastDocument = null;
+        _hasMoreData = true;
+        _isLoadingMore = false;
+      });
+    }
 
     try {
-      final snapshot = await _firestoreService.getKanji();
+      print('🔍 Loading kanji characters...');
       
-      setState(() {
-        _kanji = snapshot;
-        _isLoading = false;
-      });
+      // Get kanji with pagination
+      final result = await _firestoreService.getKanjiPaginated(
+        limit: _pageSize,
+        startAfter: refresh ? null : _lastDocument,
+      );
+      
+      final newKanji = result['data'] as List<Map<String, dynamic>>;
+      _lastDocument = result['lastDocument'] as DocumentSnapshot?;
+      _hasMoreData = result['hasMore'] as bool;
+      
+      if (refresh) {
+        _kanji = newKanji;
+      } else {
+        _kanji.addAll(newKanji);
+      }
       
       print('✅ Loaded ${_kanji.length} kanji characters');
+      
+      setState(() {
+        _isLoading = false;
+        _isLoadingMore = false;
+      });
     } catch (e) {
       print('❌ Error loading kanji: $e');
       setState(() {
         _error = 'Failed to load kanji: $e';
         _isLoading = false;
+        _isLoadingMore = false;
       });
     }
   }
 
-  // ✅ Updated to use AudioService
+  Future<void> _loadMore() async {
+    if (_isLoadingMore || !_hasMoreData || _searchQuery.isNotEmpty) return;
+    
+    setState(() {
+      _isLoadingMore = true;
+    });
+    
+    await _loadKanji(refresh: false);
+  }
+
   void _playAudio(String text) async {
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -115,6 +152,31 @@ class _KanjiScreenState extends State<KanjiScreen> {
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          // Refresh button
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.white),
+            onPressed: () => _loadKanji(refresh: true),
+            tooltip: 'Refresh kanji',
+          ),
+          // Show total count
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '${_kanji.length}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
@@ -173,14 +235,52 @@ class _KanjiScreenState extends State<KanjiScreen> {
                               ),
                             ),
                           )
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: filteredList.length,
-                            itemBuilder: (context, index) {
-                              final item = filteredList[index];
-                              return _buildKanjiCard(item);
+                        : NotificationListener<ScrollNotification>(
+                            onNotification: (scrollInfo) {
+                              if (!_isLoadingMore &&
+                                  _hasMoreData &&
+                                  _searchQuery.isEmpty &&
+                                  scrollInfo.metrics.pixels >=
+                                      scrollInfo.metrics.maxScrollExtent - 100) {
+                                _loadMore();
+                              }
+                              return true;
                             },
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: filteredList.length + (_hasMoreData && _searchQuery.isEmpty ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (index == filteredList.length && _hasMoreData && _searchQuery.isEmpty) {
+                                  return _buildLoadingMoreIndicator();
+                                }
+                                final item = filteredList[index];
+                                return _buildKanjiCard(item);
+                              },
+                            ),
                           ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingMoreIndicator() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: Column(
+          children: [
+            CircularProgressIndicator(
+              color: Color(0xFF42A5F5),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Loading more kanji...',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -201,7 +301,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _loadKanji,
+              onPressed: () => _loadKanji(refresh: true),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF42A5F5),
               ),
@@ -235,6 +335,14 @@ class _KanjiScreenState extends State<KanjiScreen> {
               color: Colors.grey,
               fontSize: 12,
             ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => _loadKanji(refresh: true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF42A5F5),
+            ),
+            child: const Text('Refresh'),
           ),
         ],
       ),

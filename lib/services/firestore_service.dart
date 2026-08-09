@@ -11,7 +11,9 @@ class FirestoreService {
   DocumentSnapshot? _lastGrammarDoc;
   DocumentSnapshot? _lastVocabDoc;
 
-   Future<List<VocabularyModel>> getVocabularyByLevelPaginated({
+  // ============ VOCABULARY PAGINATION ============
+  
+  Future<List<VocabularyModel>> getVocabularyByLevelPaginated({
     required String exam,
     required String level,
     required String language,
@@ -46,6 +48,49 @@ class FirestoreService {
 
   DocumentSnapshot? getLastVocabDoc() => _lastVocabDoc;
   void resetVocabPagination() => _lastVocabDoc = null;
+
+  // ============ GET VOCABULARY BY IDS (with batching) ============
+  
+  Future<List<VocabularyModel>> getVocabularyByIds({
+    required List<String> wordIds,
+    required String language,
+  }) async {
+    if (wordIds.isEmpty) return [];
+    
+    try {
+      List<VocabularyModel> allVocabulary = [];
+      
+      // Firestore whereIn supports max 30 items
+      for (var i = 0; i < wordIds.length; i += 30) {
+        final end = (i + 30) > wordIds.length ? wordIds.length : i + 30;
+        final batchIds = wordIds.sublist(i, end);
+        
+        final snapshot = await _firestore
+            .collection('vocabulary')
+            .where(FieldPath.documentId, whereIn: batchIds)
+            .get();
+        
+        final batchVocabulary = snapshot.docs
+            .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+            .where((vocab) => vocab.translations.containsKey(language))
+            .toList();
+        
+        allVocabulary.addAll(batchVocabulary);
+      }
+      
+      // Preserve the original order
+      final Map<String, VocabularyModel> vocabMap = {
+        for (var vocab in allVocabulary) vocab.id: vocab
+      };
+      
+      return wordIds
+          .where((id) => vocabMap.containsKey(id))
+          .map((id) => vocabMap[id]!)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load vocabulary: $e');
+    }
+  }
 
   // ============ EXAMS ============
   
@@ -284,6 +329,48 @@ class FirestoreService {
     }
   }
 
+  Future<Map<String, dynamic>> getExamVocabularyByLevelPaginated({
+    required String exam,
+    required String level,
+    int limit = 50,
+    DocumentSnapshot? startAfter,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('exam_vocabulary')
+          .where('exam', isEqualTo: exam)
+          .where('level', isEqualTo: level)
+          .limit(limit);
+      
+      if (startAfter != null) {
+        query = query.startAfterDocument(startAfter);
+      }
+      
+      QuerySnapshot snapshot = await query.get();
+      
+      final List<Map<String, dynamic>> data = snapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id;
+            return data;
+          })
+          .toList();
+      
+      final bool hasMore = snapshot.docs.length == limit;
+      final DocumentSnapshot? lastDocument = snapshot.docs.isNotEmpty 
+          ? snapshot.docs.last 
+          : null;
+      
+      return {
+        'data': data,
+        'lastDocument': lastDocument,
+        'hasMore': hasMore,
+      };
+    } catch (e) {
+      throw Exception('Failed to load exam vocabulary: $e');
+    }
+  }
+
   // ============ GRAMMAR ============
   
   Future<List<Map<String, dynamic>>> getGrammar({
@@ -352,7 +439,6 @@ class FirestoreService {
       
       QuerySnapshot snapshot = await query.get();
       
-      // Store the last document for pagination
       if (snapshot.docs.isNotEmpty) {
         _lastGrammarDoc = snapshot.docs.last;
       }
@@ -431,6 +517,44 @@ class FirestoreService {
     }
   }
 
+  Future<Map<String, dynamic>> getKanjiPaginated({
+    int limit = 50,
+    DocumentSnapshot? startAfter,
+  }) async {
+    try {
+      Query query = _firestore
+          .collection('kanji')
+          .limit(limit);
+      
+      if (startAfter != null) {
+        query = query.startAfterDocument(startAfter);
+      }
+      
+      QuerySnapshot snapshot = await query.get();
+      
+      final List<Map<String, dynamic>> data = snapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            data['documentId'] = doc.id;
+            return data;
+          })
+          .toList();
+      
+      final bool hasMore = snapshot.docs.length == limit;
+      final DocumentSnapshot? lastDocument = snapshot.docs.isNotEmpty 
+          ? snapshot.docs.last 
+          : null;
+      
+      return {
+        'data': data,
+        'lastDocument': lastDocument,
+        'hasMore': hasMore,
+      };
+    } catch (e) {
+      throw Exception('Failed to load kanji: $e');
+    }
+  }
+
   // ============ EXAM QUESTIONS ============
   
   Future<List<QuestionModel>> getExamQuestionsByLevel({
@@ -498,7 +622,6 @@ class FirestoreService {
     required bool isCorrect,
     required int points,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot save progress.");
@@ -534,7 +657,6 @@ class FirestoreService {
     required String userId,
     required String exam,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot get progress.");
@@ -565,7 +687,6 @@ class FirestoreService {
     required String category,
     required int index,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot save last word index.");
@@ -606,7 +727,6 @@ class FirestoreService {
     required String language,
     required String category,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot get last word index.");
@@ -638,7 +758,6 @@ class FirestoreService {
     required String language,
     required String category,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot update words learned.");
@@ -677,7 +796,6 @@ class FirestoreService {
   }
 
   Future<Map<String, dynamic>> getUserLearningProgress(String userId) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot get learning progress.");
@@ -714,7 +832,6 @@ class FirestoreService {
     required String language,
     required bool isFavourite,
   }) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot toggle favourite.");
@@ -746,7 +863,6 @@ class FirestoreService {
   }
 
   Future<List<String>> getFavouriteIds(String userId, String language) async {
-    // ✅ AUTHENTICATION CHECK
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("❌ No user logged in! Cannot get favourites.");
@@ -771,85 +887,8 @@ class FirestoreService {
     }
   }
 
-  Future<List<VocabularyModel>> getFavouriteVocabulary({
-    required String userId,
-    required String language,
-  }) async {
-    // ✅ AUTHENTICATION CHECK
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      print("❌ No user logged in! Cannot get favourite vocabulary.");
-      return [];
-    }
-    
-    if (user.uid != userId) {
-      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
-      return [];
-    }
-    print("✅ Getting favourite vocabulary for user: ${user.uid}");
-    
-    try {
-      final favouriteIds = await getFavouriteIds(userId, language);
-      
-      if (favouriteIds.isEmpty) return [];
-      
-      final snapshot = await _firestore
-          .collection('vocabulary')
-          .where(FieldPath.documentId, whereIn: favouriteIds)
-          .get();
-      
-      return snapshot.docs
-          .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-          .where((vocab) => vocab.translations.containsKey(language))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to get favourite vocabulary: $e');
-    }
-  }
-
-  // Add this method to your FirestoreService class
-Future<Map<String, dynamic>> getExamVocabularyByLevelPaginated({
-  required String exam,
-  required String level,
-  int limit = 50,
-  DocumentSnapshot? startAfter,
-}) async {
-  try {
-    Query query = _firestore
-        .collection('exam_vocabulary')
-        .where('exam', isEqualTo: exam)
-        .where('level', isEqualTo: level)
-        .limit(limit);
-    
-    if (startAfter != null) {
-      query = query.startAfterDocument(startAfter);
-    }
-    
-    QuerySnapshot snapshot = await query.get();
-    
-    final List<Map<String, dynamic>> data = snapshot.docs
-        .map((doc) {
-          final data = doc.data() as Map<String, dynamic>;
-          data['id'] = doc.id;
-          return data;
-        })
-        .toList();
-    
-    final bool hasMore = snapshot.docs.length == limit;
-    final DocumentSnapshot? lastDocument = snapshot.docs.isNotEmpty 
-        ? snapshot.docs.last 
-        : null;
-    
-    return {
-      'data': data,
-      'lastDocument': lastDocument,
-      'hasMore': hasMore,
-    };
-  } catch (e) {
-    throw Exception('Failed to load exam vocabulary: $e');
-  }
-}
-
+  // ============ LEADERBOARD ============
+  
   Future<List<Map<String, dynamic>>> getLeaderboard({
     required String exam,
     int limit = 10,

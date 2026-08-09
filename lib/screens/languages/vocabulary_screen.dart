@@ -60,7 +60,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     try {
       print('🔍 Loading exam vocabulary for: ${widget.exam}, level: ${widget.level}');
       
-      // Get vocab with pagination
       final result = await _firestoreService.getExamVocabularyByLevelPaginated(
         exam: widget.exam.toLowerCase(),
         level: widget.level,
@@ -79,13 +78,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         );
       }).toList();
       
+      // Combine and remove duplicates by word, exam, and level
       if (refresh) {
-        _vocabularies = vocabList;
+        _vocabularies = _removeDuplicatesByWordExamLevel(vocabList);
       } else {
-        _vocabularies.addAll(vocabList);
+        final combined = [..._vocabularies, ...vocabList];
+        _vocabularies = _removeDuplicatesByWordExamLevel(combined);
       }
       
-      print('✅ Loaded ${_vocabularies.length} vocabulary words');
+      print('✅ Loaded ${_vocabularies.length} unique vocabulary words');
       
       setState(() {
         _isLoading = false;
@@ -101,6 +102,95 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
   }
 
+  /// Remove duplicates based on word, exam, and level combination
+  List<ExamVocabularyModel> _removeDuplicatesByWordExamLevel(
+    List<ExamVocabularyModel> vocabularies,
+  ) {
+    final seen = <String>{};
+    final unique = <ExamVocabularyModel>[];
+    
+    for (final vocab in vocabularies) {
+      // Create a unique key using word, exam, and level
+      final key = _getUniqueKey(vocab);
+      
+      if (!seen.contains(key)) {
+        seen.add(key);
+        unique.add(vocab);
+      }
+    }
+    
+    return unique;
+  }
+
+  /// Generate a unique key from word, exam, and level
+  String _getUniqueKey(ExamVocabularyModel vocab) {
+    return '${vocab.word.toLowerCase()}_${vocab.exam.toLowerCase()}_${vocab.level}';
+  }
+
+  /// Optional: Check for duplicates and log them
+  void _checkForDuplicates() {
+    final wordCount = <String, int>{};
+    for (final vocab in _vocabularies) {
+      final key = _getUniqueKey(vocab);
+      wordCount[key] = (wordCount[key] ?? 0) + 1;
+    }
+    
+    final duplicates = wordCount.entries.where((entry) => entry.value > 1).toList();
+    
+    if (duplicates.isNotEmpty) {
+      print('⚠️ Found ${duplicates.length} duplicate entries:');
+      for (final duplicate in duplicates) {
+        print('  - "${duplicate.key}" appears ${duplicate.value} times');
+      }
+    }
+  }
+
+  /// Alternative: Remove duplicates and keep the best version
+  List<ExamVocabularyModel> _removeDuplicatesKeepBest(
+    List<ExamVocabularyModel> vocabularies,
+  ) {
+    final bestMap = <String, ExamVocabularyModel>{};
+    
+    for (final vocab in vocabularies) {
+      final key = _getUniqueKey(vocab);
+      
+      if (!bestMap.containsKey(key)) {
+        bestMap[key] = vocab;
+      } else {
+        // Keep the version with more complete information
+        final existing = bestMap[key]!;
+        
+        // Score each version based on completeness
+        final existingScore = _calculateCompletenessScore(existing);
+        final newScore = _calculateCompletenessScore(vocab);
+        
+        if (newScore > existingScore) {
+          bestMap[key] = vocab;
+        }
+      }
+    }
+    
+    return bestMap.values.toList();
+  }
+
+  /// Calculate completeness score for a vocabulary item (with null safety)
+  int _calculateCompletenessScore(ExamVocabularyModel vocab) {
+    int score = 0;
+    
+    // Use null-aware operators and default values
+    if ((vocab.exampleSentence ?? '').isNotEmpty) score += 10;
+    if ((vocab.exampleTranslation ?? '').isNotEmpty) score += 10;
+    if ((vocab.exampleRomanization ?? '').isNotEmpty) score += 5;
+    if ((vocab.pronunciation ?? '').isNotEmpty) score += 10;
+    if ((vocab.romanization ?? '').isNotEmpty) score += 5;
+    if (vocab.tags.isNotEmpty) score += 5;
+    if ((vocab.partOfSpeech ?? '').isNotEmpty) score += 5;
+    if ((vocab.burmeseWord ?? '').isNotEmpty) score += 10;
+    if ((vocab.meaning ?? '').isNotEmpty) score += 5;
+    
+    return score;
+  }
+
   Future<void> _loadMore() async {
     if (_isLoadingMore || !_hasMoreData || _searchQuery.isNotEmpty) return;
     
@@ -111,7 +201,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     await _loadVocabulary(refresh: false);
   }
 
-  // Updated to use AudioService
   void _playAudio(String word) async {
     if (word.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -149,8 +238,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     if (_searchQuery.isEmpty) return _vocabularies;
     return _vocabularies.where((vocab) {
       final word = vocab.word.toLowerCase();
-      final meaning = vocab.meaning.toLowerCase();
-      final burmese = vocab.burmeseWord.toLowerCase();
+      final meaning = (vocab.meaning ?? '').toLowerCase();
+      final burmese = (vocab.burmeseWord ?? '').toLowerCase();
       final search = _searchQuery.toLowerCase();
       return word.contains(search) ||
           meaning.contains(search) ||
@@ -188,6 +277,23 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: () => _loadVocabulary(refresh: true),
             tooltip: 'Refresh vocabulary',
+          ),
+          // Show total count
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '${_vocabularies.length}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -387,13 +493,13 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   Widget _buildVocabularyCard(ExamVocabularyModel vocab) {
     final word = vocab.word;
-    final meaning = vocab.meaning;
+    final meaning = vocab.meaning ?? '';
     final partOfSpeech = vocab.partOfSpeech ?? 'noun';
     final exampleSentence = vocab.exampleSentence ?? '';
     final exampleRomanization = vocab.exampleRomanization ?? '';
     final pronunciation = vocab.getPronunciationDisplay();
-    final burmeseWord = vocab.burmeseWord;
-    final romanization = vocab.romanization;
+    final burmeseWord = vocab.burmeseWord ?? '';
+    final romanization = vocab.romanization ?? '';
     final exampleTranslation = vocab.exampleTranslation ?? '';
     final tags = vocab.tags;
 

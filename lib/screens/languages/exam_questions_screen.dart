@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
-import '../../services/audio_service.dart';  // ✅ Use AudioService
+import '../../services/audio_service.dart';
 import '../../models/question_model.dart';
 
 class ExamQuestionsScreen extends StatefulWidget {
@@ -22,7 +22,6 @@ class ExamQuestionsScreen extends StatefulWidget {
 
 class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<QuestionModel> _questions = [];
   bool _isLoading = true;
   String? _error;
@@ -44,7 +43,6 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
 
   @override
   void dispose() {
-    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -230,7 +228,6 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
     );
   }
 
-  // ✅ Updated to use AudioService
   void _playAudio(String text) async {
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -292,6 +289,12 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
+          if (!_isQuizMode)
+            IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.white),
+              onPressed: _loadQuestions,
+              tooltip: 'Refresh questions',
+            ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             margin: const EdgeInsets.only(right: 12),
@@ -460,7 +463,7 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
                   ),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   itemCount: questions.length,
                   itemBuilder: (context, index) {
                     final question = questions[index];
@@ -481,6 +484,7 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          // Progress header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -520,7 +524,7 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
           ),
           const SizedBox(height: 16),
           
-          // Question
+          // Question card
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -621,9 +625,11 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
           
           const SizedBox(height: 16),
           
-          // Options
-          Expanded(
+          // Options - Using Flexible instead of Expanded to prevent overflow
+          Flexible(
             child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: options.length,
               itemBuilder: (context, index) {
                 final option = options[index];
@@ -704,24 +710,27 @@ class _ExamQuestionsScreenState extends State<ExamQuestionsScreen> {
             ),
           ),
           
-          // Next Button
+          // Next Button - Fixed at bottom
           if (_showAnswer)
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _nextQuestion,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF42A5F5),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _nextQuestion,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF42A5F5),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                ),
-                child: Text(
-                  _currentQuestionIndex < _questions.length - 1
-                      ? 'Next Question →'
-                      : 'See Results 🎯',
+                  child: Text(
+                    _currentQuestionIndex < _questions.length - 1
+                        ? 'Next Question →'
+                        : 'See Results 🎯',
+                  ),
                 ),
               ),
             ),

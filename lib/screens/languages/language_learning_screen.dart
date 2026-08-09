@@ -49,23 +49,23 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     'english': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
-      {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
+    //  {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
     'korean': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
-      {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
+    //  {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
     'japanese': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
-      {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
+     // {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
       {'icon': '🈴', 'name': 'Kanji', 'route': 'kanji'},
     ],
     'chinese': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
-      {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
+     // {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
   };
 
@@ -987,7 +987,7 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
           ),
         );
         break;
-      case 'exam_questions':
+    /*  case 'exam_questions':
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -1000,7 +1000,7 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
             ),
           ),
         );
-        break;
+        break; */
       case 'kanji':
         Navigator.push(
           context,

@@ -16,26 +16,42 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   final FirestoreService _firestoreService = FirestoreService();
   List<VocabularyModel> _favourites = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
   String? _error;
   String _selectedLanguage = 'english';
+  List<String> _allFavouriteIds = [];
+  int _currentPage = 0;
+  static const int _pageSize = 30;
 
   @override
   void initState() {
     super.initState();
-    _loadFavourites();
+    _loadFavourites(reset: true);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _loadFavourites();
+    // Only reload if user changed
+    final authService = Provider.of<AuthService>(context);
+    if (authService.user != null) {
+      // User is logged in, we're good
+    }
   }
 
-  Future<void> _loadFavourites() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
+  Future<void> _loadFavourites({bool reset = false}) async {
+    if (reset) {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+        _favourites = [];
+        _allFavouriteIds = [];
+        _currentPage = 0;
+        _hasMore = true;
+        _isLoadingMore = false;
+      });
+    }
 
     try {
       final authService = Provider.of<AuthService>(context, listen: false);
@@ -49,21 +65,78 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         return;
       }
 
-      final favourites = await _firestoreService.getFavouriteVocabulary(
-        userId: user.uid,
+      // ✅ CORRECTED: Pass both required arguments
+      final favouriteIds = await _firestoreService.getFavouriteIds(
+        user.uid,  // First positional argument: userId
+        _selectedLanguage,  // Second positional argument: language
+      );
+      
+      if (favouriteIds.isEmpty) {
+        setState(() {
+          _favourites = [];
+          _isLoading = false;
+          _hasMore = false;
+          _allFavouriteIds = [];
+        });
+        return;
+      }
+
+      // Store all IDs for pagination
+      if (reset) {
+        _allFavouriteIds = favouriteIds;
+      }
+
+      // Calculate pagination
+      final startIndex = _currentPage * _pageSize;
+      final endIndex = (startIndex + _pageSize) > _allFavouriteIds.length 
+          ? _allFavouriteIds.length 
+          : startIndex + _pageSize;
+      
+      if (startIndex >= _allFavouriteIds.length) {
+        setState(() {
+          _hasMore = false;
+          _isLoading = false;
+          _isLoadingMore = false;
+        });
+        return;
+      }
+
+      final batchIds = _allFavouriteIds.sublist(startIndex, endIndex);
+      
+      // Query for vocabulary items
+      final vocabularyItems = await _firestoreService.getVocabularyByIds(
+        wordIds: batchIds,
         language: _selectedLanguage,
       );
       
       setState(() {
-        _favourites = favourites;
+        if (reset) {
+          _favourites = vocabularyItems;
+        } else {
+          _favourites.addAll(vocabularyItems);
+        }
+        _currentPage++;
+        _hasMore = endIndex < _allFavouriteIds.length;
         _isLoading = false;
+        _isLoadingMore = false;
       });
     } catch (e) {
       setState(() {
         _error = 'Failed to load favourites: $e';
         _isLoading = false;
+        _isLoadingMore = false;
       });
     }
+  }
+
+  Future<void> _loadMoreFavourites() async {
+    if (_isLoadingMore || !_hasMore || _isLoading) return;
+    
+    setState(() {
+      _isLoadingMore = true;
+    });
+    
+    await _loadFavourites(reset: false);
   }
 
   Future<void> _removeFavourite(String wordId) async {
@@ -80,8 +153,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isFavourite: false,
       );
 
+      // Remove from local lists
       setState(() {
         _favourites.removeWhere((vocab) => vocab.id == wordId);
+        _allFavouriteIds.remove(wordId);
+        // If no more items, set hasMore to false
+        if (_favourites.isEmpty && _allFavouriteIds.isEmpty) {
+          _hasMore = false;
+        }
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -93,12 +172,21 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('❌ Failed to remove from favourites'),
+        SnackBar(
+          content: Text('❌ Failed to remove from favourites: $e'),
           backgroundColor: Colors.red,
         ),
       );
     }
+  }
+
+  void _changeLanguage(String language) {
+    if (_selectedLanguage == language) return;
+    
+    setState(() {
+      _selectedLanguage = language;
+    });
+    _loadFavourites(reset: true);
   }
 
   @override
@@ -139,7 +227,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               ),
               const SizedBox(height: 16),
 
-              // ✅ Language filter - Responsive with Wrap
+              // Language filter chips
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -152,7 +240,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Content
+              // Content with pagination
               Expanded(
                 child: _isLoading
                     ? const Center(
@@ -161,71 +249,31 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                         ),
                       )
                     : _error != null
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: Colors.red,
-                                  size: 48,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  _error!,
-                                  style: const TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                ElevatedButton(
-                                  onPressed: _loadFavourites,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF42A5F5),
-                                  ),
-                                  child: const Text('Retry'),
-                                ),
-                              ],
-                            ),
-                          )
+                        ? _buildErrorWidget()
                         : _favourites.isEmpty
-                            ? Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.favorite_border,
-                                      size: 64,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'No favourites yet',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade400,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Tap the heart icon on any word to save it here',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: 14,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              )
+                            ? _buildEmptyWidget()
                             : RefreshIndicator(
-                                onRefresh: _loadFavourites,
-                                child: ListView.builder(
-                                  itemCount: _favourites.length,
-                                  itemBuilder: (context, index) {
-                                    final vocab = _favourites[index];
-                                    return _buildFavouriteCard(vocab);
+                                onRefresh: () => _loadFavourites(reset: true),
+                                child: NotificationListener<ScrollNotification>(
+                                  onNotification: (ScrollNotification scrollInfo) {
+                                    if (scrollInfo.metrics.pixels == 
+                                        scrollInfo.metrics.maxScrollExtent &&
+                                        !_isLoadingMore &&
+                                        _hasMore) {
+                                      _loadMoreFavourites();
+                                    }
+                                    return false;
                                   },
+                                  child: ListView.builder(
+                                    itemCount: _favourites.length + (_hasMore ? 1 : 0),
+                                    itemBuilder: (context, index) {
+                                      if (index == _favourites.length) {
+                                        return _buildLoadingMoreIndicator();
+                                      }
+                                      final vocab = _favourites[index];
+                                      return _buildFavouriteCard(vocab);
+                                    },
+                                  ),
                                 ),
                               ),
               ),
@@ -239,12 +287,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   Widget _buildLanguageChip(String language, String flag) {
     final isSelected = _selectedLanguage == language;
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedLanguage = language;
-        });
-        _loadFavourites();
-      },
+      onTap: () => _changeLanguage(language),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
@@ -295,7 +338,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Burmese word - Expanded to take available space
+          // Word details - Expanded
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,7 +391,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               ],
             ),
           ),
-          // Remove button - Fixed size, not flex
+          // Remove button
           SizedBox(
             width: 40,
             child: IconButton(
@@ -362,6 +405,80 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingMoreIndicator() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF42A5F5),
+          strokeWidth: 2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            color: Colors.red,
+            size: 48,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _error!,
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => _loadFavourites(reset: true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF42A5F5),
+            ),
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite_border,
+            size: 64,
+            color: Colors.grey.shade600,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No favourites yet',
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Tap the heart icon on any word to save it here',
+            style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
