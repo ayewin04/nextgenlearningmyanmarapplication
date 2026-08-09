@@ -13,83 +13,338 @@ class KanjiScreen extends StatefulWidget {
 
 class _KanjiScreenState extends State<KanjiScreen> {
   final FirestoreService _firestoreService = FirestoreService();
+  final TextEditingController _searchController = TextEditingController();
+  
   List<Map<String, dynamic>> _kanji = [];
+  List<Map<String, dynamic>> _searchResults = [];
   bool _isLoading = true;
-  bool _isLoadingMore = false;
+  bool _isLoadingPage = false;
   bool _hasMoreData = true;
   String? _error;
   String _searchQuery = '';
+  bool _isSearching = false;
   
   // Pagination variables
   DocumentSnapshot? _lastDocument;
   static const int _pageSize = 50;
+  
+  // Pagination navigation
+  int _currentPage = 0;
+  int _totalPages = 0;
+  int _totalItems = 0;
+  late ScrollController _scrollController;
+  
+  // Cache for page data
+  final Map<int, List<Map<String, dynamic>>> _pageCache = {};
+  final Map<int, DocumentSnapshot> _pageSnapshots = {};
+  bool _isLoadingTotalCount = false;
+  int _estimatedTotal = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadKanji();
+    _scrollController = ScrollController();
+    _loadKanji(refresh: true);
+    _estimateTotalCount();
+    
+    // Add listener to search controller
+    _searchController.addListener(() {
+      if (_searchController.text.isEmpty && _searchQuery.isNotEmpty) {
+        _clearSearch();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
-  Future<void> _loadKanji({bool refresh = false}) async {
-    if (refresh) {
+  Future<void> _estimateTotalCount() async {
+    if (_isLoadingTotalCount) return;
+    
+    setState(() {
+      _isLoadingTotalCount = true;
+    });
+    
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('kanji')
+          .count()
+          .get();
+      
+      _estimatedTotal = snapshot.count ?? 0;
+      _totalPages = _estimatedTotal > 0 ? (_estimatedTotal / _pageSize).ceil() : 0;
+      
+      print('📊 Estimated total kanji: $_estimatedTotal characters, $_totalPages pages');
+    } catch (e) {
+      print('❌ Error estimating total: $e');
+      _estimatedTotal = 100;
+      _totalPages = 2;
+    }
+    
+    setState(() {
+      _isLoadingTotalCount = false;
+    });
+  }
+
+  // ✅ Clear search
+  void _clearSearch() {
+    setState(() {
+      _isSearching = false;
+      _searchQuery = '';
+      _searchResults = [];
+      _searchController.clear();
+      _isLoading = false;
+    });
+    // Reload the current page
+    _loadKanji(refresh: true);
+  }
+
+  // ✅ Search across all data
+  Future<void> _searchKanji(String query) async {
+    if (query.isEmpty) {
+      _clearSearch();
+      return;
+    }
+
+    setState(() {
+      _isSearching = true;
+      _isLoading = true;
+      _searchQuery = query;
+    });
+
+    try {
+      final results = await _firestoreService.searchKanji(
+        query: query.toLowerCase(),
+      );
+      
+      setState(() {
+        _searchResults = results;
+        _isLoading = false;
+        _isSearching = true;
+      });
+      
+      print('🔍 Found ${results.length} results for "$query"');
+    } catch (e) {
+      print('❌ Search error: $e');
+      setState(() {
+        _error = 'Failed to search: $e';
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadKanji({bool refresh = false, int? targetPage}) async {
+    // If searching, don't load paginated data
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      return;
+    }
+
+    if (refresh || targetPage == null || targetPage == 0) {
       setState(() {
         _isLoading = true;
         _error = null;
         _kanji = [];
         _lastDocument = null;
         _hasMoreData = true;
-        _isLoadingMore = false;
+        _currentPage = 0;
+        _pageCache.clear();
+        _pageSnapshots.clear();
+      });
+    }
+
+    if (targetPage != null && targetPage > 0) {
+      setState(() {
+        _isLoadingPage = true;
       });
     }
 
     try {
-      print('🔍 Loading kanji characters...');
+      // Check cache first
+      if (targetPage != null && _pageCache.containsKey(targetPage)) {
+        print('📌 Loading page $targetPage from cache');
+        _kanji = _pageCache[targetPage]!;
+        _currentPage = targetPage;
+        
+        setState(() {
+          _isLoading = false;
+          _isLoadingPage = false;
+        });
+        
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        }
+        return;
+      }
+
+      DocumentSnapshot? startAfter;
       
-      // Get kanji with pagination
+      // Get startAfter from cache
+      if (targetPage != null && targetPage > 0 && _pageSnapshots.containsKey(targetPage - 1)) {
+        startAfter = _pageSnapshots[targetPage - 1];
+        print('📌 Using cached snapshot for page ${targetPage - 1}');
+      }
+      
+      // If no snapshot, load sequentially
+      if (targetPage != null && targetPage > 0 && startAfter == null) {
+        print('📌 Loading sequentially to reach page $targetPage');
+        _pageCache.clear();
+        _pageSnapshots.clear();
+        _lastDocument = null;
+        
+        for (int i = 0; i <= targetPage; i++) {
+          final docToUse = i > 0 ? _pageSnapshots[i - 1] : null;
+          
+          final result = await _firestoreService.getKanjiPaginated(
+            limit: _pageSize,
+            startAfter: docToUse,
+          );
+          
+          final newKanji = result['data'] as List<Map<String, dynamic>>;
+          final lastDoc = result['lastDocument'] as DocumentSnapshot?;
+          _hasMoreData = result['hasMore'] as bool;
+          
+          if (lastDoc != null) {
+            _pageSnapshots[i] = lastDoc;
+            _lastDocument = lastDoc;
+          }
+          
+          _pageCache[i] = newKanji;
+          
+          if (i == targetPage) {
+            _kanji = newKanji;
+            _currentPage = i;
+            print('✅ Loaded page $i with ${newKanji.length} items');
+          }
+          
+          if (!_hasMoreData) break;
+        }
+        
+        setState(() {
+          _isLoading = false;
+          _isLoadingPage = false;
+        });
+        
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        }
+        return;
+      }
+      
+      // Normal load
       final result = await _firestoreService.getKanjiPaginated(
         limit: _pageSize,
         startAfter: refresh ? null : _lastDocument,
       );
       
       final newKanji = result['data'] as List<Map<String, dynamic>>;
-      _lastDocument = result['lastDocument'] as DocumentSnapshot?;
+      final lastDoc = result['lastDocument'] as DocumentSnapshot?;
       _hasMoreData = result['hasMore'] as bool;
+      
+      if (lastDoc != null) {
+        _lastDocument = lastDoc;
+        final pageToStore = targetPage ?? _currentPage;
+        _pageSnapshots[pageToStore] = lastDoc;
+      }
       
       if (refresh) {
         _kanji = newKanji;
+        _currentPage = 0;
+        _pageCache[0] = newKanji;
+      } else if (targetPage != null && targetPage > 0) {
+        _kanji = newKanji;
+        _currentPage = targetPage;
+        _pageCache[targetPage] = newKanji;
       } else {
-        _kanji.addAll(newKanji);
+        _kanji = newKanji;
+        _currentPage++;
+        _pageCache[_currentPage] = newKanji;
       }
       
-      print('✅ Loaded ${_kanji.length} kanji characters');
+      // Update total pages
+      if (_estimatedTotal > 0) {
+        _totalPages = (_estimatedTotal / _pageSize).ceil();
+      } else {
+        _totalItems = _kanji.length + (_hasMoreData ? _pageSize : 0);
+        _totalPages = (_totalItems / _pageSize).ceil();
+      }
+      
+      print('✅ Loaded ${_kanji.length} kanji (Page ${_currentPage + 1}/$_totalPages)');
       
       setState(() {
         _isLoading = false;
-        _isLoadingMore = false;
+        _isLoadingPage = false;
       });
+      
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     } catch (e) {
       print('❌ Error loading kanji: $e');
       setState(() {
         _error = 'Failed to load kanji: $e';
         _isLoading = false;
-        _isLoadingMore = false;
+        _isLoadingPage = false;
       });
     }
   }
 
-  Future<void> _loadMore() async {
-    if (_isLoadingMore || !_hasMoreData || _searchQuery.isNotEmpty) return;
+  Future<void> _loadPage(int page) async {
+    if (page == _currentPage) return;
+    if (page < 0) return;
     
-    setState(() {
-      _isLoadingMore = true;
-    });
+    if (_totalPages > 0 && page >= _totalPages) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('📖 No more pages available'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
     
-    await _loadKanji(refresh: false);
+    print('🔄 Loading page $page');
+    await _loadKanji(refresh: true, targetPage: page);
+  }
+
+  Future<void> _goToNextPage() async {
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔍 Search results are not paginated'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+    
+    if (_currentPage < _totalPages - 1) {
+      await _loadPage(_currentPage + 1);
+    } else if (_hasMoreData) {
+      await _loadKanji(refresh: false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('📖 You have reached the last page'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    }
   }
 
   void _playAudio(String text) async {
@@ -120,61 +375,501 @@ class _KanjiScreenState extends State<KanjiScreen> {
   }
 
   void _filterKanji(String query) {
-    setState(() {
-      _searchQuery = query;
-    });
+    if (query.isEmpty) {
+      _clearSearch();
+      return;
+    }
+    _searchKanji(query);
   }
 
-  List<Map<String, dynamic>> get _filteredKanji {
-    if (_searchQuery.isEmpty) return _kanji;
-    return _kanji.where((item) {
-      final kanji = (item['kanji'] ?? '').toLowerCase();
-      final meaning = (item['meaning'] ?? '').toLowerCase();
-      final onyomi = (item['onyomi'] ?? '').toLowerCase();
-      final kunyomi = (item['kunyomi'] ?? '').toLowerCase();
-      final burmese = (item['burmeseMeaning'] ?? '').toLowerCase();
-      final search = _searchQuery.toLowerCase();
-      return kanji.contains(search) ||
-          meaning.contains(search) ||
-          onyomi.contains(search) ||
-          kunyomi.contains(search) ||
-          burmese.contains(search);
-    }).toList();
+  List<Map<String, dynamic>> get _displayList {
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      return _searchResults;
+    }
+    return _kanji;
+  }
+
+  Widget _buildPaginationControls() {
+    // Hide pagination when searching
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade800.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.grey.shade700.withOpacity(0.2),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '🔍 ${_searchResults.length} results found',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+                fontSize: 12,
+              ),
+            ),
+            TextButton(
+              onPressed: _clearSearch,
+              child: const Text(
+                'Clear',
+                style: TextStyle(
+                  color: Color(0xFF42A5F5),
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final displayList = _displayList;
+    final startIndex = _currentPage * _pageSize + 1;
+    final endIndex = startIndex + displayList.length - 1;
+    final hasItems = displayList.isNotEmpty;
+    
+    final totalDisplay = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 320;
+    final isSmall = screenWidth < 380;
+
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: isVerySmall ? 4 : (isSmall ? 8 : 12)),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey.shade700.withOpacity(0.2),
+        ),
+      ),
+      child: Column(
+        children: [
+          if (isVerySmall)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  hasItems 
+                      ? '📖 $startIndex-$endIndex of $totalDisplay'
+                      : '📖 No kanji',
+                  style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (!_isLoadingPage && _totalPages > 0)
+                  Text(
+                    'Page ${_currentPage + 1}/$_totalPages',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 9,
+                    ),
+                  ),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    hasItems 
+                        ? '📖 $startIndex-$endIndex of $totalDisplay'
+                        : '📖 No kanji',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: isSmall ? 10 : 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (!_isLoadingPage && _totalPages > 0)
+                  Text(
+                    'Page ${_currentPage + 1}/$_totalPages',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: isSmall ? 10 : 12,
+                    ),
+                  ),
+              ],
+            ),
+          
+          const SizedBox(height: 4),
+          
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 2,
+            runSpacing: 4,
+            children: [
+              if (!isVerySmall)
+                _buildPageButton(
+                  icon: Icons.first_page,
+                  onPressed: _currentPage > 0 && !_isLoadingPage
+                      ? () => _loadPage(0)
+                      : null,
+                ),
+              
+              _buildPageButton(
+                icon: Icons.chevron_left,
+                onPressed: _currentPage > 0 && !_isLoadingPage
+                    ? () => _loadPage(_currentPage - 1)
+                    : null,
+              ),
+              
+              if (_totalPages > 1)
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: isVerySmall ? 50 : (isSmall ? 60 : 80),
+                    minWidth: isVerySmall ? 30 : 40,
+                  ),
+                  child: DropdownButton<int>(
+                    value: _currentPage < _totalPages ? _currentPage : 0,
+                    dropdownColor: const Color(0xFF1A237E),
+                    underline: Container(
+                      height: 1,
+                      color: Colors.grey.shade700,
+                    ),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+                    ),
+                    isDense: true,
+                    iconSize: 14,
+                    items: _getPageItems(),
+                    onChanged: _isLoadingPage
+                        ? null
+                        : (int? newPage) {
+                            if (newPage != null && newPage != _currentPage && newPage < _totalPages) {
+                              _loadPage(newPage);
+                            }
+                          },
+                  ),
+                ),
+              
+              _buildPageButton(
+                icon: Icons.chevron_right,
+                onPressed: _hasMoreData && !_isLoadingPage && _currentPage < _totalPages - 1
+                    ? () => _loadPage(_currentPage + 1)
+                    : null,
+              ),
+              
+              if (!isVerySmall)
+                _buildPageButton(
+                  icon: Icons.last_page,
+                  onPressed: _totalPages > 0 && _currentPage < _totalPages - 1 && !_isLoadingPage
+                      ? () => _loadPage(_totalPages - 1)
+                      : null,
+                ),
+            ],
+          ),
+          
+          if (!_isLoadingPage && _totalPages > 1 && !isSmall && !isVerySmall) ...[
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 24,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _totalPages > 10 ? 10 : _totalPages,
+                itemBuilder: (context, index) {
+                  final pageIndex = index * 5;
+                  if (pageIndex >= _totalPages) return const SizedBox.shrink();
+                  
+                  final pageStart = pageIndex * _pageSize + 1;
+                  final pageEnd = (pageIndex + 5) * _pageSize;
+                  final isSelected = pageIndex <= _currentPage && _currentPage < pageIndex + 5;
+                  
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: GestureDetector(
+                      onTap: () => _loadPage(pageIndex),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFF42A5F5).withOpacity(0.3)
+                              : Colors.grey.shade700.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF42A5F5)
+                                : Colors.transparent,
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          '$pageStart-${pageEnd > totalDisplay ? totalDisplay : pageEnd}',
+                          style: TextStyle(
+                            color: isSelected
+                                ? Colors.white
+                                : Colors.grey.shade400,
+                            fontSize: 8,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+          
+          if (_isLoadingPage)
+            const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: SizedBox(
+                height: 14,
+                width: 14,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Color(0xFF42A5F5),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPageButton({
+    required IconData icon,
+    VoidCallback? onPressed,
+  }) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: onPressed != null ? Colors.white : Colors.grey.shade600,
+        size: 16,
+      ),
+      padding: const EdgeInsets.all(2),
+      constraints: const BoxConstraints(
+        minWidth: 24,
+        minHeight: 24,
+      ),
+      splashRadius: 16,
+    );
+  }
+
+  List<DropdownMenuItem<int>> _getPageItems() {
+    final items = <DropdownMenuItem<int>>[];
+    
+    if (_totalPages <= 0) {
+      return items;
+    }
+    
+    final seenValues = <int>{};
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 320;
+    final isSmall = screenWidth < 380;
+    
+    int step = 1;
+    if (isVerySmall) {
+      step = _totalPages > 20 ? 5 : 2;
+    } else if (isSmall) {
+      step = _totalPages > 20 ? 3 : 1;
+    } else {
+      step = _totalPages > 20 ? 2 : 1;
+    }
+    
+    for (int i = 0; i < _totalPages; i += step) {
+      if (seenValues.contains(i)) continue;
+      seenValues.add(i);
+      
+      final pageStart = i * _pageSize + 1;
+      final pageEnd = ((i + step) * _pageSize) > _estimatedTotal 
+          ? _estimatedTotal 
+          : (i + step) * _pageSize;
+      
+      String label;
+      if (isVerySmall) {
+        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      } else if (isSmall) {
+        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      } else {
+        label = '📄 $pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      }
+      
+      items.add(
+        DropdownMenuItem<int>(
+          value: i,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+    
+    final lastPageIndex = _totalPages - 1;
+    if (!seenValues.contains(lastPageIndex)) {
+      final lastPageStart = lastPageIndex * _pageSize + 1;
+      final lastPageEnd = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
+      
+      String label;
+      if (isVerySmall) {
+        label = '$lastPageStart-$lastPageEnd';
+      } else if (isSmall) {
+        label = '$lastPageStart-$lastPageEnd';
+      } else {
+        label = '📄 $lastPageStart-$lastPageEnd';
+      }
+      
+      items.add(
+        DropdownMenuItem<int>(
+          value: lastPageIndex,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+    
+    return items;
+  }
+
+  Widget _buildNextPageButton() {
+    // Hide next page button when searching
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      return const SizedBox.shrink();
+    }
+    
+    final isLastPage = _currentPage >= _totalPages - 1 && !_hasMoreData;
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade900.withOpacity(0.8),
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.shade700.withOpacity(0.3),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '${_currentPage + 1}/${_totalPages > 0 ? _totalPages : "..."}',
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 11,
+            ),
+          ),
+          SizedBox(
+            height: 26,
+            child: ElevatedButton.icon(
+              onPressed: _isLoadingPage ? null : _goToNextPage,
+              icon: _isLoadingPage
+                  ? const SizedBox(
+                      width: 12,
+                      height: 12,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.arrow_forward, size: 12),
+              label: Text(
+                isLastPage ? '✓' : '→',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isLastPage 
+                    ? Colors.green 
+                    : const Color(0xFF42A5F5),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                disabledBackgroundColor: Colors.grey.shade700,
+                minimumSize: const Size(40, 22),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final filteredList = _filteredKanji;
+    final displayList = _displayList;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('🇯🇵 Japanese Kanji'),
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // Refresh button
+          if (_isSearching && _searchQuery.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              margin: const EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF42A5F5).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${_searchResults.length} found',
+                style: const TextStyle(
+                  color: Color(0xFF42A5F5),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
+          else
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              margin: const EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${_estimatedTotal > 0 ? _estimatedTotal : _kanji.length}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: () => _loadKanji(refresh: true),
             tooltip: 'Refresh kanji',
-          ),
-          // Show total count
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            margin: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '${_kanji.length}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
         ],
         bottom: PreferredSize(
@@ -182,12 +877,19 @@ class _KanjiScreenState extends State<KanjiScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: TextField(
+              controller: _searchController,
               onChanged: _filterKanji,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: '🔍 Search kanji...',
+                hintText: '🔍 Search all kanji...',
                 hintStyle: TextStyle(color: Colors.grey.shade500),
                 prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear, color: Colors.grey),
+                        onPressed: _clearSearch,
+                      )
+                    : null,
                 filled: true,
                 fillColor: Colors.grey.shade800.withOpacity(0.3),
                 border: OutlineInputBorder(
@@ -223,64 +925,28 @@ class _KanjiScreenState extends State<KanjiScreen> {
               )
             : _error != null
                 ? _buildErrorWidget()
-                : _kanji.isEmpty
+                : displayList.isEmpty
                     ? _buildEmptyWidget()
-                    : filteredList.isEmpty
-                        ? Center(
-                            child: Text(
-                              'No results found for "$_searchQuery"',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 16,
-                              ),
-                            ),
-                          )
-                        : NotificationListener<ScrollNotification>(
-                            onNotification: (scrollInfo) {
-                              if (!_isLoadingMore &&
-                                  _hasMoreData &&
-                                  _searchQuery.isEmpty &&
-                                  scrollInfo.metrics.pixels >=
-                                      scrollInfo.metrics.maxScrollExtent - 100) {
-                                _loadMore();
-                              }
-                              return true;
-                            },
+                    : Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: _buildPaginationControls(),
+                          ),
+                          Expanded(
                             child: ListView.builder(
+                              controller: _scrollController,
                               padding: const EdgeInsets.all(16),
-                              itemCount: filteredList.length + (_hasMoreData && _searchQuery.isEmpty ? 1 : 0),
+                              itemCount: displayList.length,
                               itemBuilder: (context, index) {
-                                if (index == filteredList.length && _hasMoreData && _searchQuery.isEmpty) {
-                                  return _buildLoadingMoreIndicator();
-                                }
-                                final item = filteredList[index];
+                                final item = displayList[index];
                                 return _buildKanjiCard(item);
                               },
                             ),
                           ),
-      ),
-    );
-  }
-
-  Widget _buildLoadingMoreIndicator() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Center(
-        child: Column(
-          children: [
-            CircularProgressIndicator(
-              color: Color(0xFF42A5F5),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Loading more kanji...',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
+                          _buildNextPageButton(),
+                        ],
+                      ),
       ),
     );
   }
@@ -318,345 +984,372 @@ class _KanjiScreenState extends State<KanjiScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.abc,
+          Icon(
+            _isSearching && _searchQuery.isNotEmpty 
+                ? Icons.search_off 
+                : Icons.abc,
             size: 64,
-            color: Colors.grey,
+            color: Colors.grey.shade600,
           ),
           const SizedBox(height: 16),
-          const Text(
-            'No kanji available',
-            style: TextStyle(color: Colors.grey),
+          Text(
+            _isSearching && _searchQuery.isNotEmpty
+                ? 'No results found for "$_searchQuery"'
+                : 'No kanji available',
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 16,
+            ),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
-            'Add kanji to the kanji collection',
-            style: const TextStyle(
-              color: Colors.grey,
+            _isSearching && _searchQuery.isNotEmpty
+                ? 'Try a different search term'
+                : 'Add kanji to the kanji collection',
+            style: TextStyle(
+              color: Colors.grey.shade600,
               fontSize: 12,
             ),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => _loadKanji(refresh: true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF42A5F5),
+          if (!_isSearching || _searchQuery.isEmpty)
+            ElevatedButton(
+              onPressed: () => _loadKanji(refresh: true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF42A5F5),
+              ),
+              child: const Text('Refresh'),
             ),
-            child: const Text('Refresh'),
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildKanjiCard(Map<String, dynamic> item) {
-    final kanji = item['kanji'] ?? '';
-    final meaning = item['meaning'] ?? '';
-    final burmeseMeaning = item['burmeseMeaning'] ?? '';
-    final onyomi = item['onyomi'] ?? '';
-    final onyomiRoman = item['onyomiRoman'] ?? '';
-    final kunyomi = item['kunyomi'] ?? '';
-    final kunyomiRoman = item['kunyomiRoman'] ?? '';
-    final strokeCount = item['strokeCount'] ?? 0;
-    final jlptLevel = item['jlptLevel'] ?? '';
-    final grade = item['grade'] ?? '';
+Widget _buildKanjiCard(Map<String, dynamic> item) {
+  final kanji = item['kanji'] ?? '';
+  final meaning = item['meaning'] ?? '';
+  final burmeseMeaning = item['burmeseMeaning'] ?? '';
+  final onyomi = item['onyomi'] ?? '';
+  final onyomiRoman = item['onyomiRoman'] ?? '';
+  final kunyomi = item['kunyomi'] ?? '';
+  final kunyomiRoman = item['kunyomiRoman'] ?? '';
+  final strokeCount = item['strokeCount'] ?? 0;
+  final jlptLevel = item['jlptLevel'] ?? '';
+  final grade = item['grade'] ?? '';
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade800.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade700.withOpacity(0.3),
-        ),
+  final screenWidth = MediaQuery.of(context).size.width;
+  final isSmallScreen = screenWidth < 360;
+  final isVerySmall = screenWidth < 320; // ✅ Added this
+
+  return Container(
+    margin: const EdgeInsets.only(bottom: 12),
+    padding: EdgeInsets.all(isSmallScreen ? 10 : 16),
+    decoration: BoxDecoration(
+      color: Colors.grey.shade800.withOpacity(0.3),
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(
+        color: Colors.grey.shade700.withOpacity(0.3),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Kanji with Audio Button
-          Row(
-            children: [
-              // Kanji Character
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF42A5F5).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: const Color(0xFF42A5F5).withOpacity(0.3),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Kanji with Audio Button
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Kanji Character - responsive size
+            Container(
+              width: isSmallScreen ? 60 : 80,
+              height: isSmallScreen ? 60 : 80,
+              decoration: BoxDecoration(
+                color: const Color(0xFF42A5F5).withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF42A5F5).withOpacity(0.3),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  kanji,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isSmallScreen ? 28 : 36,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: Center(
-                  child: Text(
-                    kanji,
-                    style: const TextStyle(
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Meaning - with ellipsis
+                  Text(
+                    'Meaning: $meaning',
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 36,
+                      fontSize: isSmallScreen ? 14 : 16,
                       fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Meaning
+                  if (burmeseMeaning.isNotEmpty)
                     Text(
-                      'Meaning: $meaning',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      '🇲🇲 $burmeseMeaning',
+                      style: GoogleFonts.notoSansMyanmar(
+                        color: Colors.white70,
+                        fontSize: isSmallScreen ? 12 : 14,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (burmeseMeaning.isNotEmpty)
-                      Text(
-                        '🇲🇲 $burmeseMeaning',
-                        style: GoogleFonts.notoSansMyanmar(
-                          color: Colors.white70,
-                          fontSize: 14,
+                  const SizedBox(height: 4),
+                  // Tags - Wrap handles overflow
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: [
+                      if (jlptLevel.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'JLPT $jlptLevel',
+                            style: TextStyle(
+                              color: Colors.green.shade300,
+                              fontSize: isSmallScreen ? 8 : 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
-                    const SizedBox(height: 4),
-                    // JLPT Level and Grade
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      children: [
-                        if (jlptLevel.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              'JLPT $jlptLevel',
-                              style: TextStyle(
-                                color: Colors.green.shade300,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      if (grade.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'Grade $grade',
+                            style: TextStyle(
+                              color: Colors.orange.shade300,
+                              fontSize: isSmallScreen ? 8 : 10,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        if (grade.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              'Grade $grade',
-                              style: TextStyle(
-                                color: Colors.orange.shade300,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        ),
+                      if (strokeCount > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '$strokeCount strokes',
+                            style: TextStyle(
+                              color: Colors.purple.shade300,
+                              fontSize: isSmallScreen ? 8 : 10,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        if (strokeCount > 0)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.purple.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              '$strokeCount strokes',
-                              style: TextStyle(
-                                color: Colors.purple.shade300,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () => _playAudio(kanji),
-                    icon: const Icon(
-                      Icons.volume_up,
-                      color: Color(0xFF42A5F5),
-                      size: 24,
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 40,
-                      minHeight: 40,
-                    ),
-                    padding: EdgeInsets.zero,
+                        ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          
-          // On'yomi and Kun'yomi with Burmese translations
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade900.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: Colors.grey.shade700.withOpacity(0.2),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'On\'yomi: ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              onyomi,
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          if (onyomiRoman.isNotEmpty)
-                            IconButton(
-                              onPressed: () => _playAudio(onyomiRoman),
-                              icon: const Icon(
-                                Icons.volume_up,
-                                color: Color(0xFF42A5F5),
-                                size: 14,
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 24,
-                                minHeight: 24,
-                              ),
-                              padding: EdgeInsets.zero,
-                            ),
-                        ],
-                      ),
-                      if (onyomiRoman.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Text(
-                            onyomiRoman,
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontSize: 11,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade900.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: Colors.grey.shade700.withOpacity(0.2),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Kun\'yomi: ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              kunyomi,
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          if (kunyomiRoman.isNotEmpty)
-                            IconButton(
-                              onPressed: () => _playAudio(kunyomiRoman),
-                              icon: const Icon(
-                                Icons.volume_up,
-                                color: Color(0xFF42A5F5),
-                                size: 14,
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 24,
-                                minHeight: 24,
-                              ),
-                              padding: EdgeInsets.zero,
-                            ),
-                        ],
-                      ),
-                      if (kunyomiRoman.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Text(
-                            kunyomiRoman,
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontSize: 11,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          
-          // Audio hint
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              Icon(
+            ),
+            // Audio button - fixed size
+            IconButton(
+              onPressed: () => _playAudio(kanji),
+              icon: const Icon(
                 Icons.volume_up,
-                color: Colors.grey.shade600,
-                size: 14,
+                color: Color(0xFF42A5F5),
+                size: 20,
               ),
-              const SizedBox(width: 4),
-              Text(
-                'Tap speaker to hear pronunciation',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 10,
+              constraints: const BoxConstraints(
+                minWidth: 30,
+                minHeight: 30,
+              ),
+              padding: EdgeInsets.zero,
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        
+        // On'yomi and Kun'yomi - Responsive row with flexible children
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.grey.shade700.withOpacity(0.2),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'On\'yomi: ',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: isSmallScreen ? 10 : 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            onyomi,
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: isSmallScreen ? 12 : 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (onyomiRoman.isNotEmpty)
+                          IconButton(
+                            onPressed: () => _playAudio(onyomiRoman),
+                            icon: const Icon(
+                              Icons.volume_up,
+                              color: Color(0xFF42A5F5),
+                              size: 14,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 24,
+                              minHeight: 24,
+                            ),
+                            padding: EdgeInsets.zero,
+                          ),
+                      ],
+                    ),
+                    if (onyomiRoman.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          onyomiRoman,
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: isSmallScreen ? 9 : 11,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.grey.shade700.withOpacity(0.2),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Kun\'yomi: ',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: isSmallScreen ? 10 : 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            kunyomi,
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: isSmallScreen ? 12 : 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (kunyomiRoman.isNotEmpty)
+                          IconButton(
+                            onPressed: () => _playAudio(kunyomiRoman),
+                            icon: const Icon(
+                              Icons.volume_up,
+                              color: Color(0xFF42A5F5),
+                              size: 14,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 24,
+                              minHeight: 24,
+                            ),
+                            padding: EdgeInsets.zero,
+                          ),
+                      ],
+                    ),
+                    if (kunyomiRoman.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          kunyomiRoman,
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: isSmallScreen ? 9 : 11,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        
+        // Audio hint - responsive
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Icon(
+              Icons.volume_up,
+              color: Colors.grey.shade600,
+              size: isSmallScreen ? 12 : 14,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              'Tap speaker to hear pronunciation',
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: isSmallScreen ? 8 : 10,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 }

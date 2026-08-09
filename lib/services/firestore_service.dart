@@ -11,8 +11,6 @@ class FirestoreService {
   DocumentSnapshot? _lastGrammarDoc;
   DocumentSnapshot? _lastVocabDoc;
 
-  // ============ VOCABULARY PAGINATION ============
-  
   Future<List<VocabularyModel>> getVocabularyByLevelPaginated({
     required String exam,
     required String level,
@@ -25,6 +23,7 @@ class FirestoreService {
           .collection('vocabulary')
           .where('exam', isEqualTo: exam)
           .where('level', isEqualTo: level)
+          .orderBy('burmeseWord')
           .limit(limit);
       
       if (startAfter != null) {
@@ -48,49 +47,6 @@ class FirestoreService {
 
   DocumentSnapshot? getLastVocabDoc() => _lastVocabDoc;
   void resetVocabPagination() => _lastVocabDoc = null;
-
-  // ============ GET VOCABULARY BY IDS (with batching) ============
-  
-  Future<List<VocabularyModel>> getVocabularyByIds({
-    required List<String> wordIds,
-    required String language,
-  }) async {
-    if (wordIds.isEmpty) return [];
-    
-    try {
-      List<VocabularyModel> allVocabulary = [];
-      
-      // Firestore whereIn supports max 30 items
-      for (var i = 0; i < wordIds.length; i += 30) {
-        final end = (i + 30) > wordIds.length ? wordIds.length : i + 30;
-        final batchIds = wordIds.sublist(i, end);
-        
-        final snapshot = await _firestore
-            .collection('vocabulary')
-            .where(FieldPath.documentId, whereIn: batchIds)
-            .get();
-        
-        final batchVocabulary = snapshot.docs
-            .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-            .where((vocab) => vocab.translations.containsKey(language))
-            .toList();
-        
-        allVocabulary.addAll(batchVocabulary);
-      }
-      
-      // Preserve the original order
-      final Map<String, VocabularyModel> vocabMap = {
-        for (var vocab in allVocabulary) vocab.id: vocab
-      };
-      
-      return wordIds
-          .where((id) => vocabMap.containsKey(id))
-          .map((id) => vocabMap[id]!)
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to load vocabulary: $e');
-    }
-  }
 
   // ============ EXAMS ============
   
@@ -361,12 +317,18 @@ class FirestoreService {
           ? snapshot.docs.last 
           : null;
       
+      print('📄 Pagination: Loaded ${data.length} items, hasMore: $hasMore');
+      if (lastDocument != null) {
+        print('📄 Last document ID: ${lastDocument.id}');
+      }
+      
       return {
         'data': data,
         'lastDocument': lastDocument,
         'hasMore': hasMore,
       };
     } catch (e) {
+      print('❌ Failed to load exam vocabulary: $e');
       throw Exception('Failed to load exam vocabulary: $e');
     }
   }
@@ -420,6 +382,7 @@ class FirestoreService {
     }
   }
 
+  // ✅ FIXED: Removed orderBy to avoid composite index requirement
   Future<List<Map<String, dynamic>>> getGrammarByLevelWithPagination({
     required String exam,
     required String level,
@@ -427,6 +390,7 @@ class FirestoreService {
     DocumentSnapshot? startAfter,
   }) async {
     try {
+      // ✅ Removed orderBy to avoid needing composite index
       Query query = _firestore
           .collection('grammar')
           .where('exam', isEqualTo: exam)
@@ -451,6 +415,7 @@ class FirestoreService {
           })
           .toList();
     } catch (e) {
+      print('❌ Error loading grammar with pagination: $e');
       throw Exception('Failed to load grammar: $e');
     }
   }
@@ -524,6 +489,7 @@ class FirestoreService {
     try {
       Query query = _firestore
           .collection('kanji')
+          .orderBy('kanji')
           .limit(limit);
       
       if (startAfter != null) {
@@ -887,6 +853,213 @@ class FirestoreService {
     }
   }
 
+  Future<List<VocabularyModel>> getVocabularyByIds({
+    required List<String> wordIds,
+    required String language,
+  }) async {
+    if (wordIds.isEmpty) return [];
+    
+    try {
+      List<VocabularyModel> allVocabulary = [];
+      
+      for (var i = 0; i < wordIds.length; i += 30) {
+        final end = (i + 30) > wordIds.length ? wordIds.length : i + 30;
+        final batchIds = wordIds.sublist(i, end);
+        
+        final snapshot = await _firestore
+            .collection('vocabulary')
+            .where(FieldPath.documentId, whereIn: batchIds)
+            .get();
+        
+        final batchVocabulary = snapshot.docs
+            .map((doc) => VocabularyModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+            .where((vocab) => vocab.translations.containsKey(language))
+            .toList();
+        
+        allVocabulary.addAll(batchVocabulary);
+      }
+      
+      final Map<String, VocabularyModel> vocabMap = {
+        for (var vocab in allVocabulary) vocab.id: vocab
+      };
+      
+      return wordIds
+          .where((id) => vocabMap.containsKey(id))
+          .map((id) => vocabMap[id]!)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load vocabulary: $e');
+    }
+  }
+
+  Future<List<VocabularyModel>> getFavouriteVocabulary({
+    required String userId,
+    required String language,
+  }) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("❌ No user logged in! Cannot get favourite vocabulary.");
+      return [];
+    }
+    
+    if (user.uid != userId) {
+      print("❌ User ID mismatch! Logged in: ${user.uid}, Provided: $userId");
+      return [];
+    }
+    print("✅ Getting favourite vocabulary for user: ${user.uid}");
+    
+    try {
+      final favouriteIds = await getFavouriteIds(userId, language);
+      
+      if (favouriteIds.isEmpty) return [];
+      
+      return await getVocabularyByIds(
+        wordIds: favouriteIds,
+        language: language,
+      );
+    } catch (e) {
+      throw Exception('Failed to get favourite vocabulary: $e');
+    }
+  }
+
+  // Add this method to FirestoreService class
+
+Future<List<ExamVocabularyModel>> searchVocabulary({
+  required String exam,
+  required String level,
+  required String query,
+}) async {
+  try {
+    // First, get all vocabulary for this exam and level
+    // Note: For large datasets, consider using Algolia or Elasticsearch
+    // This is a simple approach that works for moderate-sized datasets
+    
+    QuerySnapshot snapshot = await _firestore
+        .collection('exam_vocabulary')
+        .where('exam', isEqualTo: exam)
+        .where('level', isEqualTo: level)
+        .get();
+    
+    final results = <ExamVocabularyModel>[];
+    
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final word = (data['word'] ?? '').toLowerCase();
+      final meaning = (data['meaning'] ?? '').toLowerCase();
+      final burmese = (data['burmeseWord'] ?? '').toLowerCase();
+      final partOfSpeech = (data['partOfSpeech'] ?? '').toLowerCase();
+      
+      // Check if any field contains the search query
+      if (word.contains(query) ||
+          meaning.contains(query) ||
+          burmese.contains(query) ||
+          partOfSpeech.contains(query)) {
+        results.add(
+          ExamVocabularyModel.fromMap(
+            doc.id,
+            data,
+          ),
+        );
+      }
+    }
+    
+    print('🔍 Search found ${results.length} results for "$query"');
+    return results;
+  } catch (e) {
+    print('❌ Search error: $e');
+    throw Exception('Failed to search vocabulary: $e');
+  }
+}
+
+// Add this method to FirestoreService class
+
+Future<List<Map<String, dynamic>>> searchGrammar({
+  required String exam,
+  required String level,
+  required String query,
+}) async {
+  try {
+    // Get all grammar for this exam and level
+    QuerySnapshot snapshot = await _firestore
+        .collection('grammar')
+        .where('exam', isEqualTo: exam)
+        .where('level', isEqualTo: level)
+        .get();
+    
+    final results = <Map<String, dynamic>>[];
+    
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final title = (data['title'] ?? '').toLowerCase();
+      final description = (data['description'] ?? '').toLowerCase();
+      final rule = (data['rule'] ?? '').toLowerCase();
+      final burmeseTitle = (data['burmeseTitle'] ?? '').toLowerCase();
+      final burmeseDescription = (data['burmeseDescription'] ?? '').toLowerCase();
+      final burmeseRule = (data['burmeseRule'] ?? '').toLowerCase();
+      
+      // Check if any field contains the search query
+      if (title.contains(query) ||
+          description.contains(query) ||
+          rule.contains(query) ||
+          burmeseTitle.contains(query) ||
+          burmeseDescription.contains(query) ||
+          burmeseRule.contains(query)) {
+        data['documentId'] = doc.id;
+        results.add(data);
+      }
+    }
+    
+    print('🔍 Grammar search found ${results.length} results for "$query"');
+    return results;
+  } catch (e) {
+    print('❌ Grammar search error: $e');
+    throw Exception('Failed to search grammar: $e');
+  }
+}
+
+// Add this method to FirestoreService class
+
+Future<List<Map<String, dynamic>>> searchKanji({
+  required String query,
+}) async {
+  try {
+    // Get all kanji
+    QuerySnapshot snapshot = await _firestore
+        .collection('kanji')
+        .get();
+    
+    final results = <Map<String, dynamic>>[];
+    
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final kanji = (data['kanji'] ?? '').toLowerCase();
+      final meaning = (data['meaning'] ?? '').toLowerCase();
+      final burmeseMeaning = (data['burmeseMeaning'] ?? '').toLowerCase();
+      final onyomi = (data['onyomi'] ?? '').toLowerCase();
+      final kunyomi = (data['kunyomi'] ?? '').toLowerCase();
+      final onyomiRoman = (data['onyomiRoman'] ?? '').toLowerCase();
+      final kunyomiRoman = (data['kunyomiRoman'] ?? '').toLowerCase();
+      
+      // Check if any field contains the search query
+      if (kanji.contains(query) ||
+          meaning.contains(query) ||
+          burmeseMeaning.contains(query) ||
+          onyomi.contains(query) ||
+          kunyomi.contains(query) ||
+          onyomiRoman.contains(query) ||
+          kunyomiRoman.contains(query)) {
+        data['documentId'] = doc.id;
+        results.add(data);
+      }
+    }
+    
+    print('🔍 Kanji search found ${results.length} results for "$query"');
+    return results;
+  } catch (e) {
+    print('❌ Kanji search error: $e');
+    throw Exception('Failed to search kanji: $e');
+  }
+}
   // ============ LEADERBOARD ============
   
   Future<List<Map<String, dynamic>>> getLeaderboard({
