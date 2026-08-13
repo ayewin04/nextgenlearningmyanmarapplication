@@ -5,7 +5,7 @@ import '../../services/auth_service.dart';
 import 'level_selection_screen.dart';
 import 'alphabet_screen.dart';
 import 'kanji_screen.dart';
-
+import '../daily_conversation_screen.dart';
 class LanguageLearningScreen extends StatefulWidget {
   const LanguageLearningScreen({super.key});
 
@@ -49,22 +49,26 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
     'english': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
+      //{'icon': '💬', 'name': 'Daily Conversation', 'route': 'daily_conversation'},
     //  {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
     'korean': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
+     // {'icon': '💬', 'name': 'Daily Conversation', 'route': 'daily_conversation'},
     //  {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
     'japanese': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
+    //  {'icon': '💬', 'name': 'Daily Conversation', 'route': 'daily_conversation'},
      // {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
-      {'icon': '🈴', 'name': 'Kanji', 'route': 'kanji'},
+      //{'icon': '🈴', 'name': 'Kanji', 'route': 'kanji'},
     ],
     'chinese': [
       {'icon': '📚', 'name': 'Vocabulary', 'route': 'vocabulary'},
       {'icon': '📝', 'name': 'Grammar', 'route': 'grammar'},
+     // {'icon': '💬', 'name': 'Daily Conversation', 'route': 'daily_conversation'},
      // {'icon': '📖', 'name': 'Exam Prep', 'route': 'exam_questions'},
     ],
   };
@@ -987,6 +991,18 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
           ),
         );
         break;
+        /*case 'daily_conversation':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DailyConversationScreen(
+              language: language,
+              exam: exam,
+              level: 'All',  // ✅ 'All' means no level filtering
+            ),
+          ),
+        );
+        break;*/
     /*  case 'exam_questions':
         Navigator.push(
           context,
@@ -1001,14 +1017,14 @@ class _LanguageLearningScreenState extends State<LanguageLearningScreen>
           ),
         );
         break; */
-      case 'kanji':
+     /* case 'kanji':
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const KanjiScreen(),
           ),
         );
-        break;
+        break;*/
       default:
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

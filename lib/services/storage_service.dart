@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data'; // ⭐ ADD THIS IMPORT
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 
@@ -80,7 +81,8 @@ class StorageService {
       // Convert string to bytes
       List<int> bytes = content.codeUnits;
       
-      UploadTask uploadTask = ref.putData(bytes);
+      // ⭐ FIXED: Convert List<int> to Uint8List
+      UploadTask uploadTask = ref.putData(Uint8List.fromList(bytes));
       TaskSnapshot snapshot = await uploadTask;
       
       return await snapshot.ref.getDownloadURL();

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "conv_morning_zh_001",
+    "exam": "hsk",
+    "language": "chinese",
+    "category": "basic_greetings",
+    "subCategory": "morning_greetings",
+    "title": "Morning Greeting with Neighbor",
+    "titleRomanization": "gēn línjū dǎ zhāohu",
+    "burmeseTitle": "အိမ်နီးချင်းနဲ့ နံနက်ခင်းနှုတ်ဆက်ခြင်း",
+    "description": "Greeting your neighbor in the morning",
+    "burmeseDescription": "နံနက်ခင်းမှာ အိမ်နီးချင်းကို နှုတ်ဆက်ခြင်း",
+    "conversation": [
+      {"speaker": "A", "text": "早上好！", "romanization": "zǎoshang hǎo!", "burmese": "မင်္ဂလာနံနက်ခင်းပါ!"},
+      {"speaker": "B", "text": "早上好！你起得真早！", "romanization": "zǎoshang hǎo! nǐ qǐ de zhēn zǎo!", "burmese": "မင်္ဂလာနံနက်ခင်းပါ! ခင်ဗျား သိပ်စောစောထတယ်!"}
+    ],
+    "difficulty": 1,
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]

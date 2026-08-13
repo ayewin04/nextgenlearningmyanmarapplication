@@ -1,0 +1,20 @@
+[
+  {
+    "id": "morning_greetings",
+    "name": "Morning Greetings",
+    "icon": "🌅",
+    "categoryId": "basic_greetings",
+    "exam": "hsk",
+    "language": "chinese",
+    "description": "Greeting someone in the morning"
+  },
+  {
+    "id": "evening_greetings",
+    "name": "Evening Greetings",
+    "icon": "🌙",
+    "categoryId": "basic_greetings",
+    "exam": "hsk",
+    "language": "chinese",
+    "description": "Greeting someone in the evening"
+  }
+]

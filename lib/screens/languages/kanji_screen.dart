@@ -90,7 +90,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
     });
   }
 
-  // ✅ Clear search
+  // Clear search
   void _clearSearch() {
     setState(() {
       _isSearching = false;
@@ -103,7 +103,7 @@ class _KanjiScreenState extends State<KanjiScreen> {
     _loadKanji(refresh: true);
   }
 
-  // ✅ Search across all data
+  // Search across all data
   Future<void> _searchKanji(String query) async {
     if (query.isEmpty) {
       _clearSearch();
@@ -347,19 +347,65 @@ class _KanjiScreenState extends State<KanjiScreen> {
     }
   }
 
+  // ✅ NEW: Clean Japanese text for TTS
+  String _getCleanJapaneseText(String text) {
+    if (text.isEmpty) return '';
+    
+    // Split by comma or Japanese comma and take first
+    String cleaned = text;
+    if (cleaned.contains(',')) {
+      cleaned = cleaned.split(',').first.trim();
+    }
+    if (cleaned.contains('、')) {
+      cleaned = cleaned.split('、').first.trim();
+    }
+    
+    // Remove any extra spaces
+    cleaned = cleaned.trim();
+    
+    // Only return if it contains Japanese characters (kanji, hiragana, katakana)
+    // Or if it's just Japanese text without romaji
+    if (RegExp(r'[\u3040-\u30FF\u4E00-\u9FFF]').hasMatch(cleaned)) {
+      return cleaned;
+    }
+    
+    // If it's only romaji (English letters), return empty to skip
+    if (RegExp(r'^[a-zA-Z\s]+$').hasMatch(cleaned)) {
+      return '';
+    }
+    
+    return cleaned;
+  }
+
+  // ✅ UPDATED: Play audio with clean Japanese text
   void _playAudio(String text) async {
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('🔊 No audio available'),
+          content: Text('🔊 No audio available for this text'),
           duration: Duration(seconds: 1),
         ),
       );
       return;
     }
 
+    // Clean the text - extract first reading, remove commas
+    final cleanText = _getCleanJapaneseText(text);
+    
+    if (cleanText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔊 Japanese pronunciation not available for this text'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
     try {
-      await AudioService.speak(text, language: 'ja-JP');
+      print('🔊 Speaking: "$cleanText" (original: "$text")');
+      await AudioService.speak(cleanText, language: 'ja-JP');
     } catch (e) {
       print('❌ Audio error: $e');
       if (mounted) {
@@ -1026,330 +1072,344 @@ class _KanjiScreenState extends State<KanjiScreen> {
     );
   }
 
-Widget _buildKanjiCard(Map<String, dynamic> item) {
-  final kanji = item['kanji'] ?? '';
-  final meaning = item['meaning'] ?? '';
-  final burmeseMeaning = item['burmeseMeaning'] ?? '';
-  final onyomi = item['onyomi'] ?? '';
-  final onyomiRoman = item['onyomiRoman'] ?? '';
-  final kunyomi = item['kunyomi'] ?? '';
-  final kunyomiRoman = item['kunyomiRoman'] ?? '';
-  final strokeCount = item['strokeCount'] ?? 0;
-  final jlptLevel = item['jlptLevel'] ?? '';
-  final grade = item['grade'] ?? '';
+  Widget _buildKanjiCard(Map<String, dynamic> item) {
+    final kanji = item['kanji'] ?? '';
+    final meaning = item['meaning'] ?? '';
+    final burmeseMeaning = item['burmeseMeaning'] ?? '';
+    final onyomi = item['onyomi'] ?? '';           // e.g., "にち, じつ"
+    final onyomiRoman = item['onyomiRoman'] ?? '';  // e.g., "nichi, jitsu"
+    final kunyomi = item['kunyomi'] ?? '';          // e.g., "ひ, か"
+    final kunyomiRoman = item['kunyomiRoman'] ?? ''; // e.g., "hi, ka"
+    final strokeCount = item['strokeCount'] ?? 0;
+    final jlptLevel = item['jlptLevel'] ?? '';
+    final grade = item['grade'] ?? '';
 
-  final screenWidth = MediaQuery.of(context).size.width;
-  final isSmallScreen = screenWidth < 360;
-  final isVerySmall = screenWidth < 320; // ✅ Added this
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 360;
 
-  return Container(
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: EdgeInsets.all(isSmallScreen ? 10 : 16),
-    decoration: BoxDecoration(
-      color: Colors.grey.shade800.withOpacity(0.3),
-      borderRadius: BorderRadius.circular(16),
-      border: Border.all(
-        color: Colors.grey.shade700.withOpacity(0.3),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(isSmallScreen ? 10 : 16),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.grey.shade700.withOpacity(0.3),
+        ),
       ),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Kanji with Audio Button
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Kanji Character - responsive size
-            Container(
-              width: isSmallScreen ? 60 : 80,
-              height: isSmallScreen ? 60 : 80,
-              decoration: BoxDecoration(
-                color: const Color(0xFF42A5F5).withOpacity(0.15),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFF42A5F5).withOpacity(0.3),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  kanji,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isSmallScreen ? 28 : 36,
-                    fontWeight: FontWeight.bold,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Kanji with Audio Button
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Kanji Character - responsive size
+              Container(
+                width: isSmallScreen ? 60 : 80,
+                height: isSmallScreen ? 60 : 80,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF42A5F5).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFF42A5F5).withOpacity(0.3),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Meaning - with ellipsis
-                  Text(
-                    'Meaning: $meaning',
+                child: Center(
+                  child: Text(
+                    kanji,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: isSmallScreen ? 14 : 16,
+                      fontSize: isSmallScreen ? 28 : 36,
                       fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  if (burmeseMeaning.isNotEmpty)
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Meaning - with ellipsis
                     Text(
-                      '🇲🇲 $burmeseMeaning',
-                      style: GoogleFonts.notoSansMyanmar(
-                        color: Colors.white70,
-                        fontSize: isSmallScreen ? 12 : 14,
+                      'Meaning: $meaning',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isSmallScreen ? 14 : 16,
+                        fontWeight: FontWeight.bold,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  const SizedBox(height: 4),
-                  // Tags - Wrap handles overflow
-                  Wrap(
-                    spacing: 4,
-                    runSpacing: 4,
+                    if (burmeseMeaning.isNotEmpty)
+                      Text(
+                        '🇲🇲 $burmeseMeaning',
+                        style: GoogleFonts.notoSansMyanmar(
+                          color: Colors.white70,
+                          fontSize: isSmallScreen ? 12 : 14,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    const SizedBox(height: 4),
+                    // Tags - Wrap handles overflow
+                    Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: [
+                        if (jlptLevel.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'JLPT $jlptLevel',
+                              style: TextStyle(
+                                color: Colors.green.shade300,
+                                fontSize: isSmallScreen ? 8 : 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        if (grade.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'Grade $grade',
+                              style: TextStyle(
+                                color: Colors.orange.shade300,
+                                fontSize: isSmallScreen ? 8 : 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        if (strokeCount > 0)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.purple.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              '$strokeCount strokes',
+                              style: TextStyle(
+                                color: Colors.purple.shade300,
+                                fontSize: isSmallScreen ? 8 : 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // ✅ Audio button for main kanji
+              IconButton(
+                onPressed: () => _playAudio(kanji),
+                icon: const Icon(
+                  Icons.volume_up,
+                  color: Color(0xFF42A5F5),
+                  size: 20,
+                ),
+                constraints: const BoxConstraints(
+                  minWidth: 30,
+                  minHeight: 30,
+                ),
+                padding: EdgeInsets.zero,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          
+          // On'yomi and Kun'yomi - Responsive row
+          Row(
+            children: [
+              // On'yomi
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade900.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.grey.shade700.withOpacity(0.2),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (jlptLevel.isNotEmpty)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            'JLPT $jlptLevel',
+                      Row(
+                        children: [
+                          Text(
+                            'On\'yomi: ',
                             style: TextStyle(
-                              color: Colors.green.shade300,
-                              fontSize: isSmallScreen ? 8 : 10,
+                              color: Colors.grey,
+                              fontSize: isSmallScreen ? 10 : 12,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                      if (grade.isNotEmpty)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.orange.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            'Grade $grade',
-                            style: TextStyle(
-                              color: Colors.orange.shade300,
-                              fontSize: isSmallScreen ? 8 : 10,
-                              fontWeight: FontWeight.w500,
+                          Expanded(
+                            child: Text(
+                              onyomi,  // "にち, じつ" - hiragana
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: isSmallScreen ? 12 : 13,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                        ),
-                      if (strokeCount > 0)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.purple.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            '$strokeCount strokes',
-                            style: TextStyle(
-                              color: Colors.purple.shade300,
-                              fontSize: isSmallScreen ? 8 : 10,
-                              fontWeight: FontWeight.w500,
+                          // ✅ FIXED: Use onyomi (Japanese text), not romaji
+                          if (onyomi.isNotEmpty)
+                            IconButton(
+                              onPressed: () {
+                                // Get first reading: "にち" (not "にち, じつ")
+                                final firstReading = onyomi.split(',').first.trim();
+                                _playAudio(firstReading);
+                              },
+                              icon: const Icon(
+                                Icons.volume_up,
+                                color: Color(0xFF42A5F5),
+                                size: 14,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 24,
+                                minHeight: 24,
+                              ),
+                              padding: EdgeInsets.zero,
                             ),
+                        ],
+                      ),
+                      // Show romanization for reference only
+                      if (onyomiRoman.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            onyomiRoman, // "nichi, jitsu" - just for display
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: isSmallScreen ? 9 : 11,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-            // Audio button - fixed size
-            IconButton(
-              onPressed: () => _playAudio(kanji),
-              icon: const Icon(
+              const SizedBox(width: 8),
+              
+              // Kun'yomi
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade900.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.grey.shade700.withOpacity(0.2),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Kun\'yomi: ',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: isSmallScreen ? 10 : 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              kunyomi, // "ひ, か" - hiragana
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: isSmallScreen ? 12 : 13,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          // ✅ FIXED: Use kunyomi (Japanese text), not romaji
+                          if (kunyomi.isNotEmpty)
+                            IconButton(
+                              onPressed: () {
+                                // Get first reading: "ひ" (not "ひ, か")
+                                final firstReading = kunyomi.split(',').first.trim();
+                                _playAudio(firstReading);
+                              },
+                              icon: const Icon(
+                                Icons.volume_up,
+                                color: Color(0xFF42A5F5),
+                                size: 14,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 24,
+                                minHeight: 24,
+                              ),
+                              padding: EdgeInsets.zero,
+                            ),
+                        ],
+                      ),
+                      // Show romanization for reference only
+                      if (kunyomiRoman.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            kunyomiRoman, // "hi, ka" - just for display
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: isSmallScreen ? 9 : 11,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          
+          // Audio hint
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(
                 Icons.volume_up,
-                color: Color(0xFF42A5F5),
-                size: 20,
-              ),
-              constraints: const BoxConstraints(
-                minWidth: 30,
-                minHeight: 30,
-              ),
-              padding: EdgeInsets.zero,
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        
-        // On'yomi and Kun'yomi - Responsive row with flexible children
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade900.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.grey.shade700.withOpacity(0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'On\'yomi: ',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: isSmallScreen ? 10 : 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            onyomi,
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: isSmallScreen ? 12 : 13,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (onyomiRoman.isNotEmpty)
-                          IconButton(
-                            onPressed: () => _playAudio(onyomiRoman),
-                            icon: const Icon(
-                              Icons.volume_up,
-                              color: Color(0xFF42A5F5),
-                              size: 14,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 24,
-                              minHeight: 24,
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                      ],
-                    ),
-                    if (onyomiRoman.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Text(
-                          onyomiRoman,
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontSize: isSmallScreen ? 9 : 11,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade900.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.grey.shade700.withOpacity(0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Kun\'yomi: ',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: isSmallScreen ? 10 : 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            kunyomi,
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: isSmallScreen ? 12 : 13,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (kunyomiRoman.isNotEmpty)
-                          IconButton(
-                            onPressed: () => _playAudio(kunyomiRoman),
-                            icon: const Icon(
-                              Icons.volume_up,
-                              color: Color(0xFF42A5F5),
-                              size: 14,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 24,
-                              minHeight: 24,
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                      ],
-                    ),
-                    if (kunyomiRoman.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Text(
-                          kunyomiRoman,
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontSize: isSmallScreen ? 9 : 11,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        
-        // Audio hint - responsive
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Icon(
-              Icons.volume_up,
-              color: Colors.grey.shade600,
-              size: isSmallScreen ? 12 : 14,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              'Tap speaker to hear pronunciation',
-              style: TextStyle(
                 color: Colors.grey.shade600,
-                fontSize: isSmallScreen ? 8 : 10,
+                size: isSmallScreen ? 12 : 14,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
+              const SizedBox(width: 4),
+              Text(
+                'Tap speaker to hear pronunciation',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: isSmallScreen ? 8 : 10,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -191,32 +191,6 @@ class _ExamQuestionScreenState extends State<ExamQuestionScreen> {
                         'Correct answer: ${widget.question.correctAnswer}',
                         style: const TextStyle(fontSize: 16),
                       ),
-                    const SizedBox(height: 12),
-                    if (widget.question.aiExplanation != null)
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '💡 Explanation:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              widget.question.aiExplanation!,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ],
-                        ),
-                      ),
                     const SizedBox(height: 16),
                     SizedBox(
                       width: double.infinity,

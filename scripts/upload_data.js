@@ -423,7 +423,10 @@ async function uploadAllData() {
     { name: 'hsk_questions', file: 'hsk_questions.json', required: false },
     { name: 'jlpt_questions', file: 'jlpt_questions.json', required: false },
     { name: 'topik_questions', file: 'topik_questions.json', required: false },
-  ];
+    { name: 'daily_conversation_categories', file: 'daily_conversation_categories.json', required: false },
+    { name: 'daily_conversation_subcategories', file: 'daily_conversation_subcategories.json', required: false },
+    { name: 'daily_conversations', file: 'daily_conversations.json', required: false },
+    ];
   
   const monitor = new PerformanceMonitor();
   let totalAdded = 0;

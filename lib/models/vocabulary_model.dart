@@ -76,13 +76,66 @@ class VocabularyModel {
     };
   }
 
+  // ========== EXISTING GETTERS ==========
   String getTranslation(String language) => translations[language] ?? '';
   String getRomanization(String language) => romanizations[language] ?? '';
   String getExample(String language) => examples[language] ?? '';
   String getExampleRomanization(String language) => exampleRomanizations[language] ?? '';
   String getExampleTranslation(String language) => exampleTranslations[language] ?? '';
   bool hasAudio() => audioUrl != null && audioUrl!.isNotEmpty;
+
+  // ========== NEW GETTERS FOR COMPATIBILITY WITH ExamVocabularyModel ==========
+  
+  /// Returns the Burmese word (compatible with ExamVocabularyModel's 'word' getter)
+  String get word => burmeseWord;
+  
+  /// Returns the English translation (default: 'en' or first available)
+  String get meaning => translations['en'] ?? translations.values.first ?? '';
+  
+  /// Returns the romanization/pronunciation
+  String get pronunciation => romanization;
+  
+  /// Returns the example sentence in English (default: 'en' or first available)
+  String? get exampleSentence => examples['en'] ?? examples.values.first;
+  
+  /// Returns the example translation in Burmese (default: 'en' or first available)
+  String? get exampleTranslation => exampleTranslations['en'] ?? exampleTranslations.values.first;
+  
+  /// Returns the example romanization in English (default: 'en' or first available)
+  String? get exampleRomanization => exampleRomanizations['en'] ?? exampleRomanizations.values.first;
+
+  // ========== ADDITIONAL HELPER GETTERS ==========
+  
+  /// Get the display word with language context
+  String getDisplayWord({String language = 'en'}) {
+    return translations[language] ?? burmeseWord;
+  }
+  
+  /// Check if the word has translations
+  bool get hasTranslations => translations.isNotEmpty;
+  
+  /// Check if the word has examples
+  bool get hasExamples => examples.isNotEmpty;
+  
+  /// Get all available translation languages
+  List<String> get translationLanguages => translations.keys.toList();
+  
+  /// Get all available example languages
+  List<String> get exampleLanguages => examples.keys.toList();
+  
+  /// Get the primary translation (first available)
+  String get primaryTranslation => translations.values.firstOrNull ?? '';
+  
+  /// Get the primary example (first available)
+  String? get primaryExample => examples.values.firstOrNull;
+  
+  /// Get the primary example translation (first available)
+  String? get primaryExampleTranslation => exampleTranslations.values.firstOrNull;
 }
+
+// ============================================================================
+// ExamVocabularyModel
+// ============================================================================
 
 class ExamVocabularyModel {
   final String id;
@@ -216,7 +269,10 @@ class ExamVocabularyModel {
   bool hasAudio() => audioUrl != null && audioUrl!.isNotEmpty;
 }
 
-// ✅ Category Model (for Learning Session) - 50+ Categories
+// ============================================================================
+// CategoryModel
+// ============================================================================
+
 class CategoryModel {
   final String id;
   final String name;
@@ -759,4 +815,12 @@ class CategoryModel {
       return null;
     }
   }
+}
+
+// ============================================================================
+// EXTENSION: Add firstOrNull helper for null safety
+// ============================================================================
+
+extension IterableExtension<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }

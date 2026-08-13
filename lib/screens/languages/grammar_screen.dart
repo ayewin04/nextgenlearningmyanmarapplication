@@ -387,6 +387,18 @@ class _GrammarScreenState extends State<GrammarScreen> {
     }
   }
 
+  // ✅ FIX: Get the exact matching page value for the dropdown
+  int _getValidPageValue(int currentPage) {
+    // Make sure we have valid total pages
+    if (_totalPages <= 0) return 0;
+    
+    // Clamp the current page to valid range
+    if (currentPage < 0) return 0;
+    if (currentPage >= _totalPages) return _totalPages - 1;
+    
+    return currentPage;
+  }
+
   Widget _buildPaginationControls() {
     // Hide pagination when searching
     if (_isSearching && _searchQuery.isNotEmpty) {
@@ -530,7 +542,8 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     minWidth: isVerySmall ? 30 : 40,
                   ),
                   child: DropdownButton<int>(
-                    value: _currentPage < _totalPages ? _currentPage : 0,
+                    // ✅ FIX: Use validated page value
+                    value: _getValidPageValue(_currentPage),
                     dropdownColor: const Color(0xFF1A237E),
                     underline: Container(
                       height: 1,
@@ -663,6 +676,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
     );
   }
 
+  // ✅ FIX: Create dropdown items with ALL pages included
   List<DropdownMenuItem<int>> _getPageItems() {
     final items = <DropdownMenuItem<int>>[];
     
@@ -670,32 +684,28 @@ class _GrammarScreenState extends State<GrammarScreen> {
       return items;
     }
     
-    final seenValues = <int>{};
-    
     final screenWidth = MediaQuery.of(context).size.width;
     final isVerySmall = screenWidth < 320;
     final isSmall = screenWidth < 380;
     
-    int step = 1;
-    if (isVerySmall) {
-      step = _totalPages > 20 ? 5 : 2;
-    } else if (isSmall) {
-      step = _totalPages > 20 ? 3 : 1;
-    } else {
-      step = _totalPages > 20 ? 2 : 1;
-    }
-    
-    for (int i = 0; i < _totalPages; i += step) {
-      if (seenValues.contains(i)) continue;
-      seenValues.add(i);
-      
+    // Create an item for EVERY page to ensure value always exists
+    for (int i = 0; i < _totalPages; i++) {
       final pageStart = i * _pageSize + 1;
-      final pageEnd = ((i + step) * _pageSize) > _estimatedTotal 
+      final pageEnd = ((i + 1) * _pageSize) > _estimatedTotal 
           ? _estimatedTotal 
-          : (i + step) * _pageSize;
+          : (i + 1) * _pageSize;
       
       String label;
-      if (isVerySmall) {
+      
+      // For many pages, use shorter labels
+      if (_totalPages > 30) {
+        // Show every 2nd page to keep dropdown manageable
+        if (i % 2 != 0 && i != 0 && i != _totalPages - 1) continue;
+        label = 'Pg ${i + 1}';
+      } else if (_totalPages > 15) {
+        // Show every page but with short labels
+        label = 'Pg ${i + 1}';
+      } else if (isVerySmall) {
         label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
       } else if (isSmall) {
         label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
@@ -718,30 +728,16 @@ class _GrammarScreenState extends State<GrammarScreen> {
       );
     }
     
-    final lastPageIndex = _totalPages - 1;
-    if (!seenValues.contains(lastPageIndex)) {
-      final lastPageStart = lastPageIndex * _pageSize + 1;
-      final lastPageEnd = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
-      
-      String label;
-      if (isVerySmall) {
-        label = '$lastPageStart-$lastPageEnd';
-      } else if (isSmall) {
-        label = '$lastPageStart-$lastPageEnd';
-      } else {
-        label = '📄 $lastPageStart-$lastPageEnd';
-      }
-      
+    // Ensure we have at least one item
+    if (items.isEmpty && _totalPages > 0) {
       items.add(
         DropdownMenuItem<int>(
-          value: lastPageIndex,
+          value: 0,
           child: Text(
-            label,
+            'Page 1',
             style: TextStyle(
-              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+              fontSize: isSmall ? 9 : 10,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       );

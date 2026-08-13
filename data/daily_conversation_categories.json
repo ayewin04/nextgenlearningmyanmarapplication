@@ -1,0 +1,20 @@
+[
+  {
+    "id": "basic_greetings",
+    "name": "Basic Greetings",
+    "icon": "👋",
+    "category": "Greetings & Introductions",
+    "exam": "hsk",
+    "language": "chinese",
+    "description": "Basic greetings and introductions"
+  },
+  {
+    "id": "formal_greetings",
+    "name": "Formal Greetings",
+    "icon": "🤝",
+    "category": "Greetings & Introductions",
+    "exam": "hsk",
+    "language": "chinese",
+    "description": "Formal greetings for business settings"
+  }
+]

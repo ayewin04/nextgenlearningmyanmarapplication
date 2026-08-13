@@ -102,7 +102,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     });
   }
 
-  // ✅ NEW: Clear search
+  // Clear search
   void _clearSearch() {
     setState(() {
       _isSearching = false;
@@ -115,7 +115,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     _loadVocabulary(refresh: true);
   }
 
-  // ✅ NEW: Search across all data
+  // Search across all data
   Future<void> _searchVocabulary(String query) async {
     if (query.isEmpty) {
       _clearSearch();
@@ -398,8 +398,35 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return '${vocab.word.toLowerCase()}_${vocab.exam.toLowerCase()}_${vocab.level}';
   }
 
-  void _playAudio(String word) async {
-    if (word.isEmpty) {
+  // ✅ NEW: Get the text to speak based on language
+  String _getTextToSpeak(ExamVocabularyModel vocab) {
+    // For Japanese, prioritize hiragana
+    if (widget.language.toLowerCase() == 'japanese') {
+      // Check if the vocabulary has a hiragana field
+      // You'll need to add this field to your ExamVocabularyModel
+      if (vocab.hiragana != null && vocab.hiragana!.isNotEmpty) {
+        print('🔊 Using hiragana: ${vocab.hiragana}');
+        return vocab.hiragana!;
+      }
+      // Fallback to romaji if no hiragana
+      if (vocab.romaji != null && vocab.romaji!.isNotEmpty) {
+        print('🔊 Using romaji: ${vocab.romaji}');
+        return vocab.romaji!;
+      }
+      // Final fallback to the word (which might be kanji)
+      print('🔊 Using word: ${vocab.word}');
+      return vocab.word;
+    }
+    
+    // For other languages, use the word field
+    return vocab.word;
+  }
+
+  // ✅ UPDATED: Play audio with language-specific text
+  void _playAudio(ExamVocabularyModel vocab) async {
+    final textToSpeak = _getTextToSpeak(vocab);
+    
+    if (textToSpeak.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('🔊 No audio available for this word'),
@@ -410,7 +437,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
 
     try {
-      await AudioService.speak(word, language: widget.language);
+      print('🔊 Speaking: "$textToSpeak" for language: ${widget.language}');
+      await AudioService.speak(textToSpeak, language: widget.language);
     } catch (e) {
       print('❌ Audio error: $e');
       if (mounted) {
@@ -593,7 +621,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     minWidth: isVerySmall ? 30 : 40,
                   ),
                   child: DropdownButton<int>(
-                    value: _currentPage < _totalPages ? _currentPage : 0,
+                    value: _getValidPageValue(_currentPage),
                     dropdownColor: const Color(0xFF1A237E),
                     underline: Container(
                       height: 1,
@@ -726,6 +754,57 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     );
   }
 
+  int _getValidPageValue(int currentPage) {
+    if (_totalPages <= 0) return 0;
+    if (currentPage < 0) return 0;
+    if (currentPage >= _totalPages) return _totalPages - 1;
+    
+    final availableValues = _getAvailablePageValues();
+    if (availableValues.contains(currentPage)) {
+      return currentPage;
+    }
+    
+    int closest = availableValues.first;
+    int minDiff = (currentPage - closest).abs();
+    
+    for (final value in availableValues) {
+      final diff = (currentPage - value).abs();
+      if (diff < minDiff) {
+        minDiff = diff;
+        closest = value;
+      }
+    }
+    
+    return closest;
+  }
+
+  List<int> _getAvailablePageValues() {
+    final values = <int>[];
+    
+    if (_totalPages <= 0) return [0];
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 320;
+    final isSmall = screenWidth < 380;
+    
+    int step = 1;
+    if (_totalPages > 30) {
+      step = 2;
+    } else if (_totalPages > 20) {
+      step = isVerySmall ? 3 : (isSmall ? 2 : 1);
+    }
+    
+    for (int i = 0; i < _totalPages; i += step) {
+      values.add(i);
+    }
+    
+    if (!values.contains(_totalPages - 1)) {
+      values.add(_totalPages - 1);
+    }
+    
+    return values;
+  }
+
   List<DropdownMenuItem<int>> _getPageItems() {
     final items = <DropdownMenuItem<int>>[];
     
@@ -733,32 +812,43 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       return items;
     }
     
-    final seenValues = <int>{};
-    
     final screenWidth = MediaQuery.of(context).size.width;
     final isVerySmall = screenWidth < 320;
     final isSmall = screenWidth < 380;
     
     int step = 1;
-    if (isVerySmall) {
-      step = _totalPages > 20 ? 5 : 2;
-    } else if (isSmall) {
-      step = _totalPages > 20 ? 3 : 1;
-    } else {
-      step = _totalPages > 20 ? 2 : 1;
+    if (_totalPages > 30) {
+      step = 2;
+    } else if (_totalPages > 20) {
+      step = isVerySmall ? 3 : (isSmall ? 2 : 1);
     }
     
+    final pagesToInclude = <int>{};
+    
     for (int i = 0; i < _totalPages; i += step) {
-      if (seenValues.contains(i)) continue;
-      seenValues.add(i);
+      pagesToInclude.add(i);
+    }
+    
+    pagesToInclude.add(_totalPages - 1);
+    pagesToInclude.add(_currentPage);
+    if (_currentPage > 0) pagesToInclude.add(_currentPage - 1);
+    if (_currentPage < _totalPages - 1) pagesToInclude.add(_currentPage + 1);
+    
+    final sortedPages = pagesToInclude.toList()..sort();
+    
+    for (final pageIndex in sortedPages) {
+      if (pageIndex >= _totalPages) continue;
       
-      final pageStart = i * _pageSize + 1;
-      final pageEnd = ((i + step) * _pageSize) > _estimatedTotal 
+      final pageStart = pageIndex * _pageSize + 1;
+      final pageEnd = ((pageIndex + 1) * _pageSize) > _estimatedTotal 
           ? _estimatedTotal 
-          : (i + step) * _pageSize;
+          : (pageIndex + 1) * _pageSize;
       
       String label;
-      if (isVerySmall) {
+      
+      if (_totalPages > 20) {
+        label = 'Pg ${pageIndex + 1}';
+      } else if (isVerySmall) {
         label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
       } else if (isSmall) {
         label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
@@ -768,7 +858,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       
       items.add(
         DropdownMenuItem<int>(
-          value: i,
+          value: pageIndex,
           child: Text(
             label,
             style: TextStyle(
@@ -781,30 +871,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       );
     }
     
-    final lastPageIndex = _totalPages - 1;
-    if (!seenValues.contains(lastPageIndex)) {
-      final lastPageStart = lastPageIndex * _pageSize + 1;
-      final lastPageEnd = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
-      
-      String label;
-      if (isVerySmall) {
-        label = '$lastPageStart-$lastPageEnd';
-      } else if (isSmall) {
-        label = '$lastPageStart-$lastPageEnd';
-      } else {
-        label = '📄 $lastPageStart-$lastPageEnd';
-      }
-      
+    if (items.isEmpty && _totalPages > 0) {
       items.add(
         DropdownMenuItem<int>(
-          value: lastPageIndex,
+          value: 0,
           child: Text(
-            label,
+            'Page 1',
             style: TextStyle(
-              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+              fontSize: isSmall ? 9 : 10,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       );
@@ -814,7 +889,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   }
 
   Widget _buildNextPageButton() {
-    // Hide next page button when searching
     if (_isSearching && _searchQuery.isNotEmpty) {
       return const SizedBox.shrink();
     }
@@ -1233,8 +1307,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
+                  // ✅ UPDATED: Pass the whole vocab object, not just the word
                   IconButton(
-                    onPressed: () => _playAudio(word),
+                    onPressed: () => _playAudio(vocab),
                     icon: Icon(
                       Icons.volume_up,
                       color: const Color(0xFF42A5F5),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/exam_model.dart';
 import '../models/question_model.dart';
 import '../models/vocabulary_model.dart';
+import '../models/daily_conversation_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -1016,8 +1017,56 @@ Future<List<Map<String, dynamic>>> searchGrammar({
     throw Exception('Failed to search grammar: $e');
   }
 }
-
-// Add this method to FirestoreService class
+// Add to FirestoreService class// Add this method to FirestoreService class
+Future<List<DailyConversationModel>> searchDailyConversations({
+  required String exam,
+  required String query,
+}) async {
+  try {
+    // No level filter - search all conversations for this exam
+    final snapshot = await _firestore
+        .collection('daily_conversations')
+        .where('exam', isEqualTo: exam)
+        .get();
+    
+    final results = <DailyConversationModel>[];
+    
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final title = (data['title'] ?? '').toLowerCase();
+      final burmeseTitle = (data['burmeseTitle'] ?? '').toLowerCase();
+      final description = (data['description'] ?? '').toLowerCase();
+      
+      // Check conversation entries
+      bool conversationMatches = false;
+      final conversationList = data['conversation'] as List? ?? [];
+      for (final entry in conversationList) {
+        final entryMap = entry as Map<String, dynamic>;
+        final text = (entryMap['text'] ?? '').toLowerCase();
+        final burmese = (entryMap['burmese'] ?? '').toLowerCase();
+        if (text.contains(query) || burmese.contains(query)) {
+          conversationMatches = true;
+          break;
+        }
+      }
+      
+      if (title.contains(query) ||
+          burmeseTitle.contains(query) ||
+          description.contains(query) ||
+          conversationMatches) {
+        results.add(
+          DailyConversationModel.fromMap(doc.id, data),
+        );
+      }
+    }
+    
+    print('🔍 Daily conversation search found ${results.length} results for "$query"');
+    return results;
+  } catch (e) {
+    print('❌ Daily conversation search error: $e');
+    throw Exception('Failed to search daily conversations: $e');
+  }
+}
 
 Future<List<Map<String, dynamic>>> searchKanji({
   required String query,
