@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ✅ Logo with Dark Blue Gradient
+                    // Logo
                     Center(
                       child: Container(
                         width: 100,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 24),
                     
-                    // ✅ Welcome Text
+                    // Welcome Text
                     Center(
                       child: Column(
                         children: [
@@ -131,7 +131,71 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 40),
                     
-                    // ✅ Email Field
+                    // Success Message (Auto-clears after 5 seconds)
+                    if (authService.successMessage != null)
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade900.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.green.shade700),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green.shade400, size: 20),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                authService.successMessage!,
+                                style: TextStyle(color: Colors.green.shade300, fontSize: 14),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => authService.clearMessages(),
+                              child: Icon(
+                                Icons.close,
+                                size: 20,
+                                color: Colors.green.shade300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (authService.successMessage != null) const SizedBox(height: 12),
+                    
+                    // Error Message (Auto-clears after 5 seconds)
+                    if (authService.errorMessage != null)
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade900.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.red.shade700),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.error_outline, color: Colors.red.shade400, size: 20),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                authService.errorMessage!,
+                                style: TextStyle(color: Colors.red.shade300, fontSize: 14),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => authService.clearMessages(),
+                              child: Icon(
+                                Icons.close,
+                                size: 20,
+                                color: Colors.red.shade300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (authService.errorMessage != null) const SizedBox(height: 12),
+                    
+                    // Email Field
                     Text(
                       'Email Address',
                       style: TextStyle(
@@ -176,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 20),
                     
-                    // ✅ Password Field
+                    // Password Field
                     Text(
                       'Password',
                       style: TextStyle(
@@ -234,7 +298,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 12),
                     
-                    // ✅ Remember Me & Forgot Password
+                    // Remember Me & Forgot Password
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -266,41 +330,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    
-                    // ✅ Error Message
-                    if (authService.errorMessage != null)
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade900.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.red.shade700),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.error_outline, color: Colors.red.shade400, size: 20),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                authService.errorMessage!,
-                                style: TextStyle(color: Colors.red.shade300, fontSize: 14),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => authService.clearError(),
-                              child: Icon(
-                                Icons.close,
-                                size: 20,
-                                color: Colors.red.shade300,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     const SizedBox(height: 16),
                     
-                    // ✅ Login Button
+                    // Login Button
                     AnimatedButton(
                       text: 'Sign In',
                       isLoading: _isLoading || authService.isLoading,
@@ -309,7 +341,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 20),
                     
-                    // ✅ Divider
+                    // Divider
                     Row(
                       children: [
                         Expanded(
@@ -339,7 +371,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 20),
                     
-                    // ✅ Register Link
+                    // Register Link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -378,27 +410,56 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 
   Future<void> _handleLogin(BuildContext context, AuthService authService) async {
+    // 1. Validate form
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fix the errors above'),
           backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
         ),
       );
       return;
     }
 
+    // 2. Show loading state
     setState(() => _isLoading = true);
+    
+    // 3. Show loading snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Row(
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 12),
+            Text('Signing in...'),
+          ],
+        ),
+        duration: Duration(seconds: 10),
+      ),
+    );
 
     try {
+      // 4. Attempt login
       final success = await authService.signIn(
         email: _emailController.text,
         password: _passwordController.text,
       );
 
+      // 5. Dismiss loading snackbar
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
       if (success && mounted) {
         setState(() => _isLoading = false);
         
+        // 6. Show success message (auto-clears after 3 seconds)
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Row(
@@ -409,10 +470,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               ],
             ),
             backgroundColor: Colors.green,
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 3),
           ),
         );
 
+        // 7. Navigate to home
         await Future.delayed(const Duration(milliseconds: 500));
         if (mounted) {
           Navigator.pushReplacement(
@@ -422,14 +484,39 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         }
       } else if (mounted) {
         setState(() => _isLoading = false);
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
+        
+        // 8. Show specific error message (auto-clears after 5 seconds)
+        final errorMsg = authService.errorMessage ?? 'Login failed. Please try again.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login failed: ${authService.errorMessage ?? "Unknown error"}'),
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 8),
+                Expanded(child: Text(errorMsg)),
+              ],
+            ),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    } catch (e) {
+      // 9. Handle unexpected errors
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error_outline, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(child: Text('Something went wrong. Please try again.')),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
           ),
         );
       }
@@ -495,10 +582,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 SnackBar(
                   content: Text(
                     success 
-                        ? 'Reset link sent to $email'
-                        : 'Failed to send reset link',
+                        ? '✅ Reset link sent to $email'
+                        : '❌ ${authService.errorMessage ?? "Failed to send reset link"}',
                   ),
                   backgroundColor: success ? Colors.green : Colors.red,
+                  duration: const Duration(seconds: 3),
                 ),
               );
             },

@@ -1,3 +1,4 @@
+// lib/screens/languages/vocabulary_screen.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,7 +58,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     _loadVocabulary(refresh: true);
     _estimateTotalCount();
     
-    // Add listener to search controller
     _searchController.addListener(() {
       if (_searchController.text.isEmpty && _searchQuery.isNotEmpty) {
         _clearSearch();
@@ -102,7 +102,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     });
   }
 
-  // Clear search
   void _clearSearch() {
     setState(() {
       _isSearching = false;
@@ -111,11 +110,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       _searchController.clear();
       _isLoading = false;
     });
-    // Reload the current page
     _loadVocabulary(refresh: true);
   }
 
-  // Search across all data
   Future<void> _searchVocabulary(String query) async {
     if (query.isEmpty) {
       _clearSearch();
@@ -152,7 +149,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   }
 
   Future<void> _loadVocabulary({bool refresh = false, int? targetPage}) async {
-    // If searching, don't load paginated data
     if (_isSearching && _searchQuery.isNotEmpty) {
       return;
     }
@@ -398,31 +394,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return '${vocab.word.toLowerCase()}_${vocab.exam.toLowerCase()}_${vocab.level}';
   }
 
-  // ✅ NEW: Get the text to speak based on language
   String _getTextToSpeak(ExamVocabularyModel vocab) {
-    // For Japanese, prioritize hiragana
     if (widget.language.toLowerCase() == 'japanese') {
-      // Check if the vocabulary has a hiragana field
-      // You'll need to add this field to your ExamVocabularyModel
       if (vocab.hiragana != null && vocab.hiragana!.isNotEmpty) {
-        print('🔊 Using hiragana: ${vocab.hiragana}');
         return vocab.hiragana!;
       }
-      // Fallback to romaji if no hiragana
       if (vocab.romaji != null && vocab.romaji!.isNotEmpty) {
-        print('🔊 Using romaji: ${vocab.romaji}');
         return vocab.romaji!;
       }
-      // Final fallback to the word (which might be kanji)
-      print('🔊 Using word: ${vocab.word}');
       return vocab.word;
     }
-    
-    // For other languages, use the word field
     return vocab.word;
   }
 
-  // ✅ UPDATED: Play audio with language-specific text
   void _playAudio(ExamVocabularyModel vocab) async {
     final textToSpeak = _getTextToSpeak(vocab);
     
@@ -437,7 +421,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     }
 
     try {
-      print('🔊 Speaking: "$textToSpeak" for language: ${widget.language}');
       await AudioService.speak(textToSpeak, language: widget.language);
     } catch (e) {
       print('❌ Audio error: $e');
@@ -476,262 +459,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       case 'topik': return 'TOPIK';
       default: return widget.exam.toUpperCase();
     }
-  }
-
-  Widget _buildPaginationControls() {
-    // Hide pagination when searching
-    if (_isSearching && _searchQuery.isNotEmpty) {
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade800.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.grey.shade700.withOpacity(0.2),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '🔍 ${_searchResults.length} results found',
-              style: TextStyle(
-                color: Colors.grey.shade400,
-                fontSize: 12,
-              ),
-            ),
-            TextButton(
-              onPressed: _clearSearch,
-              child: const Text(
-                'Clear',
-                style: TextStyle(
-                  color: Color(0xFF42A5F5),
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final displayList = _displayList;
-    final startIndex = _currentPage * _pageSize + 1;
-    final endIndex = startIndex + displayList.length - 1;
-    final hasItems = displayList.isNotEmpty;
-    
-    final totalDisplay = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
-    
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isVerySmall = screenWidth < 320;
-    final isSmall = screenWidth < 380;
-
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: isVerySmall ? 4 : (isSmall ? 8 : 12)),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade800.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.grey.shade700.withOpacity(0.2),
-        ),
-      ),
-      child: Column(
-        children: [
-          if (isVerySmall)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  hasItems 
-                      ? '📖 $startIndex-$endIndex of $totalDisplay'
-                      : '📖 No words',
-                  style: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (!_isLoadingPage && _totalPages > 0)
-                  Text(
-                    'Page ${_currentPage + 1}/$_totalPages',
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 9,
-                    ),
-                  ),
-              ],
-            )
-          else
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    hasItems 
-                        ? '📖 $startIndex-$endIndex of $totalDisplay'
-                        : '📖 No words',
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: isSmall ? 10 : 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (!_isLoadingPage && _totalPages > 0)
-                  Text(
-                    'Page ${_currentPage + 1}/$_totalPages',
-                    style: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: isSmall ? 10 : 12,
-                    ),
-                  ),
-              ],
-            ),
-          
-          const SizedBox(height: 4),
-          
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 2,
-            runSpacing: 4,
-            children: [
-              if (!isVerySmall)
-                _buildPageButton(
-                  icon: Icons.first_page,
-                  onPressed: _currentPage > 0 && !_isLoadingPage
-                      ? () => _loadPage(0)
-                      : null,
-                ),
-              
-              _buildPageButton(
-                icon: Icons.chevron_left,
-                onPressed: _currentPage > 0 && !_isLoadingPage
-                    ? () => _loadPage(_currentPage - 1)
-                    : null,
-              ),
-              
-              if (_totalPages > 1)
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: isVerySmall ? 50 : (isSmall ? 60 : 80),
-                    minWidth: isVerySmall ? 30 : 40,
-                  ),
-                  child: DropdownButton<int>(
-                    value: _getValidPageValue(_currentPage),
-                    dropdownColor: const Color(0xFF1A237E),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.grey.shade700,
-                    ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
-                    ),
-                    isDense: true,
-                    iconSize: 14,
-                    items: _getPageItems(),
-                    onChanged: _isLoadingPage
-                        ? null
-                        : (int? newPage) {
-                            if (newPage != null && newPage != _currentPage && newPage < _totalPages) {
-                              _loadPage(newPage);
-                            }
-                          },
-                  ),
-                ),
-              
-              _buildPageButton(
-                icon: Icons.chevron_right,
-                onPressed: _hasMoreData && !_isLoadingPage && _currentPage < _totalPages - 1
-                    ? () => _loadPage(_currentPage + 1)
-                    : null,
-              ),
-              
-              if (!isVerySmall)
-                _buildPageButton(
-                  icon: Icons.last_page,
-                  onPressed: _totalPages > 0 && _currentPage < _totalPages - 1 && !_isLoadingPage
-                      ? () => _loadPage(_totalPages - 1)
-                      : null,
-                ),
-            ],
-          ),
-          
-          if (!_isLoadingPage && _totalPages > 1 && !isSmall && !isVerySmall) ...[
-            const SizedBox(height: 4),
-            SizedBox(
-              height: 24,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _totalPages > 10 ? 10 : _totalPages,
-                itemBuilder: (context, index) {
-                  final pageIndex = index * 5;
-                  if (pageIndex >= _totalPages) return const SizedBox.shrink();
-                  
-                  final pageStart = pageIndex * _pageSize + 1;
-                  final pageEnd = (pageIndex + 5) * _pageSize;
-                  final isSelected = pageIndex <= _currentPage && _currentPage < pageIndex + 5;
-                  
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: GestureDetector(
-                      onTap: () => _loadPage(pageIndex),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color(0xFF42A5F5).withOpacity(0.3)
-                              : Colors.grey.shade700.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: isSelected
-                                ? const Color(0xFF42A5F5)
-                                : Colors.transparent,
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          '$pageStart-${pageEnd > totalDisplay ? totalDisplay : pageEnd}',
-                          style: TextStyle(
-                            color: isSelected
-                                ? Colors.white
-                                : Colors.grey.shade400,
-                            fontSize: 8,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-          
-          if (_isLoadingPage)
-            const Padding(
-              padding: EdgeInsets.only(top: 4),
-              child: SizedBox(
-                height: 14,
-                width: 14,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Color(0xFF42A5F5),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
   }
 
   Widget _buildPageButton({
@@ -888,6 +615,264 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return items;
   }
 
+  Widget _buildPaginationControls() {
+    if (_isSearching && _searchQuery.isNotEmpty) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade800.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.grey.shade700.withOpacity(0.2),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '🔍 ${_searchResults.length} results found',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+                fontSize: 12,
+              ),
+            ),
+            TextButton(
+              onPressed: _clearSearch,
+              child: const Text(
+                'Clear',
+                style: TextStyle(
+                  color: Color(0xFF42A5F5),
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final displayList = _displayList;
+    final startIndex = _currentPage * _pageSize + 1;
+    final endIndex = startIndex + displayList.length - 1;
+    final hasItems = displayList.isNotEmpty;
+    final totalDisplay = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 320;
+    final isSmall = screenWidth < 380;
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 8, 
+        horizontal: isVerySmall ? 4 : (isSmall ? 8 : 12)
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey.shade700.withOpacity(0.2),
+        ),
+      ),
+      child: Column(
+        children: [
+          if (isVerySmall)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  hasItems 
+                      ? '📖 $startIndex-$endIndex of $totalDisplay'
+                      : '📖 No words',
+                  style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (!_isLoadingPage && _totalPages > 0)
+                  Text(
+                    'Page ${_currentPage + 1}/$_totalPages',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 9,
+                    ),
+                  ),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    hasItems 
+                        ? '📖 $startIndex-$endIndex of $totalDisplay'
+                        : '📖 No words',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: isSmall ? 10 : 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (!_isLoadingPage && _totalPages > 0)
+                  Text(
+                    'Page ${_currentPage + 1}/$_totalPages',
+                    style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: isSmall ? 10 : 12,
+                    ),
+                  ),
+              ],
+            ),
+          
+          const SizedBox(height: 4),
+          
+          // Pagination controls with horizontal scroll for small screens
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (!isVerySmall)
+                  _buildPageButton(
+                    icon: Icons.first_page,
+                    onPressed: _currentPage > 0 && !_isLoadingPage
+                        ? () => _loadPage(0)
+                        : null,
+                  ),
+                
+                _buildPageButton(
+                  icon: Icons.chevron_left,
+                  onPressed: _currentPage > 0 && !_isLoadingPage
+                      ? () => _loadPage(_currentPage - 1)
+                      : null,
+                ),
+                
+                if (_totalPages > 1)
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: isVerySmall ? 50 : (isSmall ? 60 : 80),
+                      minWidth: isVerySmall ? 30 : 40,
+                    ),
+                    child: DropdownButton<int>(
+                      value: _getValidPageValue(_currentPage),
+                      dropdownColor: const Color(0xFF1A237E),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.grey.shade700,
+                      ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+                      ),
+                      isDense: true,
+                      iconSize: 14,
+                      items: _getPageItems(),
+                      onChanged: _isLoadingPage
+                          ? null
+                          : (int? newPage) {
+                              if (newPage != null && newPage != _currentPage && newPage < _totalPages) {
+                                _loadPage(newPage);
+                              }
+                            },
+                    ),
+                  ),
+                
+                _buildPageButton(
+                  icon: Icons.chevron_right,
+                  onPressed: _hasMoreData && !_isLoadingPage && _currentPage < _totalPages - 1
+                      ? () => _loadPage(_currentPage + 1)
+                      : null,
+                ),
+                
+                if (!isVerySmall)
+                  _buildPageButton(
+                    icon: Icons.last_page,
+                    onPressed: _totalPages > 0 && _currentPage < _totalPages - 1 && !_isLoadingPage
+                        ? () => _loadPage(_totalPages - 1)
+                        : null,
+                  ),
+              ],
+            ),
+          ),
+          
+          if (!_isLoadingPage && _totalPages > 1 && !isSmall && !isVerySmall) ...[
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 24,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _totalPages > 10 ? 10 : _totalPages,
+                itemBuilder: (context, index) {
+                  final pageIndex = index * 5;
+                  if (pageIndex >= _totalPages) return const SizedBox.shrink();
+                  
+                  final pageStart = pageIndex * _pageSize + 1;
+                  final pageEnd = (pageIndex + 5) * _pageSize;
+                  final isSelected = pageIndex <= _currentPage && _currentPage < pageIndex + 5;
+                  
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: GestureDetector(
+                      onTap: () => _loadPage(pageIndex),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFF42A5F5).withOpacity(0.3)
+                              : Colors.grey.shade700.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF42A5F5)
+                                : Colors.transparent,
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          '$pageStart-${pageEnd > totalDisplay ? totalDisplay : pageEnd}',
+                          style: TextStyle(
+                            color: isSelected
+                                ? Colors.white
+                                : Colors.grey.shade400,
+                            fontSize: 8,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+          
+          if (_isLoadingPage)
+            const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: SizedBox(
+                height: 14,
+                width: 14,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Color(0xFF42A5F5),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildNextPageButton() {
     if (_isSearching && _searchQuery.isNotEmpty) {
       return const SizedBox.shrink();
@@ -958,13 +943,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   @override
   Widget build(BuildContext context) {
     final displayList = _displayList;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 360;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(
           '📚 ${_getExamDisplayName()} Vocabulary',
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: isSmallScreen ? 16 : 18),
         ),
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
@@ -1031,14 +1018,14 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             child: TextField(
               controller: _searchController,
               onChanged: _filterVocabulary,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: isSmallScreen ? 12 : 14),
               decoration: InputDecoration(
                 hintText: '🔍 Search all vocabulary...',
-                hintStyle: TextStyle(color: Colors.grey.shade500),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: isSmallScreen ? 12 : 14),
+                prefixIcon: Icon(Icons.search, color: Colors.grey, size: isSmallScreen ? 18 : 20),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear, color: Colors.grey),
+                        icon: Icon(Icons.clear, color: Colors.grey, size: isSmallScreen ? 18 : 20),
                         onPressed: _clearSearch,
                       )
                     : null,
@@ -1110,7 +1097,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
             const SizedBox(height: 8),
             Text(
               _error!,
@@ -1210,6 +1197,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1288,40 +1276,43 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF42A5F5).withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      widget.level,
-                      style: TextStyle(
-                        color: const Color(0xFF42A5F5),
-                        fontSize: isSmallScreen ? 8 : 10,
-                        fontWeight: FontWeight.bold,
+              // Fixed width for controls to prevent overflow
+              SizedBox(
+                width: 60,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF42A5F5).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        widget.level,
+                        style: TextStyle(
+                          color: const Color(0xFF42A5F5),
+                          fontSize: isSmallScreen ? 8 : 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  // ✅ UPDATED: Pass the whole vocab object, not just the word
-                  IconButton(
-                    onPressed: () => _playAudio(vocab),
-                    icon: Icon(
-                      Icons.volume_up,
-                      color: const Color(0xFF42A5F5),
-                      size: isSmallScreen ? 18 : 20,
+                    const SizedBox(height: 4),
+                    IconButton(
+                      onPressed: () => _playAudio(vocab),
+                      icon: Icon(
+                        Icons.volume_up,
+                        color: const Color(0xFF42A5F5),
+                        size: isSmallScreen ? 18 : 20,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 30,
+                        minHeight: 30,
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 30,
-                      minHeight: 30,
-                    ),
-                    padding: EdgeInsets.zero,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

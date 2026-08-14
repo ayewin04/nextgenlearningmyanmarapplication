@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/custom_button.dart';
 import '../../config/constants.dart';
-import 'login_screen.dart';
-
-
+import '../home/home_screen.dart';  // ⭐ Changed from login_screen to home_screen
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -25,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _acceptTerms = false;
-  bool _isSubmitting = false; // ✅ Local loading state
+  bool _isSubmitting = false;
   
   final List<String> _selectedLanguages = [];
 
@@ -72,6 +70,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 32),
+                
+                // Success Message (Auto-clears after 5 seconds)
+                if (authService.successMessage != null)
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade900.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.green.shade700),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.green.shade400, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            authService.successMessage!,
+                            style: TextStyle(color: Colors.green.shade300, fontSize: 14),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => authService.clearMessages(),
+                          child: Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.green.shade300,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (authService.successMessage != null) const SizedBox(height: 12),
+                
+                // Error Message (Auto-clears after 5 seconds)
+                if (authService.errorMessage != null)
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade900.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.red.shade700),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.error_outline, color: Colors.red.shade400, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            authService.errorMessage!,
+                            style: TextStyle(color: Colors.red.shade300, fontSize: 14),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => authService.clearMessages(),
+                          child: Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.red.shade300,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (authService.errorMessage != null) const SizedBox(height: 12),
                 
                 // Name Field
                 Text(
@@ -243,41 +305,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 16),
                 
-                // ✅ Error Message Display
-                if (authService.errorMessage != null)
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.red.shade200),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            authService.errorMessage!,
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            authService.clearError();
-                          },
-                          child: Icon(
-                            Icons.close,
-                            size: 20,
-                            color: Colors.red.shade700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(height: 16),
-                
-                // ✅ Register Button with Immediate Feedback
+                // Register Button
                 _isSubmitting || authService.isLoading
                     ? _buildLoadingButton()
                     : CustomButton(
@@ -310,211 +338,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // ✅ Handle Registration with Immediate Feedback
-  Future<void> _handleRegistration(BuildContext context, AuthService authService) async {
-    debugPrint('🚀 [RegisterScreen] Register button pressed!');
-    
-    // ✅ Show immediate validation feedback
-    if (!_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.warning, color: Colors.white),
-              SizedBox(width: 8),
-              Text('Please fix the errors above'),
-            ],
-          ),
-          backgroundColor: Colors.orange,
-          duration: Duration(seconds: 2),
-        ),
-      );
-      return;
-    }
-    
-    if (!_acceptTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.info, color: Colors.white),
-              SizedBox(width: 8),
-              Text('Please accept the Terms of Service'),
-            ],
-          ),
-          backgroundColor: Colors.orange,
-          duration: Duration(seconds: 2),
-        ),
-      );
-      return;
-    }
-    
-    if (_selectedLanguages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.info, color: Colors.white),
-              SizedBox(width: 8),
-              Text('Please select at least one language'),
-            ],
-          ),
-          backgroundColor: Colors.orange,
-          duration: Duration(seconds: 2),
-        ),
-      );
-      return;
-    }
-    
-    debugPrint('✅ [RegisterScreen] All validations passed!');
-    
-    // ✅ Set local loading state for immediate visual feedback
-    setState(() {
-      _isSubmitting = true;
-    });
-    
-    // ✅ Show loading snackbar
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 12),
-            Text('Creating your account...'),
-          ],
-        ),
-        duration: Duration(seconds: 30), // Long enough for registration
-      ),
-    );
-    
-    try {
-      // ✅ Call signup
-      final success = await authService.signUp(
-        email: _emailController.text,
-        password: _passwordController.text,
-        name: _nameController.text,
-      );
-      
-      // ✅ Dismiss loading snackbar
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      
-      if (success) {
-        debugPrint('✅ [RegisterScreen] SignUp SUCCESS!');
-        
-        // ✅ Show immediate success feedback
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.check_circle, color: Colors.white),
-                SizedBox(width: 8),
-                Text('Account created successfully!'),
-              ],
-            ),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          ),
-        );
-        
-        // ✅ Save selected languages
-        final profileSaved = await authService.updateUserProfile(
-          targetLanguages: _selectedLanguages,
-        );
-        debugPrint('📊 [RegisterScreen] Profile saved: $profileSaved');
-        
-        if (mounted) {
-          // ✅ Reset loading state
-          setState(() {
-            _isSubmitting = false;
-          });
-          
-          // ✅ Show success dialog
-          await _showSuccessDialog(context);
-          
-          // ✅ Navigate to login
-          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ),
-            );
-          }
-        }
-      } else {
-        // ❌ Registration failed
-        debugPrint('❌ [RegisterScreen] SignUp FAILED!');
-        debugPrint('❌ [RegisterScreen] Error: ${authService.errorMessage}');
-        
-        // ✅ Reset loading state
-        if (mounted) {
-          setState(() {
-            _isSubmitting = false;
-          });
-        }
-        
-        // ✅ Show error feedback
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.error_outline, color: Colors.white),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    authService.errorMessage ?? 'Registration failed. Please try again.',
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 4),
-            action: SnackBarAction(
-              label: 'Retry',
-              textColor: Colors.white,
-              onPressed: () {
-                _handleRegistration(context, authService);
-              },
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      // ❌ Unexpected error
-      debugPrint('❌ [RegisterScreen] Unexpected error: $e');
-      
-      // ✅ Reset loading state
-      if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
-      }
-      
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.error_outline, color: Colors.white),
-              SizedBox(width: 8),
-              Text('An unexpected error occurred. Please try again.'),
-            ],
-          ),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
-  }
-
-  // ✅ Loading Button Widget
   Widget _buildLoadingButton() {
     return Container(
       width: double.infinity,
@@ -546,7 +369,205 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // ✅ Success Dialog
+  Future<void> _handleRegistration(BuildContext context, AuthService authService) async {
+    debugPrint('🚀 [RegisterScreen] Register button pressed!');
+    
+    // 1. Validate form
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.warning, color: Colors.white),
+              SizedBox(width: 8),
+              Text('Please fix the errors above'),
+            ],
+          ),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    
+    // 2. Validate terms
+    if (!_acceptTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.info, color: Colors.white),
+              SizedBox(width: 8),
+              Text('Please accept the Terms of Service'),
+            ],
+          ),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    
+    // 3. Validate languages
+    if (_selectedLanguages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.info, color: Colors.white),
+              SizedBox(width: 8),
+              Text('Please select at least one language'),
+            ],
+          ),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    
+    debugPrint('✅ [RegisterScreen] All validations passed!');
+    
+    // 4. Show loading state
+    setState(() {
+      _isSubmitting = true;
+    });
+    
+    // 5. Show loading snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Row(
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 12),
+            Text('Creating your account...'),
+          ],
+        ),
+        duration: Duration(seconds: 30),
+      ),
+    );
+    
+    try {
+      // 6. Attempt registration
+      final success = await authService.signUp(
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text,
+      );
+      
+      // 7. Dismiss loading snackbar
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      
+      if (success) {
+        debugPrint('✅ [RegisterScreen] SignUp SUCCESS!');
+        
+        // 8. Save selected languages
+        final profileSaved = await authService.updateUserProfile(
+          targetLanguages: _selectedLanguages,
+        );
+        debugPrint('📊 [RegisterScreen] Profile saved: $profileSaved');
+        
+        if (mounted) {
+          setState(() {
+            _isSubmitting = false;
+          });
+          
+          // 9. Show success message (auto-clears after 3 seconds)
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Row(
+                children: [
+                  Icon(Icons.check_circle, color: Colors.white),
+                  SizedBox(width: 8),
+                  Expanded(child: Text('Account created successfully! 🎉')),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 3),
+            ),
+          );
+          
+          // 10. Show success dialog
+          await _showSuccessDialog(context);
+          
+          // 11. ⭐ FIXED: Navigate to Home instead of Login
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
+            );
+          }
+        }
+      } else {
+        // ❌ Registration failed
+        debugPrint('❌ [RegisterScreen] SignUp FAILED!');
+        debugPrint('❌ [RegisterScreen] Error: ${authService.errorMessage}');
+        
+        if (mounted) {
+          setState(() {
+            _isSubmitting = false;
+          });
+        }
+        
+        // 12. Show specific error message (auto-clears after 5 seconds)
+        final errorMsg = authService.errorMessage ?? 'Registration failed. Please try again.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 8),
+                Expanded(child: Text(errorMsg)),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Retry',
+              textColor: Colors.white,
+              onPressed: () {
+                _handleRegistration(context, authService);
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      // ❌ Unexpected error
+      debugPrint('❌ [RegisterScreen] Unexpected error: $e');
+      
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+      
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.error_outline, color: Colors.white),
+              SizedBox(width: 8),
+              Expanded(child: Text('An unexpected error occurred. Please try again.')),
+            ],
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+  }
+
   Future<void> _showSuccessDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -558,7 +579,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Success animation
             Container(
               width: 80,
               height: 80,
@@ -582,7 +602,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Your account has been created successfully.\nPlease login to continue.',
+              'Your account has been created successfully.\nWelcome to Wedawon!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -621,7 +641,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 child: const Text(
-                  'Continue to Login',
+                  'Start Learning 🚀',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

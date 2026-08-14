@@ -17,7 +17,11 @@ dependencies:
   flutter_svg: ^2.2.0
   lottie: ^3.3.2
 
+  url_launcher: ^6.3.1 
+
+  # Notifications & Responsive
   flutter_local_notifications: ^17.0.0
+  flutter_screenutil: ^5.9.0
   
   # Firebase
   firebase_core: ^4.0.0
@@ -26,25 +30,26 @@ dependencies:
   firebase_storage: ^13.0.0
   http: ^1.1.0
   
+  # TTS
   flutter_edge_tts: ^0.0.2
-
   flutter_tts: ^3.8.3 
 
   # State Management
   provider: ^6.1.5
 
-
-
-  # Audio - Use audioplayers (no record package needed)
+  # Audio
   audioplayers: ^5.2.1
 
   # Local Storage
   shared_preferences: ^2.5.3
   hive: ^2.2.3
+  path_provider: ^2.1.2  # ⭐ ADD THIS
 
   # Utilities
   intl: ^0.20.2
   flutter_dotenv: ^6.0.0
+  path: ^1.9.0  # ⭐ ADD THIS - for path operations
+  logger: ^2.0.2+1  # ⭐ ADD THIS - for logging
 
 dev_dependencies:
   flutter_test:

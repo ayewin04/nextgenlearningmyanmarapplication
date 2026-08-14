@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../services/firestore_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/gamification_service.dart';
-import '../../services/audio_service.dart';  // ✅ Use AudioService
+import '../../services/audio_service.dart';
 import '../../models/vocabulary_model.dart';
 
 class FlashcardsScreen extends StatefulWidget {
@@ -26,7 +26,6 @@ class FlashcardsScreen extends StatefulWidget {
 
 class _FlashcardsScreenState extends State<FlashcardsScreen> {
   final FirestoreService _firestoreService = FirestoreService();
-  // Remove: final AudioPlayer _audioPlayer = AudioPlayer();
   List<VocabularyModel> _vocabularies = [];
   List<VocabularyModel> _filteredVocabularies = [];
   int _currentIndex = 0;
@@ -57,7 +56,6 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    // Remove: _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -298,7 +296,6 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     }
   }
 
-  // ✅ Updated to use AudioService
   void _playAudio() async {
     final vocab = _filteredVocabularies[_currentIndex];
     final wordInLanguage = vocab.getTranslation(widget.language);
@@ -351,230 +348,305 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
         ? _filteredVocabularies[_currentIndex] 
         : null;
 
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF0A0E27),
-            Color(0xFF0D47A1),
-            Color(0xFF1A237E),
-          ],
+    // Get screen size for responsive design
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 360;
+    final isTablet = screenSize.width > 600;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF0A0E27),
+              Color(0xFF0D47A1),
+              Color(0xFF1A237E),
+            ],
+          ),
         ),
-      ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
-                          _saveCurrentIndex();
-                          Navigator.pop(context);
-                        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Header - ULTRA RESPONSIVE VERSION
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 8 : 12,
+                  vertical: isSmallScreen ? 6 : 8,
+                ),
+                child: Row(
+                  children: [
+                    // Back button
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: Icon(
+                        Icons.arrow_back, 
+                        color: Colors.white,
+                        size: isSmallScreen ? 20 : 24,
                       ),
-                      const SizedBox(width: 4),
-                      Column(
+                      onPressed: () {
+                        _saveCurrentIndex();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(width: isSmallScreen ? 2 : 4),
+                    // Left content - takes available space
+                    Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             '${_getLanguageFlag(widget.language)} ${widget.language.toUpperCase()}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: isSmallScreen ? 12 : (isTablet ? 16 : 14),
                               fontWeight: FontWeight.bold,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                           Text(
                             '📚 $_learnedCount words learned',
                             style: TextStyle(
                               color: Colors.green.shade300,
-                              fontSize: 11,
+                              fontSize: isSmallScreen ? 9 : (isTablet ? 13 : 11),
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.volume_up, color: Colors.white),
-                        onPressed: _playAudio,
-                      ),
-                      if (vocab != null)
-                        IconButton(
-                          icon: Icon(
-                            vocab.isFavourite ? Icons.favorite : Icons.favorite_border,
-                            color: vocab.isFavourite ? Colors.red : Colors.white,
-                          ),
-                          onPressed: _toggleFavourite,
-                        ),
-                      Text(
-                        '${_currentIndex + 1}/${_filteredVocabularies.length}',
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Search Bar
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade800.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey.shade700),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: TextField(
-                  onChanged: _filterVocabulary,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: '🔍 Search words...',
-                    hintStyle: TextStyle(color: Colors.grey.shade500),
-                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
                     ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Flashcard
-            Expanded(
-              child: _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xFF42A5F5),
-                      ),
-                    )
-                  : _error != null
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.error_outline, color: Colors.red, size: 48),
-                                const SizedBox(height: 8),
-                                Text(
-                                  _error!,
-                                  style: const TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                ElevatedButton(
-                                  onPressed: _loadVocabulary,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF42A5F5),
-                                  ),
-                                  child: const Text('Retry'),
-                                ),
-                              ],
+                    // Right content - wrapped in Flexible
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // Audio button - hide on very small screens if needed
+                          if (!isSmallScreen || screenSize.width > 320)
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              icon: Icon(
+                                Icons.volume_up, 
+                                color: Colors.white, 
+                                size: isSmallScreen ? 18 : (isTablet ? 24 : 20),
+                              ),
+                              onPressed: _playAudio,
+                            ),
+                          // Favourite button
+                          if (vocab != null && (!isSmallScreen || screenSize.width > 340))
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              icon: Icon(
+                                vocab.isFavourite ? Icons.favorite : Icons.favorite_border,
+                                color: vocab.isFavourite ? Colors.red : Colors.white,
+                                size: isSmallScreen ? 18 : (isTablet ? 24 : 20),
+                              ),
+                              onPressed: _toggleFavourite,
+                            ),
+                          // Counter
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: isSmallScreen ? 2 : 4,
+                            ),
+                            child: Text(
+                              '${_currentIndex + 1}/${_filteredVocabularies.length}',
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+                                fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
-                        )
-                      : _filteredVocabularies.isEmpty
-                          ? Center(
-                              child: Text(
-                                _searchQuery.isEmpty
-                                    ? 'No vocabulary available'
-                                    : 'No results found',
-                                style: TextStyle(color: Colors.grey.shade400),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: SingleChildScrollView(
-                                controller: _scrollController,
-                                child: _buildVocabularyCard(),
-                              ),
-                            ),
-            ),
-
-            // Navigation Buttons
-            if (!_isLoading && _filteredVocabularies.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      onPressed: _currentIndex > 0 ? _previousCard : null,
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: _currentIndex > 0 ? Colors.white : Colors.grey.shade600,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF42A5F5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        '${_currentIndex + 1}/${_filteredVocabularies.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: _currentIndex < _filteredVocabularies.length - 1
-                          ? _nextCard
-                          : null,
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        color: _currentIndex < _filteredVocabularies.length - 1
-                            ? Colors.white
-                            : Colors.grey.shade600,
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
 
-            // Progress Bar
-            if (!_isLoading && _filteredVocabularies.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: LinearProgressIndicator(
-                  value: (_currentIndex + 1) / _filteredVocabularies.length,
-                  backgroundColor: Colors.grey.shade800,
-                  color: const Color(0xFF42A5F5),
-                  minHeight: 4,
-                  borderRadius: BorderRadius.circular(2),
+              // Search Bar - Responsive
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 12 : 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade800.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey.shade700),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: TextField(
+                    onChanged: _filterVocabulary,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isSmallScreen ? 12 : 14,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: isSmallScreen ? '🔍 Search...' : '🔍 Search words...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: isSmallScreen ? 12 : 14,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search, 
+                        color: Colors.grey,
+                        size: isSmallScreen ? 18 : 24,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: isSmallScreen ? 12 : 16,
+                        vertical: isSmallScreen ? 8 : 12,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            const SizedBox(height: 16),
-          ],
+              SizedBox(height: isSmallScreen ? 8 : 12),
+
+              // Flashcard
+              Expanded(
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFF42A5F5),
+                        ),
+                      )
+                    : _error != null
+                        ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.error_outline, color: Colors.red, size: 48),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _error!,
+                                    style: const TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ElevatedButton(
+                                    onPressed: _loadVocabulary,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF42A5F5),
+                                    ),
+                                    child: const Text('Retry'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : _filteredVocabularies.isEmpty
+                            ? Center(
+                                child: Text(
+                                  _searchQuery.isEmpty
+                                      ? 'No vocabulary available'
+                                      : 'No results found',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade400,
+                                    fontSize: isSmallScreen ? 14 : 16,
+                                  ),
+                                ),
+                              )
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: isSmallScreen ? 8 : 16,
+                                ),
+                                child: SingleChildScrollView(
+                                  controller: _scrollController,
+                                  child: _buildVocabularyCard(
+                                    isSmallScreen: isSmallScreen,
+                                    isTablet: isTablet,
+                                  ),
+                                ),
+                              ),
+              ),
+
+              // Navigation Buttons - Responsive
+              if (!_isLoading && _filteredVocabularies.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.all(isSmallScreen ? 8 : 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: _currentIndex > 0 ? _previousCard : null,
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: _currentIndex > 0 ? Colors.white : Colors.grey.shade600,
+                          size: isSmallScreen ? 18 : 24,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isSmallScreen ? 12 : 20,
+                          vertical: isSmallScreen ? 4 : 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF42A5F5),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '${_currentIndex + 1}/${_filteredVocabularies.length}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: isSmallScreen ? 11 : 13,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _currentIndex < _filteredVocabularies.length - 1
+                            ? _nextCard
+                            : null,
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: _currentIndex < _filteredVocabularies.length - 1
+                              ? Colors.white
+                              : Colors.grey.shade600,
+                          size: isSmallScreen ? 18 : 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              // Progress Bar - Responsive
+              if (!_isLoading && _filteredVocabularies.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 16 : 24,
+                  ),
+                  child: LinearProgressIndicator(
+                    value: (_currentIndex + 1) / _filteredVocabularies.length,
+                    backgroundColor: Colors.grey.shade800,
+                    color: const Color(0xFF42A5F5),
+                    minHeight: isSmallScreen ? 3 : 4,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              SizedBox(height: isSmallScreen ? 8 : 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildVocabularyCard() {
+  Widget _buildVocabularyCard({
+    required bool isSmallScreen,
+    required bool isTablet,
+  }) {
     final vocab = _filteredVocabularies[_currentIndex];
     final translation = vocab.getTranslation(widget.language);
     final romanization = vocab.getRomanization(widget.language);
@@ -585,11 +657,11 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(isTablet ? 32 : 24),
       ),
       color: const Color(0xFF1A237E),
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(isSmallScreen ? 16 : (isTablet ? 32 : 24)),
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
@@ -599,72 +671,76 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                 '📖 Burmese',
                 style: TextStyle(
                   color: Colors.grey.shade400,
-                  fontSize: 12,
+                  fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: isSmallScreen ? 2 : 4),
               Text(
                 vocab.burmeseWord,
                 style: GoogleFonts.notoSansMyanmar(
                   color: Colors.white,
-                  fontSize: 40,
+                  fontSize: isSmallScreen ? 28 : (isTablet ? 50 : 40),
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: isSmallScreen ? 2 : 4),
               Text(
                 vocab.romanization,
                 style: TextStyle(
                   color: Colors.grey.shade400,
-                  fontSize: 16,
+                  fontSize: isSmallScreen ? 12 : (isTablet ? 18 : 16),
                   fontStyle: FontStyle.italic,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
               const Divider(color: Colors.grey, thickness: 0.5),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 8 : 12),
               Text(
                 '🌍 ${widget.language.toUpperCase()} Translation',
                 style: TextStyle(
                   color: Colors.grey.shade400,
-                  fontSize: 12,
+                  fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: isSmallScreen ? 2 : 4),
               Text(
                 translation,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 28,
+                  fontSize: isSmallScreen ? 20 : (isTablet ? 34 : 28),
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
               if (romanization.isNotEmpty) ...[
-                const SizedBox(height: 4),
+                SizedBox(height: isSmallScreen ? 2 : 4),
                 Text(
                   romanization,
                   style: TextStyle(
                     color: Colors.grey.shade400,
-                    fontSize: 14,
+                    fontSize: isSmallScreen ? 12 : (isTablet ? 16 : 14),
                     fontStyle: FontStyle.italic,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ],
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
               const Divider(color: Colors.grey, thickness: 0.5),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 8 : 12),
+              // Tags - Responsive Wrap
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: isSmallScreen ? 4 : 8,
+                runSpacing: isSmallScreen ? 4 : 8,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isSmallScreen ? 8 : 12,
+                      vertical: isSmallScreen ? 2 : 4,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF42A5F5).withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
@@ -674,15 +750,18 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                     ),
                     child: Text(
                       '📌 ${vocab.partOfSpeech}',
-                      style: const TextStyle(
-                        color: Color(0xFF42A5F5),
-                        fontSize: 12,
+                      style: TextStyle(
+                        color: const Color(0xFF42A5F5),
+                        fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isSmallScreen ? 8 : 12,
+                      vertical: isSmallScreen ? 2 : 4,
+                    ),
                     decoration: BoxDecoration(
                       color: _getCategoryColor(vocab.category).withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
@@ -694,79 +773,82 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                       '📂 ${vocab.category}',
                       style: TextStyle(
                         color: _getCategoryColor(vocab.category),
-                        fontSize: 12,
+                        fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   if (vocab.tags.isNotEmpty)
                     ...vocab.tags.map((tag) => Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isSmallScreen ? 6 : 12,
+                        vertical: isSmallScreen ? 2 : 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade800.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         '#$tag',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 11,
+                          fontSize: isSmallScreen ? 9 : (isTablet ? 13 : 11),
                         ),
                       ),
                     )),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
               const Divider(color: Colors.grey, thickness: 0.5),
               if (example.isNotEmpty) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: isSmallScreen ? 8 : 12),
                 Text(
                   '💡 Example',
                   style: TextStyle(
                     color: Colors.grey.shade400,
-                    fontSize: 12,
+                    fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: isSmallScreen ? 2 : 4),
                 Text(
                   example,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: isSmallScreen ? 14 : (isTablet ? 22 : 18),
                     fontStyle: FontStyle.italic,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 if (exampleRomanization.isNotEmpty) ...[
-                  const SizedBox(height: 4),
+                  SizedBox(height: isSmallScreen ? 2 : 4),
                   Text(
                     exampleRomanization,
                     style: TextStyle(
                       color: Colors.grey.shade400,
-                      fontSize: 14,
+                      fontSize: isSmallScreen ? 12 : (isTablet ? 16 : 14),
                       fontStyle: FontStyle.italic,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ],
                 if (exampleTranslation.isNotEmpty) ...[
-                  const SizedBox(height: 4),
+                  SizedBox(height: isSmallScreen ? 2 : 4),
                   Text(
                     exampleTranslation,
                     style: TextStyle(
                       color: Colors.grey.shade500,
-                      fontSize: 14,
+                      fontSize: isSmallScreen ? 12 : (isTablet ? 16 : 14),
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ],
-                const SizedBox(height: 12),
+                SizedBox(height: isSmallScreen ? 8 : 12),
               ],
               const Divider(color: Colors.grey, thickness: 0.5),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 8 : 12),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
                 decoration: BoxDecoration(
                   color: Colors.blue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -774,29 +856,32 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       '📍 Where to use',
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 12,
+                        fontSize: isSmallScreen ? 10 : (isTablet ? 14 : 12),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: isSmallScreen ? 2 : 4),
                     Text(
                       _getUsageDescription(vocab),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 14,
+                        fontSize: isSmallScreen ? 12 : (isTablet ? 16 : 14),
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: isSmallScreen ? 8 : 12),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 8 : 12,
+                  vertical: isSmallScreen ? 2 : 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.green.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),
@@ -804,13 +889,17 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.volume_up, color: Colors.green, size: 16),
-                    const SizedBox(width: 4),
-                    const Text(
-                      '🔊 Tap speaker to hear pronunciation',
+                    Icon(
+                      Icons.volume_up, 
+                      color: Colors.green, 
+                      size: isSmallScreen ? 12 : 16,
+                    ),
+                    SizedBox(width: isSmallScreen ? 2 : 4),
+                    Text(
+                      isSmallScreen ? '🔊 Tap to hear' : '🔊 Tap speaker to hear pronunciation',
                       style: TextStyle(
                         color: Colors.green,
-                        fontSize: 11,
+                        fontSize: isSmallScreen ? 9 : (isTablet ? 13 : 11),
                       ),
                     ),
                   ],

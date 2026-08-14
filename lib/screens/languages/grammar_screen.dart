@@ -56,7 +56,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
     _loadGrammar(refresh: true);
     _estimateTotalCount();
     
-    // Add listener to search controller
     _searchController.addListener(() {
       if (_searchController.text.isEmpty && _searchQuery.isNotEmpty) {
         _clearSearch();
@@ -101,7 +100,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
     });
   }
 
-  // ✅ Clear search
   void _clearSearch() {
     setState(() {
       _isSearching = false;
@@ -110,11 +108,9 @@ class _GrammarScreenState extends State<GrammarScreen> {
       _searchController.clear();
       _isLoading = false;
     });
-    // Reload the current page
     _loadGrammar(refresh: true);
   }
 
-  // ✅ Search across all data
   Future<void> _searchGrammar(String query) async {
     if (query.isEmpty) {
       _clearSearch();
@@ -151,7 +147,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
   }
 
   Future<void> _loadGrammar({bool refresh = false, int? targetPage}) async {
-    // If searching, don't load paginated data
     if (_isSearching && _searchQuery.isNotEmpty) {
       return;
     }
@@ -176,7 +171,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
     }
 
     try {
-      // Check cache first
       if (targetPage != null && _pageCache.containsKey(targetPage)) {
         print('📌 Loading page $targetPage from cache');
         _grammar = _pageCache[targetPage]!;
@@ -199,13 +193,11 @@ class _GrammarScreenState extends State<GrammarScreen> {
 
       DocumentSnapshot? startAfter;
       
-      // Get startAfter from cache
       if (targetPage != null && targetPage > 0 && _pageSnapshots.containsKey(targetPage - 1)) {
         startAfter = _pageSnapshots[targetPage - 1];
         print('📌 Using cached snapshot for page ${targetPage - 1}');
       }
       
-      // If no snapshot, load sequentially
       if (targetPage != null && targetPage > 0 && startAfter == null) {
         print('📌 Loading sequentially to reach page $targetPage');
         _pageCache.clear();
@@ -256,7 +248,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
         return;
       }
       
-      // Normal load
       final result = await _firestoreService.getGrammarByLevelWithPagination(
         exam: widget.exam.toLowerCase(),
         level: widget.level,
@@ -287,7 +278,6 @@ class _GrammarScreenState extends State<GrammarScreen> {
         _pageCache[_currentPage] = result;
       }
       
-      // Update total pages
       if (_estimatedTotal > 0) {
         _totalPages = (_estimatedTotal / _pageSize).ceil();
       } else {
@@ -387,23 +377,107 @@ class _GrammarScreenState extends State<GrammarScreen> {
     }
   }
 
-  // ✅ FIX: Get the exact matching page value for the dropdown
   int _getValidPageValue(int currentPage) {
-    // Make sure we have valid total pages
     if (_totalPages <= 0) return 0;
-    
-    // Clamp the current page to valid range
     if (currentPage < 0) return 0;
     if (currentPage >= _totalPages) return _totalPages - 1;
-    
     return currentPage;
   }
 
+  Widget _buildPageButton({
+    required IconData icon,
+    VoidCallback? onPressed,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final iconSize = screenWidth < 360 ? 14.0 : 16.0;
+    
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: onPressed != null ? Colors.white : Colors.grey.shade600,
+        size: iconSize,
+      ),
+      padding: const EdgeInsets.all(2),
+      constraints: BoxConstraints(
+        minWidth: screenWidth < 360 ? 20 : 24,
+        minHeight: screenWidth < 360 ? 20 : 24,
+      ),
+      splashRadius: 16,
+    );
+  }
+
+  List<DropdownMenuItem<int>> _getPageItems() {
+    final items = <DropdownMenuItem<int>>[];
+    
+    if (_totalPages <= 0) {
+      return items;
+    }
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 320;
+    final isSmall = screenWidth < 380;
+    
+    for (int i = 0; i < _totalPages; i++) {
+      final pageStart = i * _pageSize + 1;
+      final pageEnd = ((i + 1) * _pageSize) > _estimatedTotal 
+          ? _estimatedTotal 
+          : (i + 1) * _pageSize;
+      
+      String label;
+      
+      if (_totalPages > 30) {
+        if (i % 2 != 0 && i != 0 && i != _totalPages - 1) continue;
+        label = 'Pg ${i + 1}';
+      } else if (_totalPages > 15) {
+        label = 'Pg ${i + 1}';
+      } else if (isVerySmall) {
+        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      } else if (isSmall) {
+        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      } else {
+        label = '📄 $pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
+      }
+      
+      items.add(
+        DropdownMenuItem<int>(
+          value: i,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+    
+    if (items.isEmpty && _totalPages > 0) {
+      items.add(
+        DropdownMenuItem<int>(
+          value: 0,
+          child: Text(
+            'Page 1',
+            style: TextStyle(
+              fontSize: isSmall ? 9 : 10,
+            ),
+          ),
+        ),
+      );
+    }
+    
+    return items;
+  }
+
   Widget _buildPaginationControls() {
-    // Hide pagination when searching
     if (_isSearching && _searchQuery.isNotEmpty) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final padding = screenWidth < 360 ? 8.0 : 12.0;
+      
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: padding),
         decoration: BoxDecoration(
           color: Colors.grey.shade800.withOpacity(0.3),
           borderRadius: BorderRadius.circular(12),
@@ -440,15 +514,16 @@ class _GrammarScreenState extends State<GrammarScreen> {
     final startIndex = _currentPage * _pageSize + 1;
     final endIndex = startIndex + displayList.length - 1;
     final hasItems = displayList.isNotEmpty;
-    
     final totalDisplay = _estimatedTotal > 0 ? _estimatedTotal : _totalItems;
-    
     final screenWidth = MediaQuery.of(context).size.width;
     final isVerySmall = screenWidth < 320;
     final isSmall = screenWidth < 380;
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: isVerySmall ? 4 : (isSmall ? 8 : 12)),
+      padding: EdgeInsets.symmetric(
+        vertical: 8, 
+        horizontal: isVerySmall ? 4 : (isSmall ? 8 : 12)
+      ),
       decoration: BoxDecoration(
         color: Colors.grey.shade800.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
@@ -515,72 +590,72 @@ class _GrammarScreenState extends State<GrammarScreen> {
           
           const SizedBox(height: 4),
           
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 2,
-            runSpacing: 4,
-            children: [
-              if (!isVerySmall)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (!isVerySmall)
+                  _buildPageButton(
+                    icon: Icons.first_page,
+                    onPressed: _currentPage > 0 && !_isLoadingPage
+                        ? () => _loadPage(0)
+                        : null,
+                  ),
+                
                 _buildPageButton(
-                  icon: Icons.first_page,
+                  icon: Icons.chevron_left,
                   onPressed: _currentPage > 0 && !_isLoadingPage
-                      ? () => _loadPage(0)
+                      ? () => _loadPage(_currentPage - 1)
                       : null,
                 ),
-              
-              _buildPageButton(
-                icon: Icons.chevron_left,
-                onPressed: _currentPage > 0 && !_isLoadingPage
-                    ? () => _loadPage(_currentPage - 1)
-                    : null,
-              ),
-              
-              if (_totalPages > 1)
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: isVerySmall ? 50 : (isSmall ? 60 : 80),
-                    minWidth: isVerySmall ? 30 : 40,
-                  ),
-                  child: DropdownButton<int>(
-                    // ✅ FIX: Use validated page value
-                    value: _getValidPageValue(_currentPage),
-                    dropdownColor: const Color(0xFF1A237E),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.grey.shade700,
+                
+                if (_totalPages > 1)
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: isVerySmall ? 50 : (isSmall ? 60 : 80),
+                      minWidth: isVerySmall ? 30 : 40,
                     ),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+                    child: DropdownButton<int>(
+                      value: _getValidPageValue(_currentPage),
+                      dropdownColor: const Color(0xFF1A237E),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.grey.shade700,
+                      ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
+                      ),
+                      isDense: true,
+                      iconSize: 14,
+                      items: _getPageItems(),
+                      onChanged: _isLoadingPage
+                          ? null
+                          : (int? newPage) {
+                              if (newPage != null && newPage != _currentPage && newPage < _totalPages) {
+                                _loadPage(newPage);
+                              }
+                            },
                     ),
-                    isDense: true,
-                    iconSize: 14,
-                    items: _getPageItems(),
-                    onChanged: _isLoadingPage
-                        ? null
-                        : (int? newPage) {
-                            if (newPage != null && newPage != _currentPage && newPage < _totalPages) {
-                              _loadPage(newPage);
-                            }
-                          },
                   ),
-                ),
-              
-              _buildPageButton(
-                icon: Icons.chevron_right,
-                onPressed: _hasMoreData && !_isLoadingPage && _currentPage < _totalPages - 1
-                    ? () => _loadPage(_currentPage + 1)
-                    : null,
-              ),
-              
-              if (!isVerySmall)
+                
                 _buildPageButton(
-                  icon: Icons.last_page,
-                  onPressed: _totalPages > 0 && _currentPage < _totalPages - 1 && !_isLoadingPage
-                      ? () => _loadPage(_totalPages - 1)
+                  icon: Icons.chevron_right,
+                  onPressed: _hasMoreData && !_isLoadingPage && _currentPage < _totalPages - 1
+                      ? () => _loadPage(_currentPage + 1)
                       : null,
                 ),
-            ],
+                
+                if (!isVerySmall)
+                  _buildPageButton(
+                    icon: Icons.last_page,
+                    onPressed: _totalPages > 0 && _currentPage < _totalPages - 1 && !_isLoadingPage
+                        ? () => _loadPage(_totalPages - 1)
+                        : null,
+                  ),
+              ],
+            ),
           ),
           
           if (!_isLoadingPage && _totalPages > 1 && !isSmall && !isVerySmall) ...[
@@ -656,98 +731,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
     );
   }
 
-  Widget _buildPageButton({
-    required IconData icon,
-    VoidCallback? onPressed,
-  }) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(
-        icon,
-        color: onPressed != null ? Colors.white : Colors.grey.shade600,
-        size: 16,
-      ),
-      padding: const EdgeInsets.all(2),
-      constraints: const BoxConstraints(
-        minWidth: 24,
-        minHeight: 24,
-      ),
-      splashRadius: 16,
-    );
-  }
-
-  // ✅ FIX: Create dropdown items with ALL pages included
-  List<DropdownMenuItem<int>> _getPageItems() {
-    final items = <DropdownMenuItem<int>>[];
-    
-    if (_totalPages <= 0) {
-      return items;
-    }
-    
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isVerySmall = screenWidth < 320;
-    final isSmall = screenWidth < 380;
-    
-    // Create an item for EVERY page to ensure value always exists
-    for (int i = 0; i < _totalPages; i++) {
-      final pageStart = i * _pageSize + 1;
-      final pageEnd = ((i + 1) * _pageSize) > _estimatedTotal 
-          ? _estimatedTotal 
-          : (i + 1) * _pageSize;
-      
-      String label;
-      
-      // For many pages, use shorter labels
-      if (_totalPages > 30) {
-        // Show every 2nd page to keep dropdown manageable
-        if (i % 2 != 0 && i != 0 && i != _totalPages - 1) continue;
-        label = 'Pg ${i + 1}';
-      } else if (_totalPages > 15) {
-        // Show every page but with short labels
-        label = 'Pg ${i + 1}';
-      } else if (isVerySmall) {
-        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
-      } else if (isSmall) {
-        label = '$pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
-      } else {
-        label = '📄 $pageStart-${pageEnd > 0 ? pageEnd : pageStart + _pageSize}';
-      }
-      
-      items.add(
-        DropdownMenuItem<int>(
-          value: i,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: isVerySmall ? 8 : (isSmall ? 9 : 10),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      );
-    }
-    
-    // Ensure we have at least one item
-    if (items.isEmpty && _totalPages > 0) {
-      items.add(
-        DropdownMenuItem<int>(
-          value: 0,
-          child: Text(
-            'Page 1',
-            style: TextStyle(
-              fontSize: isSmall ? 9 : 10,
-            ),
-          ),
-        ),
-      );
-    }
-    
-    return items;
-  }
-
   Widget _buildNextPageButton() {
-    // Hide next page button when searching
     if (_isSearching && _searchQuery.isNotEmpty) {
       return const SizedBox.shrink();
     }
@@ -817,13 +801,15 @@ class _GrammarScreenState extends State<GrammarScreen> {
   @override
   Widget build(BuildContext context) {
     final displayList = _displayList;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 360;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(
           '📝 ${_getExamDisplayName()} Grammar',
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: isSmallScreen ? 16 : 18),
         ),
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
@@ -890,14 +876,14 @@ class _GrammarScreenState extends State<GrammarScreen> {
             child: TextField(
               controller: _searchController,
               onChanged: _filterGrammar,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: isSmallScreen ? 12 : 14),
               decoration: InputDecoration(
                 hintText: '🔍 Search all grammar...',
-                hintStyle: TextStyle(color: Colors.grey.shade500),
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: isSmallScreen ? 12 : 14),
+                prefixIcon: Icon(Icons.search, color: Colors.grey, size: isSmallScreen ? 18 : 20),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear, color: Colors.grey),
+                        icon: Icon(Icons.clear, color: Colors.grey, size: isSmallScreen ? 18 : 20),
                         onPressed: _clearSearch,
                       )
                     : null,
@@ -969,7 +955,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
             const SizedBox(height: 8),
             Text(
               _error!,
@@ -1071,6 +1057,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1118,39 +1105,43 @@ class _GrammarScreenState extends State<GrammarScreen> {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF42A5F5).withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      widget.level,
-                      style: TextStyle(
-                        color: const Color(0xFF42A5F5),
-                        fontSize: isSmallScreen ? 8 : 10,
-                        fontWeight: FontWeight.bold,
+              // Fixed width for controls
+              SizedBox(
+                width: isSmallScreen ? 50 : 60,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF42A5F5).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        widget.level,
+                        style: TextStyle(
+                          color: const Color(0xFF42A5F5),
+                          fontSize: isSmallScreen ? 8 : 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  IconButton(
-                    onPressed: () => _playAudio(title),
-                    icon: Icon(
-                      Icons.volume_up,
-                      color: const Color(0xFF42A5F5),
-                      size: isSmallScreen ? 18 : 20,
+                    const SizedBox(height: 4),
+                    IconButton(
+                      onPressed: () => _playAudio(title),
+                      icon: Icon(
+                        Icons.volume_up,
+                        color: const Color(0xFF42A5F5),
+                        size: isSmallScreen ? 18 : 20,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 30,
+                        minHeight: 30,
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    constraints: const BoxConstraints(
-                      minWidth: 30,
-                      minHeight: 30,
-                    ),
-                    padding: EdgeInsets.zero,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

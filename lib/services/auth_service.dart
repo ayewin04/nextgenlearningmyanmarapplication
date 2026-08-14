@@ -1,4 +1,5 @@
 // lib/services/auth_service.dart
+import 'dart:async';  // ⭐ ADD THIS - Required for Timer
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,14 @@ class AuthService extends ChangeNotifier {
   UserModel? _userModel;
   bool _isLoading = false;
   String? _errorMessage;
+  String? _successMessage;
+  Timer? _messageTimer;  // ✅ Now works with import
 
   User? get user => _user;
   UserModel? get userModel => _userModel;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  String? get successMessage => _successMessage;
   bool get isAuthenticated => _user != null;
 
   AuthService() {
@@ -27,6 +31,15 @@ class AuthService extends ChangeNotifier {
       } else {
         _userModel = null;
       }
+      notifyListeners();
+    });
+  }
+
+  void _scheduleMessageClear() {
+    _messageTimer?.cancel();
+    _messageTimer = Timer(const Duration(seconds: 5), () {
+      _errorMessage = null;
+      _successMessage = null;
       notifyListeners();
     });
   }
@@ -45,8 +58,10 @@ class AuthService extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Error loading user data: $e');
+      _errorMessage = 'Could not load your profile data';
+      _scheduleMessageClear();
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> _createUserDocument(String uid) async {
@@ -76,6 +91,9 @@ class AuthService extends ChangeNotifier {
       await _loadUserData(uid);
     } catch (e) {
       debugPrint('Error creating user document: $e');
+      _errorMessage = 'Could not create your profile';
+      _scheduleMessageClear();
+      notifyListeners();
     }
   }
 
@@ -86,21 +104,59 @@ class AuthService extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _successMessage = null;
+    _messageTimer?.cancel();
     notifyListeners();
 
     try {
+      // 1. Validate inputs
+      if (email.trim().isEmpty) {
+        _errorMessage = 'Please enter your email address';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      if (password.isEmpty) {
+        _errorMessage = 'Please enter a password';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      if (password.length < 6) {
+        _errorMessage = 'Password must be at least 6 characters';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      if (name.trim().isEmpty) {
+        _errorMessage = 'Please enter your name';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      // 2. Create user
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(
             email: email.trim(),
             password: password,
           );
       
-      await userCredential.user?.updateDisplayName(name);
+      // 3. Update display name
+      await userCredential.user?.updateDisplayName(name.trim());
       
+      // 4. Create user document in Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
         'email': email.trim(),
-        'name': name,
+        'name': name.trim(),
         'targetLanguages': [],
         'streak': 0,
         'totalXP': 0,
@@ -121,17 +177,24 @@ class AuthService extends ChangeNotifier {
       
       _user = userCredential.user;
       await _loadUserData(userCredential.user!.uid);
+      
+      // ⭐ Keep user signed in after registration
+      _successMessage = 'Account created successfully! 🎉';
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
+      
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = _getAuthErrorMessage(e);
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
       return false;
     } catch (e) {
-      _errorMessage = 'An unexpected error occurred';
+      _errorMessage = 'Something went wrong. Please try again.';
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
       return false;
     }
@@ -143,9 +206,29 @@ class AuthService extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _successMessage = null;
+    _messageTimer?.cancel();
     notifyListeners();
 
     try {
+      // 1. Validate inputs
+      if (email.trim().isEmpty) {
+        _errorMessage = 'Please enter your email address';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      if (password.isEmpty) {
+        _errorMessage = 'Please enter your password';
+        _isLoading = false;
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
+      // 2. Sign in
       UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(
             email: email.trim(),
@@ -154,17 +237,22 @@ class AuthService extends ChangeNotifier {
       
       _user = userCredential.user;
       await _loadUserData(userCredential.user!.uid);
+      
+      _successMessage = 'Welcome back! 👋';
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = _getAuthErrorMessage(e);
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
       return false;
     } catch (e) {
-      _errorMessage = 'An unexpected error occurred';
+      _errorMessage = 'Something went wrong. Please try again.';
       _isLoading = false;
+      _scheduleMessageClear();
       notifyListeners();
       return false;
     }
@@ -175,18 +263,41 @@ class AuthService extends ChangeNotifier {
       await _auth.signOut();
       _user = null;
       _userModel = null;
+      _errorMessage = null;
+      _successMessage = null;
+      _messageTimer?.cancel();
       notifyListeners();
     } catch (e) {
       debugPrint('Error signing out: $e');
+      _errorMessage = 'Could not sign out. Please try again.';
+      _scheduleMessageClear();
+      notifyListeners();
     }
   }
 
   Future<bool> resetPassword(String email) async {
     try {
+      if (email.trim().isEmpty) {
+        _errorMessage = 'Please enter your email address';
+        _scheduleMessageClear();
+        notifyListeners();
+        return false;
+      }
+
       await _auth.sendPasswordResetEmail(email: email.trim());
+      _successMessage = 'Password reset link sent to $email';
+      _scheduleMessageClear();
+      notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e) {
+      _errorMessage = _getAuthErrorMessage(e);
+      _scheduleMessageClear();
+      notifyListeners();
+      return false;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = 'Could not send reset link. Please try again.';
+      _scheduleMessageClear();
+      notifyListeners();
       return false;
     }
   }
@@ -198,7 +309,12 @@ class AuthService extends ChangeNotifier {
     Map<String, dynamic>? settings,
     List<String>? favourites,
   }) async {
-    if (_user == null) return false;
+    if (_user == null) {
+      _errorMessage = 'You must be logged in to update your profile';
+      _scheduleMessageClear();
+      notifyListeners();
+      return false;
+    }
 
     try {
       Map<String, dynamic> updates = {};
@@ -214,9 +330,14 @@ class AuthService extends ChangeNotifier {
           .update(updates);
       
       await _loadUserData(_user!.uid);
+      _successMessage = 'Profile updated successfully!';
+      _scheduleMessageClear();
+      notifyListeners();
       return true;
     } catch (e) {
-      _errorMessage = e.toString();
+      _errorMessage = 'Could not update profile. Please try again.';
+      _scheduleMessageClear();
+      notifyListeners();
       return false;
     }
   }
@@ -237,8 +358,14 @@ class AuthService extends ChangeNotifier {
           });
       
       await _loadUserData(_user!.uid);
+      _successMessage = 'You gained $points XP! 🎉';
+      _scheduleMessageClear();
+      notifyListeners();
     } catch (e) {
       debugPrint('Error updating XP: $e');
+      _errorMessage = 'Could not update your progress';
+      _scheduleMessageClear();
+      notifyListeners();
     }
   }
 
@@ -251,28 +378,36 @@ class AuthService extends ChangeNotifier {
     return 5 + ((xp - 1500) ~/ 500);
   }
 
-  Future<bool> _updateStreak() async {
-    if (_userModel == null) return false;
-    return true;
-  }
-
   String _getAuthErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':
-        return 'No user found with this email';
+        return 'No account found with this email. Please sign up first.';
       case 'wrong-password':
-        return 'Incorrect password';
+        return 'Incorrect password. Please try again.';
       case 'email-already-in-use':
-        return 'Email already in use';
+        return 'This email is already registered. Please sign in instead.';
       case 'invalid-email':
-        return 'Invalid email address';
+        return 'Please enter a valid email address.';
       case 'weak-password':
-        return 'Password is too weak';
+        return 'Password is too weak. Please use at least 6 characters.';
       case 'too-many-requests':
-        return 'Too many attempts. Please try again later';
+        return 'Too many attempts. Please wait a moment and try again.';
+      case 'network-request-failed':
+        return 'No internet connection. Please check your network.';
+      case 'user-disabled':
+        return 'This account has been disabled. Please contact support.';
+      case 'operation-not-allowed':
+        return 'Email/Password sign-in is not enabled. Please contact support.';
       default:
-        return e.message ?? 'Authentication failed';
+        return e.message ?? 'Authentication failed. Please try again.';
     }
+  }
+
+  void clearMessages() {
+    _messageTimer?.cancel();
+    _errorMessage = null;
+    _successMessage = null;
+    notifyListeners();
   }
 
   void resetLoading() {
@@ -280,14 +415,14 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearError() {
-    _errorMessage = null;
-    notifyListeners();
-  }
-
-  // ✅ Update user model from external source (for real-time updates)
   void updateUserModel(UserModel updatedUser) {
     _userModel = updatedUser;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _messageTimer?.cancel();
+    super.dispose();
   }
 }

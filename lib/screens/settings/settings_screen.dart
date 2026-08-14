@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../services/auth_service.dart';
 import '../../services/theme_service.dart';
 import '../auth/login_screen.dart';
@@ -44,6 +45,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  // ⭐ FIXED: Better URL launching with error handling
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    
+    try {
+      // Check if the URL can be launched
+      final bool canLaunch = await canLaunchUrl(uri);
+      
+      if (canLaunch) {
+        // ⭐ Use externalApplication for better compatibility
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        // Fallback: Try with inAppWebView
+        try {
+          await launchUrl(
+            uri,
+            mode: LaunchMode.inAppWebView,
+            webViewConfiguration: const WebViewConfiguration(
+              enableJavaScript: true,
+            ),
+          );
+        } catch (e) {
+          throw 'Could not launch $url';
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('⚠️ Could not open link. Please try again.'),
+            backgroundColor: Colors.red.shade700,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -66,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // ✅ BACK BUTTON ROW
+              // BACK BUTTON ROW
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
@@ -74,11 +116,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () {
-                        // Go back to previous screen
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         } else {
-                          // If can't pop, navigate to Home
                           Navigator.pushReplacementNamed(context, '/home');
                         }
                       },
@@ -96,7 +136,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               
-              // ✅ Content
+              // Content
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(20),
@@ -249,14 +289,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
 
-                    // About Button
+                    // ⭐ FIXED: About Button with anchor
                     _buildClickableCard(
                       icon: Icons.school,
                       title: 'About Wedawon',
-                      subtitle: 'Learn more about this app',
-                      onTap: () {
-                        _showAboutDialog(context);
-                      },
+                      subtitle: 'Learn about our mission and features',
+                      onTap: () => _launchUrl('https://wedawon.com/#about'),
+                    ),
+
+                    // ⭐ FIXED: Privacy Policy Button with anchor
+                    _buildClickableCard(
+                      icon: Icons.privacy_tip,
+                      title: 'Privacy Policy',
+                      subtitle: 'Read how we protect your data',
+                      onTap: () => _launchUrl('https://wedawon.com/#privacy'),
+                      color: Colors.green,
+                    ),
+
+                    // ⭐ FIXED: Contact Us Button with anchor
+                    _buildClickableCard(
+                      icon: Icons.contact_mail,
+                      title: 'Contact Us',
+                      subtitle: 'Get in touch with our team',
+                      onTap: () => _launchUrl('https://wedawon.com/#contact'),
+                      color: Colors.orange,
                     ),
 
                     // Stats - View Only
@@ -538,93 +594,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A237E),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Row(
-          children: [
-            const Text(
-              '🇲🇲 Wedawon',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              decoration: BoxDecoration(
-                color: const Color(0xFF42A5F5).withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFF42A5F5).withOpacity(0.3),
-                ),
-              ),
-              child: const Text(
-                'Beta',
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color(0xFF42A5F5),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Version 1.0.0',
-              style: TextStyle(
-                color: Colors.grey.shade400,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Learn Burmese with English, Korean, Japanese, and Chinese.',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Icon(Icons.star, color: Color(0xFFFFD700), size: 16),
-                const SizedBox(width: 4),
-                Text(
-                  'Made with ❤️ for language learners',
-                  style: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Close',
-              style: TextStyle(color: Color(0xFF42A5F5)),
-            ),
-          ),
-        ],
       ),
     );
   }

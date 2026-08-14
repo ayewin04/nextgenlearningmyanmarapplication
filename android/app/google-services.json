@@ -50,6 +50,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "641642050064-1h85t9i0h1ntukhkmg7dbev08iqggm9d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nextgenlearningmyanmar.polyglot_app_new",
+            "certificate_hash": "bc311f09d721f340dbddcf1cb0f68651fb25226d"
+          }
+        },
+        {
           "client_id": "641642050064-cnd88q5co7hjc8r7gsd2l4umd5thhpeg.apps.googleusercontent.com",
           "client_type": 3
         }
